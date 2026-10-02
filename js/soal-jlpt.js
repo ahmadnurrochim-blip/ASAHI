@@ -670,4 +670,3 @@ window.SOAL_JLPT = {
 
 };
 
-};
