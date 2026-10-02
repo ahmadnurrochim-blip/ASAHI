@@ -1,0 +1,126 @@
+/* ============================================================
+   AKSES LEVELING POPUP
+   Style untuk popup mengambang di kanan bawah.
+   ============================================================ */
+.leveling-access {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  width: 250px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid var(--red, #bc002d);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: levelingSlideIn 0.5s ease 0.8s forwards;
+}
+
+@keyframes levelingSlideIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.leveling-access:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 38px rgba(188, 0, 45, 0.22);
+}
+
+.leveling-access.is-closing {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.leveling-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.leveling-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(188, 0, 45, 0.09);
+  color: var(--red, #bc002d);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.leveling-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink, #1a1a1a);
+  line-height: 1.2;
+}
+
+.leveling-subtitle {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.leveling-description {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.leveling-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--red, #bc002d);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.leveling-button:hover {
+  background: var(--red-dark, #8b0022);
+  transform: translateY(-2px);
+}
+
+.leveling-close {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 50%;
+  transition: color 0.2s ease;
+}
+
+.leveling-close:hover { color: var(--red, #bc002d); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 480px) {
+  .leveling-access {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
+    max-width: 300px;
+  }
+}
