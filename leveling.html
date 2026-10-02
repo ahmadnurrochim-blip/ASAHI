@@ -12,9 +12,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
 
-  <!-- ============ CSS POPUP LEVELING ============ -->
-  <link rel="stylesheet" href="css/leveling-popup.css" />
-
   <style>
     /* ============================================================
        RESET & VARIABEL
@@ -446,117 +443,206 @@
     }
 
     /* ============================================================
-       POPUP POIN — POJOK ATAS
+       LEADERBOARD — POJOK ATAS
        ============================================================ */
-    .poin-popup {
+    .leaderboard {
       position: fixed;
       top: 90px;
       right: 22px;
       z-index: 90;
+      width: 260px;
       background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
       border: 2px solid var(--red);
-      border-radius: 16px;
-      padding: 14px 18px;
+      border-radius: 18px;
       box-shadow: 0 12px 30px rgba(188, 0, 45, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 200px;
       transition: all 0.3s ease;
-      animation: poinSlideIn 0.6s ease;
+      animation: lbSlideIn 0.6s ease;
+      overflow: hidden;
     }
 
-    @keyframes poinSlideIn {
+    @keyframes lbSlideIn {
       from { opacity: 0; transform: translateX(30px); }
       to   { opacity: 1; transform: translateX(0); }
     }
 
-    .poin-popup:hover {
+    .leaderboard:hover {
       transform: translateY(-3px);
       box-shadow: 0 18px 38px rgba(188, 0, 45, 0.3);
     }
 
-    .poin-popup.bump {
-      animation: poinBump 0.5s ease;
-    }
-
-    @keyframes poinBump {
-      0%   { transform: scale(1); }
-      30%  { transform: scale(1.08); }
-      60%  { transform: scale(0.98); }
-      100% { transform: scale(1); }
-    }
-
-    .poin-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
+    .lb-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
       background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
       color: #fff;
-      display: grid;
-      place-items: center;
-      font-size: 20px;
-      flex-shrink: 0;
-      box-shadow: 0 6px 14px rgba(188, 0, 45, 0.35);
-      position: relative;
     }
 
-    .poin-icon::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 14px;
-      border: 2px dashed rgba(188, 0, 45, 0.3);
-      animation: spin 20s linear infinite;
+    .lb-header i {
+      font-size: 18px;
     }
 
-    .poin-info {
+    .lb-header-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+      flex: 1;
+    }
+
+    .lb-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .lb-sub {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      opacity: 0.85;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .lb-body {
+      padding: 12px 14px 14px;
+    }
+
+    /* Baris user sendiri */
+    .lb-self {
+      background: rgba(188, 0, 45, 0.08);
+      border: 2px dashed var(--red);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lb-self .lb-rank {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--red);
+      min-width: 32px;
+      text-align: center;
+    }
+
+    .lb-self .lb-info {
+      flex: 1;
       display: flex;
       flex-direction: column;
       line-height: 1.2;
     }
 
-    .poin-label {
-      font-size: 10px;
+    .lb-self .lb-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .lb-self .lb-poin {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      margin-top: 2px;
+    }
+
+    /* Daftar top player */
+    .lb-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .lb-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .lb-row:hover {
+      border-color: var(--red);
+      background: #fff5f7;
+    }
+
+    .lb-row.top-1 { background: linear-gradient(135deg, #fff9ec 0%, #ffffff 100%); border-color: var(--gold); }
+    .lb-row.top-2 { background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%); border-color: #cbd5e1; }
+    .lb-row.top-3 { background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); border-color: #fbbf24; }
+
+    .lb-row .lb-rank {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 15px;
       font-weight: 800;
       color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 4px;
+      min-width: 28px;
+      text-align: center;
     }
 
-    .poin-value {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--red);
-      line-height: 1;
+    .lb-row.top-1 .lb-rank { color: var(--gold); }
+    .lb-row.top-2 .lb-rank { color: #94a3b8; }
+    .lb-row.top-3 .lb-rank { color: #d97706; }
+
+    .lb-row .lb-info {
+      flex: 1;
       display: flex;
-      align-items: baseline;
-      gap: 3px;
+      flex-direction: column;
+      line-height: 1.2;
     }
 
-    .poin-value .max {
+    .lb-row .lb-name {
       font-size: 12px;
-      color: var(--gray-light);
       font-weight: 700;
+      color: var(--ink);
     }
 
-    .poin-bar {
-      height: 4px;
-      background: #f0e9dc;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 6px;
-      width: 100%;
+    .lb-row .lb-poin {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray-light);
+      margin-top: 2px;
     }
 
-    .poin-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--red), var(--gold));
-      border-radius: 999px;
-      transition: width 0.5s ease;
+    .lb-row .lb-medal {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Toggle leaderboard */
+    .lb-toggle {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 22px;
+      height: 22px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 11px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s;
+    }
+
+    .lb-toggle:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .leaderboard.collapsed .lb-body {
+      display: none;
+    }
+
+    .leaderboard.collapsed .lb-toggle i {
+      transform: rotate(180deg);
     }
 
     /* ============================================================
@@ -597,15 +683,11 @@
       .level-card { min-height: 100px; padding: 12px 8px 10px; }
       .level-card .lv-num { font-size: 22px; }
 
-      .poin-popup {
+      .leaderboard {
         top: 80px;
         right: 12px;
-        padding: 10px 14px;
-        min-width: 170px;
-        gap: 10px;
+        width: 220px;
       }
-      .poin-icon { width: 38px; height: 38px; font-size: 16px; }
-      .poin-value { font-size: 18px; }
     }
 
     @media (max-width: 480px) {
@@ -620,13 +702,13 @@
       .level-card .lv-poin { font-size: 9px; padding: 2px 6px; }
       .level-card .lv-poin i { font-size: 8px; }
 
-      .poin-popup {
+      .leaderboard {
         top: 70px;
         right: 8px;
-        left: 8px;
-        min-width: auto;
-        padding: 10px 12px;
+        width: 200px;
       }
+      .lb-body { padding: 10px 10px 12px; }
+      .lb-row { padding: 6px 8px; }
     }
   </style>
 </head>
@@ -664,19 +746,32 @@
     </div>
   </header>
 
-  <!-- ============ POPUP POIN (pojok atas) ============ -->
-  <div class="poin-popup" id="poinPopup">
-    <div class="poin-icon">
-      <i class="fas fa-trophy"></i>
-    </div>
-    <div class="poin-info">
-      <div class="poin-label">Poin Leveling</div>
-      <div class="poin-value">
-        <span id="poinValue">0</span>
-        <span class="max">/ 10.000</span>
+  <!-- ============ LEADERBOARD (pojok atas) ============ -->
+  <div class="leaderboard" id="leaderboard">
+    <div class="lb-header">
+      <i class="fas fa-crown"></i>
+      <div class="lb-header-text">
+        <div class="lb-title">Leaderboard</div>
+        <div class="lb-sub">Top Player</div>
       </div>
-      <div class="poin-bar">
-        <div class="poin-bar-fill" id="poinBarFill"></div>
+      <button class="lb-toggle" id="lbToggle" aria-label="Tutup/buka">
+        <i class="fas fa-chevron-up"></i>
+      </button>
+    </div>
+
+    <div class="lb-body">
+      <!-- Peringkat user sendiri -->
+      <div class="lb-self">
+        <div class="lb-rank" id="myRank">—</div>
+        <div class="lb-info">
+          <div class="lb-name">Kamu</div>
+          <div class="lb-poin"><span id="myPoin">0</span> poin</div>
+        </div>
+      </div>
+
+      <!-- Top player -->
+      <div class="lb-list" id="lbList">
+        <!-- Diisi oleh JavaScript -->
       </div>
     </div>
   </div>
@@ -738,9 +833,6 @@
     © 2026 Asahi Mandiri. Semua hak dilindungi.
   </footer>
 
-  <!-- ============ SCRIPT POPUP LEVELING ============ -->
-  <script src="js/leveling-popup.js"></script>
-
   <!-- ============ SCRIPT LEVEL GRID ============ -->
   <script>
     /* ============================================================
@@ -752,13 +844,22 @@
     const STORAGE_KEY = 'asahi_leveling_done';
 
     /* ============================================================
-       GENERATE 100 LEVEL
+       DATA TOP PLAYER (hardcoded — bisa diedit manual)
        ------------------------------------------------------------
-       Bagi per kategori:
-         N5 : level 1–30
-         N4 : level 31–60
-         N3 : level 61–85
-         N2 : level 86–100
+       Ganti nama & poin sesuai kebutuhan.
+       ============================================================ */
+    const TOP_PLAYERS = [
+      { name: 'Budi S.',    poin: 9800, medal: '🥇' },
+      { name: 'Siti A.',    poin: 9200, medal: '🥈' },
+      { name: 'Rina K.',    poin: 8500, medal: '🥉' },
+      { name: 'Ahmad F.',   poin: 7800, medal: '🎖️' },
+      { name: 'Dewi L.',    poin: 6900, medal: '🎖️' },
+      { name: 'Eko P.',     poin: 5500, medal: '🎖️' },
+      { name: 'Fitri M.',   poin: 4200, medal: '🎖️' }
+    ];
+
+    /* ============================================================
+       GENERATE 100 LEVEL
        ============================================================ */
     const LEVELS = [];
 
@@ -778,29 +879,29 @@
     /* ============================================================
        STATE
        ============================================================ */
-    const doneSet = new Set();      // level yang sudah selesai
+    const doneSet = new Set();
 
     /* ============================================================
        ELEMEN
        ============================================================ */
-    const grid          = document.getElementById('levelGrid');
-    const statDone      = document.getElementById('statDone');
-    const statPoin      = document.getElementById('statPoin');
-    const poinValue     = document.getElementById('poinValue');
-    const poinBarFill   = document.getElementById('poinBarFill');
-    const poinPopup     = document.getElementById('poinPopup');
+    const grid        = document.getElementById('levelGrid');
+    const statDone    = document.getElementById('statDone');
+    const statPoin    = document.getElementById('statPoin');
+    const myRank      = document.getElementById('myRank');
+    const myPoin      = document.getElementById('myPoin');
+    const lbList      = document.getElementById('lbList');
+    const leaderboard = document.getElementById('leaderboard');
+    const lbToggle    = document.getElementById('lbToggle');
 
     /* ============================================================
-       LOAD & SAVE LOCALSTORAGE
+       LOAD & SAVE
        ============================================================ */
     function loadDone() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (!saved) return;
         const arr = JSON.parse(saved);
-        if (Array.isArray(arr)) {
-          arr.forEach(n => doneSet.add(n));
-        }
+        if (Array.isArray(arr)) arr.forEach(n => doneSet.add(n));
       } catch (e) {
         console.warn('Gagal memuat progress:', e);
       }
@@ -816,25 +917,68 @@
     }
 
     /* ============================================================
-       UPDATE POIN & POPUP
+       HITUNG POIN USER
+       ============================================================ */
+    function getMyPoin() {
+      return doneSet.size * POIN_PER_LEVEL;
+    }
+
+    /* ============================================================
+       RENDER LEADERBOARD
+       ============================================================ */
+    function renderLeaderboard() {
+      const myPoinVal = getMyPoin();
+      myPoin.textContent = myPoinVal.toLocaleString('id-ID');
+
+      // Gabungkan user + top players, lalu urutkan
+      const allPlayers = [
+        ...TOP_PLAYERS,
+        { name: 'Kamu', poin: myPoinVal, isMe: true, medal: '⭐' }
+      ].sort((a, b) => b.poin - a.poin);
+
+      // Cari peringkat user
+      const myIndex = allPlayers.findIndex(p => p.isMe);
+      const rank = myIndex + 1;
+      myRank.textContent = '#' + rank;
+
+      // Render top 5 (atau top 7)
+      lbList.innerHTML = '';
+      allPlayers.slice(0, 7).forEach((p, i) => {
+        const row = document.createElement('div');
+        row.className = 'lb-row';
+        if (i === 0) row.classList.add('top-1');
+        else if (i === 1) row.classList.add('top-2');
+        else if (i === 2) row.classList.add('top-3');
+
+        const rankNum = i + 1;
+        let medal = p.medal || '🎖️';
+        if (rankNum === 1) medal = '🥇';
+        else if (rankNum === 2) medal = '🥈';
+        else if (rankNum === 3) medal = '🥉';
+
+        row.innerHTML = `
+          <div class="lb-rank">#${rankNum}</div>
+          <div class="lb-info">
+            <div class="lb-name">${p.name}</div>
+            <div class="lb-poin">${p.poin.toLocaleString('id-ID')} poin</div>
+          </div>
+          <div class="lb-medal">${medal}</div>
+        `;
+        lbList.appendChild(row);
+      });
+    }
+
+    /* ============================================================
+       UPDATE SEMUA
        ============================================================ */
     function updatePoin() {
       const doneCount = doneSet.size;
-      const poin = doneCount * POIN_PER_LEVEL;
-      const pct = (poin / TOTAL_POIN) * 100;
+      const poin = getMyPoin();
 
-      // Update stats bar
       statDone.textContent = doneCount;
       statPoin.textContent = poin.toLocaleString('id-ID');
 
-      // Update popup
-      poinValue.textContent = poin.toLocaleString('id-ID');
-      poinBarFill.style.width = pct + '%';
-
-      // Bump animation
-      poinPopup.classList.remove('bump');
-      void poinPopup.offsetWidth;   // reflow
-      poinPopup.classList.add('bump');
+      renderLeaderboard();
     }
 
     /* ============================================================
@@ -846,14 +990,12 @@
       LEVELS.forEach(lv => {
         const isDone = doneSet.has(lv.num);
 
-        // Filter
         if (filter !== 'all') {
           if (filter === 'done'   && !isDone) return;
           if (filter === 'belum'  &&  isDone) return;
           if (['n5','n4','n3','n2'].includes(filter) && lv.badge !== filter) return;
         }
 
-        // Buat kartu
         const card = document.createElement('div');
         card.className = 'level-card' + (isDone ? ' done' : '');
         card.dataset.level = lv.num;
@@ -866,9 +1008,7 @@
           </div>
         `;
 
-        // Klik = toggle selesai
         card.addEventListener('click', () => toggleLevel(lv.num, card));
-
         grid.appendChild(card);
       });
     }
@@ -884,7 +1024,6 @@
         doneSet.add(num);
         card.classList.add('done');
 
-        // Efek pop kecil
         card.style.transform = 'scale(1.15)';
         setTimeout(() => { card.style.transform = ''; }, 200);
       }
@@ -902,6 +1041,13 @@
         tab.classList.add('active');
         renderGrid(tab.dataset.filter);
       });
+    });
+
+    /* ============================================================
+       TOGGLE LEADERBOARD
+       ============================================================ */
+    lbToggle.addEventListener('click', () => {
+      leaderboard.classList.toggle('collapsed');
     });
 
     /* ============================================================
