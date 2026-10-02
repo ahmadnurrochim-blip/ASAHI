@@ -1010,24 +1010,11 @@
     }
 
     /* ============================================================
-       TOGGLE LEVEL SELESAI
+       KLIK LEVEL → BUKA HALAMAN level-X.html
        ============================================================ */
     function toggleLevel(num, card) {
-      if (doneSet.has(num)) {
-        doneSet.delete(num);
-        card.classList.remove('done');
-      } else {
-        doneSet.add(num);
-        card.classList.add('done');
-
-        card.style.transform = 'scale(1.15)';
-        setTimeout(() => { card.style.transform = ''; }, 200);
-      }
-
-      saveDone();
-      updatePoin();
+      window.location.href = 'level-' + num + '.html';
     }
-
     /* ============================================================
        FILTER
        ============================================================ */
