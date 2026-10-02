@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mensetsu - Latihan Wawancara Jepang | Asahi Mandiri</title>
+
+  <!-- ============ FONTS & ICONS ============ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- ============ CSS POPUP LEVELING ============ -->
+  <link rel="stylesheet" href="css/leveling-popup.css" />
+
+  <style>
+    /* ============================================================
+       RESET & VARIABEL
+       ============================================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+      --green: #10b981;
+      --gray: #6b7280;
+      --gray-light: #9ca3af;
+      --border: #e8e2d8;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       BACKGROUND
+       ============================================================ */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.88), rgba(253, 250, 245, 0.94)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.06;
+      background-image:
+        radial-gradient(circle at 50% 100%, transparent 20%, var(--red) 21%, var(--red) 34%, transparent 35%, transparent 40%, var(--red) 41%, var(--red) 54%, transparent 55%);
+      background-size: 80px 40px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15);
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.4);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+    .brand-text .jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+
+    .brand-text .en {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid #e8e2d8;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn i { color: var(--red); font-size: 13px; }
+
+    .nav-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.18);
+    }
+
+    .nav-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .nav-btn.active i { color: #fff; }
+
+    /* ============================================================
+       MAIN
+       ============================================================ */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 28px 100px;
+      position: relative;
+    }
+
+    .kanji-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 340px;
+      font-weight: 800;
+      color: rgba(188, 0, 45, 0.04);
+      z-index: -1;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .sakura {
+      position: absolute;
+      font-size: 24px;
+      color: rgba(188, 0, 45, 0.2);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+    .sakura.s1 { top: 5%;  left: 2%;  animation-delay: 0s; }
+    .sakura.s2 { top: 20%; right: 3%; animation-delay: 1.5s; }
+    .sakura.s3 { bottom: 20%; left: 4%; animation-delay: 3s; }
+    .sakura.s4 { bottom: 5%; right: 5%; animation-delay: 4.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-16px) rotate(12deg); }
+    }
+
+    /* ============================================================
+       PAGE TITLE
+       ============================================================ */
+    .page-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .page-title .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .page-title h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .page-title h1 .accent { color: var(--red); }
+
+    .page-title p {
+      font-size: 15px;
+      color: var(--gray);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       PROGRESS BAR
+       ============================================================ */
+    .progress-wrap {
+      max-width: 500px;
+      margin: 24px auto 0;
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 8px 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      background: #f0e9dc;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red), #ff3b63);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-text {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--red);
+      white-space: nowrap;
+      padding-right: 10px;
+    }
+
+    /* ============================================================
+       INFO BOX
+       ============================================================ */
+    .info-box {
+      background: #fff9ec;
+      border: 2px dashed #fcd34d;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 24px auto 26px;
+      max-width: 800px;
+      font-size: 13px;
+      color: #92400e;
+      line-height: 1.6;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .info-box i {
+      color: #d97706;
+      margin-top: 3px;
+      flex-shrink: 0;
+      font-size: 15px;
+    }
+
+    .info-box strong { color: #78350f; }
+
+    /* ============================================================
+       AKSI TIPS
+       ============================================================ */
+    .action-tips {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .action-tips .tip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-tips .tip i { color: var(--red); }
+    .action-tips .tip strong { color: var(--ink); }
+
+    /* ============================================================
+       FILTER & SEARCH
+       ============================================================ */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .filter-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .search-box {
+      position: relative;
+      width: 240px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--ink);
+      background: #fff;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.08);
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-light);
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       GRID MENSSETSU
+       ============================================================ */
+    .mensetsu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .mensetsu-card {
+      position: relative;
+      background: #fff;
+      border: 2px solid #f0e9dc;
+      border-radius: 16px;
+      padding: 22px 20px 18px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mensetsu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .mensetsu-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--red);
+      box-shadow: 0 12px 28px rgba(188, 0, 45, 0.12);
+    }
+
+    .mensetsu-card:hover::before { opacity: 1; }
+
+    .mensetsu-card.playing {
+      background: #fff5f7;
+      border-color: var(--red);
+    }
+
+    .mensetsu-card.hafal {
+      background: #ecfdf5;
+      border-color: var(--green);
+    }
+
+    .mensetsu-card.hafal::after {
+      content: '✓';
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mensetsu-card .card-cat {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--red);
+      background: rgba(188, 0, 45, 0.08);
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 12px;
+      align-self: flex-start;
+    }
+
+    .mensetsu-card .card-q-jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .mensetsu-card .card-q-furi {
+      font-size: 12px;
+      color: var(--red);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .mensetsu-card .card-q-id {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed #f0e9dc;
+      margin-bottom: 14px;
+    }
+
+    .mensetsu-card .card-answer-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--gray-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .mensetsu-card .card-answer {
+      font-size: 12px;
+      color: var(--ink);
+      line-height: 1.7;
+      background: #fdfaf5;
+      border-left: 3px solid var(--red);
+      padding: 10px 12px;
+      border-radius: 8px;
+      flex-grow: 1;
+    }
+
+    .mensetsu-card .card-answer .ans-jp {
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .mensetsu-card .card-answer .ans-id {
+      font-size: 11px;
+      color: var(--gray);
+      font-style: italic;
+    }
+
+    .mensetsu-card .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex: 1;
+      padding: 9px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: #fff;
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: #fff5f7;
+    }
+
+    .icon-btn.playing {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* ============================================================
+       EMPTY
+       ============================================================ */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray);
+    }
+
+    .empty-state i {
+      font-size: 60px;
+      color: var(--gray-light);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .empty-state h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       TIPS SECTION
+       ============================================================ */
+    .tips-section {
+      margin-top: 40px;
+      background: rgba(255, 255, 255, 0.97);
+      border: 2px solid #f0e9dc;
+      border-radius: 20px;
+      padding: 26px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .tips-section h2 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tips-section h2 i { color: var(--red); font-size: 18px; }
+
+    .tips-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .tip-item {
+      background: #fdfaf5;
+      border: 2px solid #f0e9dc;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .tip-item strong {
+      color: var(--red);
+      display: block;
+      margin-bottom: 4px;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: var(--gray-light);
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9);
+      margin-top: 40px;
+    }
+
+    footer .jp {
+      font-family: 'Shippori Mincho', serif;
+      color: var(--red);
+      letter-spacing: 4px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 820px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .nav-buttons { width: 100%; justify-content: flex-start; }
+      .nav-btn { flex: 1 1 auto; justify-content: center; padding: 9px 14px; font-size: 13px; }
+      .container { padding: 32px 18px 80px; }
+      .controls { flex-direction: column; align-items: stretch; }
+      .search-box { width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn span { display: none; }
+      .nav-btn i { font-size: 15px; }
+      .brand-text .jp { font-size: 17px; }
+      .kanji-watermark { font-size: 200px; }
+      .mensetsu-grid { grid-template-columns: 1fr; }
+      .mensetsu-card { padding: 18px 16px 16px; }
+      .mensetsu-card .card-q-jp { font-size: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ BACKGROUND ============ -->
+  <div class="bg"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="header-inner">
+
+      <a href="index.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+
+      <nav class="nav-buttons">
+        <a href="index.html" class="nav-btn">
+          <i class="fas fa-home"></i> <span>Beranda</span>
+        </a>
+        <a href="latihan.html" class="nav-btn">
+          <i class="fas fa-pen-fancy"></i> <span>Latihan</span>
+        </a>
+        <a href="materi.html" class="nav-btn">
+          <i class="fas fa-book-open"></i> <span>Materi</span>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container">
+
+    <div class="kanji-watermark">面接</div>
+
+    <div class="sakura s1">🌸</div>
+    <div class="sakura s2">🌸</div>
+    <div class="sakura s3">🌸</div>
+    <div class="sakura s4">🌸</div>
+
+    <!-- Judul -->
+    <div class="page-title">
+      <div class="badge">
+        <i class="fas fa-user-tie"></i> 面接練習
+      </div>
+      <h1>Latihan <span class="accent">Mensetsu</span></h1>
+      <p>Kumpulan pertanyaan wawancara kerja &amp; sekolah dalam bahasa Jepang. Lengkap dengan contoh jawaban dan pelafalan.</p>
+
+      <!-- Progress -->
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="progress-text" id="progressText">0 / 0</span>
+      </div>
+    </div>
+
+    <!-- Info box -->
+    <div class="info-box">
+      <i class="fas fa-lightbulb"></i>
+      <span><strong>Tips mensetsu:</strong> di Jepang, kesopanan sangat penting. Selalu mulai dengan <strong>はい、よろしくお願いします</strong> dan akhiri dengan <strong>ありがとうございました</strong>. Jangan lupa <strong>ojigi</strong> (membungkuk) saat masuk dan keluar ruangan.</span>
+    </div>
+
+    <!-- Aksi tips -->
+    <div class="action-tips">
+      <span class="tip"><i class="fas fa-mouse-pointer"></i> Klik kartu = <strong>Dengar pertanyaan</strong></span>
+      <span class="tip"><i class="fas fa-check-circle"></i> Klik dua kali = <strong>Tandai dikuasai</strong></span>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-filter="all">Semua</button>
+        <button class="filter-tab" data-filter="perkenalan">Perkenalan</button>
+        <button class="filter-tab" data-filter="kelebihan">Kelebihan</button>
+        <button class="filter-tab" data-filter="motivasi">Motivasi</button>
+        <button class="filter-tab" data-filter="pengalaman">Pengalaman</button>
+        <button class="filter-tab" data-filter="penutup">Penutup</button>
+      </div>
+
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Cari pertanyaan..." />
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="mensetsu-grid" id="mensetsuGrid"></div>
+
+    <!-- Tips section -->
+    <div class="tips-section">
+      <h2><i class="fas fa-star"></i> Tips Sukses Mensetsu</h2>
+      <div class="tips-list">
+        <div class="tip-item">
+          <strong>1. Ojigi (お辞儀)</strong>
+          Bungkukkan badan 30° saat masuk dan keluar ruangan. Tangan di samping badan, punggung lurus.
+        </div>
+        <div class="tip-item">
+          <strong>2. Aisatsu (挨拶)</strong>
+          Ucapkan よろしくお願いします (yoroshiku onegaishimasu) di awal, ありがとうございました (arigatou gozaimashita) di akhir.
+        </div>
+        <div class="tip-item">
+          <strong>3. Keigo (敬語)</strong>
+          Gunakan bahasa sopan. Contoh: です・ます bukan だ・だよ.
+        </div>
+        <div class="tip-item">
+          <strong>4. Jikoshoukai (自己紹介)</strong>
+          Perkenalan diri singkat: nama, asal, pekerjaan/sekolah, hobi. Maksimal 1 menit.
+        </div>
+        <div class="tip-item">
+          <strong>5. Kesiapan</strong>
+          Datang 10 menit lebih awal. Bawa berkas (履歴書 rirekisho) dan alat tulis.
+        </div>
+        <div class="tip-item">
+          <strong>6. Jujur</strong>
+          Jangan bohong. Kalau tidak tahu, ucapkan すみません、わかりません (sumimasen, wakarimasen) dengan sopan.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2026 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <!-- ============ SCRIPT POPUP LEVELING ============ -->
+  <script src="js/leveling-popup.js"></script>
+
+  <!-- ============ SCRIPT MENSSETSU ============ -->
+  <script>
+    /* ============================================================
+       DATA MENSSETSU — Pertanyaan Wawancara
+       ------------------------------------------------------------
+       Field:
+         cat    : kategori (perkenalan, kelebihan, motivasi, pengalaman, penutup)
+         qJp    : pertanyaan bahasa Jepang
+         qFuri  : furigana / cara baca
+         qId    : arti pertanyaan dalam bahasa Indonesia
+         aJp    : contoh jawaban bahasa Jepang
+         aId    : arti jawaban
+       ============================================================ */
+    const MENSSETSU = [
+      // ============ PERKENALAN ============
+      {
+        cat: 'perkenalan',
+        qJp: '自己紹介をお願いします。',
+        qFuri: 'じこしょうかいを おねがいします',
+        qId: 'Tolong perkenalkan diri Anda.',
+        aJp: 'はい。〇〇と申します。〇〇から来ました。どうぞよろしくお願いします。',
+        aId: 'Ya. Nama saya 〇〇. Saya berasal dari 〇〇. Mohon bantuannya.'
+      },
+      {
+        cat: 'perkenalan',
+        qJp: 'お名前は何ですか？',
+        qFuri: 'おなまえは なんですか',
+        qId: 'Siapa nama Anda?',
+        aJp: '〇〇です。',
+        aId: 'Nama saya 〇〇.'
+      },
+      {
+        cat: 'perkenalan',
+        qJp: 'お国はどちらですか？',
+        qFuri: 'おくには どちらですか',
+        qId: 'Anda berasal dari negara mana?',
+        aJp: 'インドネシアから来ました。',
+        aId: 'Saya berasal dari Indonesia.'
+      },
+      {
+        cat: 'perkenalan',
+        qJp: '今、何をしていますか？',
+        qFuri: 'いま、なにを していますか',
+        qId: 'Sekarang Anda sedang apa?',
+        aJp: '日本語を勉強しています。',
+        aId: 'Saya sedang belajar bahasa Jepang.'
+      },
+
+      // ============ KELEBIHAN / KEKURANGAN ============
+      {
+        cat: 'kelebihan',
+        qJp: '長所は何ですか？',
+        qFuri: 'ちょうしょは なんですか',
+        qId: 'Apa kelebihan Anda?',
+        aJp: '私の長所は、まじめで責任感が強いところです。',
+        aId: 'Kelebihan saya adalah rajin dan bertanggung jawab.'
+      },
+      {
+        cat: 'kelebihan',
+        qJp: '短所は何ですか？',
+        qFuri: 'たんしょは なんですか',
+        qId: 'Apa kekurangan Anda?',
+        aJp: '少し心配性なところです。でも、よく確認するようにしています。',
+        aId: 'Saya agak mudah khawatir. Tapi saya selalu memeriksa dengan teliti.'
+      },
+      {
+        cat: 'kelebihan',
+        qJp: '自分の性格をどう思いますか？',
+        qFuri: 'じぶんの せいかくを どう おもいますか',
+        qId: 'Bagaimana Anda menilai kepribadian Anda?',
+        aJp: '明るくて、人と話すのが好きです。',
+        aId: 'Saya orang yang ceria dan suka berbicara dengan orang.'
+      },
+      {
+        cat: 'kelebihan',
+        qJp: '得意なことは何ですか？',
+        qFuri: 'とくいな ことは なんですか',
+        qId: 'Apa hal yang Anda kuasai?',
+        aJp: 'パソコンを使うのが得意です。',
+        aId: 'Saya pandai menggunakan komputer.'
+      },
+
+      // ============ MOTIVASI ============
+      {
+        cat: 'motivasi',
+        qJp: 'なぜ日本で働きたいですか？',
+        qFuri: 'なぜ にほんで はたらきたいですか',
+        qId: 'Mengapa Anda ingin bekerja di Jepang?',
+        aJp: '日本の技術を学びたいからです。それに、日本文化が好きです。',
+        aId: 'Karena saya ingin belajar teknologi Jepang. Dan juga saya suka budaya Jepang.'
+      },
+      {
+        cat: 'motivasi',
+        qJp: 'なぜこの会社を選びましたか？',
+        qFuri: 'なぜ この かいしゃを えらびましたか',
+        qId: 'Mengapa Anda memilih perusahaan ini?',
+        aJp: '御社の製品に興味があり、ここで成長したいと思ったからです。',
+        aId: 'Karena saya tertarik dengan produk perusahaan ini dan ingin berkembang di sini.'
+      },
+      {
+        cat: 'motivasi',
+        qJp: '将来の夢は何ですか？',
+        qFuri: 'しょうらいの ゆめは なんですか',
+        qId: 'Apa cita-cita Anda di masa depan?',
+        aJp: '日本で経験を積んで、母国の発展に貢献したいです。',
+        aId: 'Saya ingin menimba pengalaman di Jepang dan berkontribusi untuk kemajuan negara saya.'
+      },
+      {
+        cat: 'motivasi',
+        qJp: '5年後、どうしていたいですか？',
+        qFuri: 'ごねんご、どう していたいですか',
+        qId: '5 tahun lagi, Anda ingin jadi apa?',
+        aJp: '一人前の技術者になっていたいです。',
+        aId: 'Saya ingin menjadi teknisi yang profesional.'
+      },
+
+      // ============ PENGALAMAN ============
+      {
+        cat: 'pengalaman',
+        qJp: '仕事の経験がありますか？',
+        qFuri: 'しごとの けいけんが ありますか',
+        qId: 'Apakah Anda punya pengalaman kerja?',
+        aJp: 'はい、〇年間〇〇で働いたことがあります。',
+        aId: 'Ya, saya pernah bekerja di 〇〇 selama 〇 tahun.'
+      },
+      {
+        cat: 'pengalaman',
+        qJp: '日本語をどのくらい勉強しましたか？',
+        qFuri: 'にほんごを どのくらい べんきょうしましたか',
+        qId: 'Sudah berapa lama Anda belajar bahasa Jepang?',
+        aJp: '〇年間日本語を勉強しています。JLPTのN〇を持っています。',
+        aId: 'Saya sudah belajar bahasa Jepang selama 〇 tahun. Saya punya JLPT N〇.'
+      },
+      {
+        cat: 'pengalaman',
+        qJp: 'アルバイトをしたことがありますか？',
+        qFuri: 'アルバイトを した ことが ありますか',
+        qId: 'Apakah Anda pernah kerja paruh waktu?',
+        aJp: 'はい、コンビニで働いたことがあります。',
+        aId: 'Ya, saya pernah bekerja di minimarket.'
+      },
+      {
+        cat: 'pengalaman',
+        qJp: 'チームで働いた経験はありますか？',
+        qFuri: 'チームで はたらいた けいけんは ありますか',
+        qId: 'Apakah Anda punya pengalaman kerja tim?',
+        aJp: 'はい、学校のプロジェクトでチームワークを経験しました。',
+        aId: 'Ya, saya punya pengalaman teamwork dalam proyek sekolah.'
+      },
+
+      // ============ PENUTUP ============
+      {
+        cat: 'penutup',
+        qJp: '何か質問はありますか？',
+        qFuri: 'なにか しつもんは ありますか',
+        qId: 'Apakah ada pertanyaan?',
+        aJp: 'はい、研修について教えていただけますか？',
+        aId: 'Ya, bisakah Anda menjelaskan tentang pelatihannya?'
+      },
+      {
+        cat: 'penutup',
+        qJp: 'いつから働けますか？',
+        qFuri: 'いつから はたらけますか',
+        qId: 'Mulai kapan Anda bisa bekerja?',
+        aJp: 'いつでも大丈夫です。',
+        aId: 'Kapan saja bisa.'
+      },
+      {
+        cat: 'penutup',
+        qJp: '何か伝えたいことはありますか？',
+        qFuri: 'なにか つたえたい ことは ありますか',
+        qId: 'Apakah ada yang ingin Anda sampaikan?',
+        aJp: 'はい、一生懸命頑張りますので、よろしくお願いします。',
+        aId: 'Ya, saya akan bekerja dengan sepenuh hati, mohon bantuannya.'
+      },
+      {
+        cat: 'penutup',
+        qJp: '最後に一言お願いします。',
+        qFuri: 'さいごに ひとこと おねがいします',
+        qId: 'Terakhir, tolong sampaikan sepatah kata.',
+        aJp: '本日はお時間をいただき、ありがとうございました。',
+        aId: 'Terima kasih atas waktunya hari ini.'
+      }
+    ];
+
+    /* ============================================================
+       KATEGORI LABEL
+       ============================================================ */
+    const CAT_LABELS = {
+      perkenalan: 'Perkenalan',
+      kelebihan: 'Kelebihan',
+      motivasi: 'Motivasi',
+      pengalaman: 'Pengalaman',
+      penutup: 'Penutup'
+    };
+
+    const CAT_ICONS = {
+      perkenalan: 'fa-user',
+      kelebihan: 'fa-star',
+      motivasi: 'fa-fire',
+      pengalaman: 'fa-briefcase',
+      penutup: 'fa-flag-checkered'
+    };
+
+    /* ============================================================
+       STATE
+       ============================================================ */
+    let activeFilter = 'all';
+    let filterText = '';
+    const hafalSet = new Set();
+
+    /* ============================================================
+       ELEMEN
+       ============================================================ */
+    const grid = document.getElementById('mensetsuGrid');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const searchInput = document.getElementById('searchInput');
+
+    /* ============================================================
+       RENDER
+       ============================================================ */
+    function render() {
+      grid.innerHTML = '';
+
+      // Filter data
+      const filtered = MENSSETSU.filter(item => {
+        if (activeFilter !== 'all' && item.cat !== activeFilter) return false;
+        if (filterText) {
+          const q = filterText.toLowerCase();
+          return item.qJp.toLowerCase().includes(q) ||
+                 item.qFuri.toLowerCase().includes(q) ||
+                 item.qId.toLowerCase().includes(q);
+        }
+        return true;
+      });
+
+      // Empty
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h3>Tidak Ada Hasil</h3>
+            <p>Coba kata kunci lain atau pilih kategori berbeda.</p>
+          </div>
+        `;
+        updateProgress();
+        return;
+      }
+
+      // Render kartu
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'mensetsu-card';
+
+        if (hafalSet.has(item.qJp)) card.classList.add('hafal');
+
+        card.innerHTML = `
+          <span class="card-cat">
+            <i class="fas ${CAT_ICONS[item.cat]}"></i>
+            ${CAT_LABELS[item.cat]}
+          </span>
+          <div class="card-q-jp">${item.qJp}</div>
+          <div class="card-q-furi">${item.qFuri}</div>
+          <div class="card-q-id">${item.qId}</div>
+          <div class="card-answer-label">Contoh Jawaban</div>
+          <div class="card-answer">
+            <span class="ans-jp">${item.aJp}</span>
+            <span class="ans-id">${item.aId}</span>
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn btn-play" title="Dengarkan pertanyaan">
+              <i class="fas fa-volume-up"></i> Dengar
+            </button>
+            <button class="icon-btn btn-hafal" title="Tandai sudah dikuasai">
+              <i class="fas fa-check"></i> Kuasai
+            </button>
+          </div>
+        `;
+
+        // Event tombol dengar
+        const playBtn = card.querySelector('.btn-play');
+        playBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          speak(item.qJp, card);
+        });
+
+        // Event tombol hafal
+        const hafalBtn = card.querySelector('.btn-hafal');
+        hafalBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleHafal(card, item);
+        });
+
+        // Klik kartu = dengar
+        card.addEventListener('click', () => speak(item.qJp, card));
+
+        grid.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    /* ============================================================
+       TOGGLE HAFAL
+       ============================================================ */
+    function toggleHafal(card, item) {
+      if (hafalSet.has(item.qJp)) {
+        hafalSet.delete(item.qJp);
+        card.classList.remove('hafal');
+      } else {
+        hafalSet.add(item.qJp);
+        card.classList.add('hafal');
+      }
+      updateProgress();
+    }
+
+    /* ============================================================
+       TEXT-TO-SPEECH
+       ============================================================ */
+    function speak(text, card) {
+      if (!('speechSynthesis' in window)) {
+        alert('Browser kamu tidak mendukung fitur suara.');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ja-JP';
+      utter.rate = 0.75;
+      utter.pitch = 1;
+
+      card.classList.add('playing');
+      utter.onend = () => card.classList.remove('playing');
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    /* ============================================================
+       PROGRESS
+       ============================================================ */
+    function updateProgress() {
+      const total = MENSSETSU.length;
+      const done = hafalSet.size;
+      const pct = total > 0 ? (done / total) * 100 : 0;
+      progressFill.style.width = pct + '%';
+      progressText.textContent = `${done} / ${total}`;
+    }
+
+    /* ============================================================
+       FILTER
+       ============================================================ */
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeFilter = tab.dataset.filter;
+        render();
+      });
+    });
+
+    /* ============================================================
+       SEARCH
+       ============================================================ */
+    searchInput.addEventListener('input', (e) => {
+      filterText = e.target.value.trim();
+      render();
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    render();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuis JLPT N5 - Kosakata | Asahi Mandiri</title>
+
+  <!-- ============ FONTS & ICONS ============ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- ============ CSS POPUP LEVELING ============ -->
+  <link rel="stylesheet" href="css/leveling-popup.css" />
+
+  <style>
+    /* ============================================================
+       RESET & VARIABEL
+       ============================================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+      --green: #10b981;
+      --green-dark: #065f46;
+      --gray: #6b7280;
+      --gray-light: #9ca3af;
+      --border: #e8e2d8;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       BACKGROUND
+       ============================================================ */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.88), rgba(253, 250, 245, 0.94)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.06;
+      background-image:
+        radial-gradient(circle at 50% 100%, transparent 20%, var(--red) 21%, var(--red) 34%, transparent 35%, transparent 40%, var(--red) 41%, var(--red) 54%, transparent 55%);
+      background-size: 80px 40px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15);
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.4);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+    .brand-text .jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+
+    .brand-text .en {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid #e8e2d8;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn i { color: var(--red); font-size: 13px; }
+
+    .nav-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.18);
+    }
+
+    .nav-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .nav-btn.active i { color: #fff; }
+
+    /* ============================================================
+       MAIN
+       ============================================================ */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 50px 28px 100px;
+      position: relative;
+    }
+
+    .kanji-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 340px;
+      font-weight: 800;
+      color: rgba(188, 0, 45, 0.04);
+      z-index: -1;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    /* ============================================================
+       PAGE TITLE
+       ============================================================ */
+    .page-title {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .page-title .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .page-title h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .page-title h1 .accent { color: var(--red); }
+
+    .page-title p {
+      font-size: 14px;
+      color: var(--gray);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       INFO BAR
+       ============================================================ */
+    .info-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .info-bar .info-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray);
+    }
+
+    .info-bar .info-item i {
+      color: var(--red);
+      font-size: 14px;
+    }
+
+    .info-bar .info-item strong {
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       PROGRESS
+       ============================================================ */
+    .progress-wrap {
+      margin-bottom: 24px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .progress-info .score-badge { color: var(--red); }
+
+    .progress-bar {
+      height: 10px;
+      background: #e8e2d8;
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* ============================================================
+       QUIZ CARD
+       ============================================================ */
+    .quiz-card {
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 34px 30px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border: 2px solid #f0e9dc;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--red), var(--gold), var(--red));
+    }
+
+    .question-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      background: rgba(188, 0, 45, 0.08);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    .question-text {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 22px;
+      color: var(--ink);
+      margin-bottom: 28px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border: 2px solid #e8e2d8;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      background: #fff;
+      transition: all 0.2s ease;
+      text-align: left;
+      font-family: inherit;
+      color: var(--ink);
+      width: 100%;
+    }
+
+    .option:hover:not(.locked) {
+      border-color: var(--red);
+      background: #fff5f7;
+      transform: translateX(4px);
+    }
+
+    .option.locked { cursor: default; }
+
+    .option.correct {
+      border-color: var(--green);
+      background: #ecfdf5;
+    }
+    .option.correct .option-letter {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .option.wrong {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+    .option.wrong .option-letter {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .option-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      color: #374151;
+      font-weight: 700;
+      font-size: 14px;
+      margin-right: 16px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    /* Feedback */
+    .feedback {
+      margin-top: 22px;
+      padding: 18px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback.show { display: block; }
+    .feedback.correct { background: #ecfdf5; color: var(--green-dark); border-left: 4px solid var(--green); }
+    .feedback.wrong   { background: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444; }
+
+    .feedback strong { display: block; margin-bottom: 4px; }
+
+    /* Navigasi bawah */
+    .nav-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.25);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(188, 0, 45, 0.35);
+    }
+    .btn-primary:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--ink);
+      border: 2px solid #e8e2d8;
+    }
+    .btn-secondary:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* ============================================================
+       HASIL AKHIR
+       ============================================================ */
+    .result-card {
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 20px;
+      padding: 50px 36px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border: 2px solid #f0e9dc;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--red), var(--gold), var(--red));
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card.show { display: block; }
+
+    .result-emoji {
+      font-size: 64px;
+      margin-bottom: 16px;
+      display: block;
+      line-height: 1;
+    }
+
+    .result-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .result-title .accent { color: var(--red); }
+
+    .result-sub {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .score-circle {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--gold));
+      display: grid;
+      place-items: center;
+      color: #fff;
+      box-shadow: 0 14px 36px rgba(188, 0, 45, 0.3);
+      position: relative;
+    }
+
+    .score-circle::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.35);
+      animation: spin 24s linear infinite;
+    }
+
+    .score-circle .num {
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1;
+      font-family: 'Shippori Mincho', serif;
+    }
+
+    .score-circle .label {
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .result-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: center; }
+
+    .stat .num {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--red);
+      font-family: 'Shippori Mincho', serif;
+    }
+
+    .stat .label {
+      font-size: 11px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: var(--gray-light);
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9);
+      margin-top: 40px;
+    }
+
+    footer .jp {
+      font-family: 'Shippori Mincho', serif;
+      color: var(--red);
+      letter-spacing: 4px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 820px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .nav-buttons { width: 100%; justify-content: flex-start; }
+      .nav-btn { flex: 1 1 auto; justify-content: center; padding: 9px 14px; font-size: 13px; }
+      .container { padding: 32px 18px 60px; }
+      .quiz-card, .result-card { padding: 26px 20px; }
+      .question-text { font-size: 18px; }
+      .info-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn span { display: none; }
+      .nav-btn i { font-size: 15px; }
+      .brand-text .jp { font-size: 17px; }
+      .kanji-watermark { font-size: 200px; }
+      .nav-bottom { flex-direction: column-reverse; }
+      .nav-bottom .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ BACKGROUND ============ -->
+  <div class="bg"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="header-inner">
+
+      <a href="index.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+
+      <nav class="nav-buttons">
+        <a href="index.html" class="nav-btn">
+          <i class="fas fa-home"></i> <span>Beranda</span>
+        </a>
+        <a href="latihan.html" class="nav-btn">
+          <i class="fas fa-pen-fancy"></i> <span>Latihan</span>
+        </a>
+        <a href="materi.html" class="nav-btn">
+          <i class="fas fa-book-open"></i> <span>Materi</span>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container">
+
+    <div class="kanji-watermark">語彙</div>
+
+    <!-- Judul -->
+    <div class="page-title">
+      <div class="badge">
+        <i class="fas fa-font"></i> 語彙問題 N5
+      </div>
+      <h1>Kuis Kosakata <span class="accent">JLPT N5</span></h1>
+      <p>100 soal kosakata N5. Jawab dengan teliti, pembahasan muncul langsung setelah kamu pilih.</p>
+    </div>
+
+    <!-- Info bar -->
+    <div class="info-bar">
+      <div class="info-item">
+        <i class="fas fa-list-ol"></i>
+        Soal: <strong><span id="currentNum">1</span> / <span id="totalNum">100</span></strong>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-star"></i>
+        Skor: <strong id="liveScore">0</strong>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-clock"></i>
+        Waktu: <strong id="timer">00:00</strong>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>Progress</span>
+        <span class="score-badge" id="progressPercent">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- Kartu Soal -->
+    <div class="quiz-card" id="quizCard">
+      <div class="question-label">
+        <i class="fas fa-question-circle"></i> Pilih jawaban yang benar
+      </div>
+      <div class="question-text" id="questionText">Memuat soal...</div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="feedback" id="feedback"></div>
+
+      <div class="nav-bottom">
+        <a href="latihan-jlpt.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> Keluar
+        </a>
+        <button class="btn btn-primary" id="btnNext" disabled>
+          Soal Berikutnya <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Kartu Hasil -->
+    <div class="result-card" id="resultCard">
+      <span class="result-emoji" id="resultEmoji">🎉</span>
+      <h2 class="result-title" id="resultTitle">Selamat! <span class="accent">Kamu Selesai</span></h2>
+      <p class="result-sub" id="resultSub">Berikut hasil latihanmu hari ini.</p>
+
+      <div class="score-circle">
+        <div>
+          <div class="num" id="finalScore">0</div>
+          <div class="label">SKOR</div>
+        </div>
+      </div>
+
+      <div class="result-stats">
+        <div class="stat">
+          <div class="num" id="statCorrect">0</div>
+          <div class="label">Benar</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="statWrong">0</div>
+          <div class="label">Salah</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="statTotal">0</div>
+          <div class="label">Total</div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn btn-secondary" id="btnRetry">
+          <i class="fas fa-redo"></i> Ulangi
+        </button>
+        <a href="latihan-jlpt.html" class="btn btn-primary">
+          <i class="fas fa-arrow-left"></i> Kembali ke JLPT
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2026 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <!-- ============ SCRIPT POPUP LEVELING ============ -->
+  <script src="js/leveling-popup.js"></script>
+
+  <!-- ============ SCRIPT KUIS ============ -->
+  <script>
+    /* ============================================================
+       DATA 100 SOAL KOSAKATA N5
+       ------------------------------------------------------------
+       Format:
+         q       : pertanyaan (bisa Jepang, Indonesia, atau campuran)
+         options : array 4 pilihan
+         answer  : index jawaban benar (0-3)
+         explain : pembahasan singkat
+       ============================================================ */
+    const SOAL = [
+      { q:'Apa arti dari 「こんにちは」?',          options:['Selamat pagi','Selamat siang','Selamat malam','Terima kasih'], answer:1, explain:'「こんにちは」 berarti "selamat siang" atau sapaan umum di siang hari.' },
+      { q:'Apa arti dari 「ありがとう」?',          options:['Maaf','Permisi','Terima kasih','Selamat tinggal'], answer:2, explain:'「ありがとう」 berarti "terima kasih".' },
+      { q:'Bagaimana cara membaca 「おはよう」?',    options:['Ohayou','Konnichiwa','Konbanwa','Oyasumi'], answer:0, explain:'「おはよう」 dibaca "ohayou" — selamat pagi (santai).' },
+      { q:'Apa arti dari 「さようなら」?',          options:['Halo','Selamat tinggal','Maaf','Silakan'], answer:1, explain:'「さようなら」 berarti "selamat tinggal" (formal).' },
+      { q:'Apa arti dari 「こんばんは」?',          options:['Selamat pagi','Selamat siang','Selamat malam','Selamat tidur'], answer:2, explain:'「こんばんは」 berarti "selamat malam" (saat bertemu).' },
+      { q:'Apa arti dari 「おやすみなさい」?',      options:['Selamat pagi','Selamat tidur','Selamat datang','Selamat jalan'], answer:1, explain:'「おやすみなさい」 berarti "selamat tidur".' },
+      { q:'Apa arti dari 「すみません」?',          options:['Selamat pagi','Terima kasih','Permisi / Maaf','Selamat malam'], answer:2, explain:'「すみません」 berarti "permisi" atau "maaf".' },
+      { q:'Apa arti dari 「はい」?',                options:['Tidak','Ya','Mungkin','Nanti'], answer:1, explain:'「はい」 berarti "ya".' },
+      { q:'Apa arti dari 「いいえ」?',              options:['Ya','Tidak','Terima kasih','Maaf'], answer:1, explain:'「いいえ」 berarti "tidak".' },
+      { q:'Bagaimana cara membaca 「水」?',          options:['Mizu','Kaze','Hi','Tsuchi'], answer:0, explain:'「水」 dibaca "mizu" — air.' },
+      { q:'Apa arti dari 「食べる」?',              options:['Minum','Makan','Tidur','Berjalan'], answer:1, explain:'「食べる」 berarti "makan".' },
+      { q:'Apa arti dari 「飲む」?',                options:['Makan','Minum','Melihat','Mendengar'], answer:1, explain:'「飲む」 berarti "minum".' },
+      { q:'Apa arti dari 「行く」?',                options:['Datang','Pergi','Pulang','Kembali'], answer:1, explain:'「行く」 berarti "pergi".' },
+      { q:'Apa arti dari 「来る」?',                options:['Pergi','Datang','Pulang','Tinggal'], answer:1, explain:'「来る」 berarti "datang".' },
+      { q:'Apa arti dari 「見る」?',                options:['Mendengar','Melihat','Berbicara','Membaca'], answer:1, explain:'「見る」 berarti "melihat".' },
+      { q:'Apa arti dari 「聞く」?',                options:['Melihat','Mendengar','Berbicara','Menulis'], answer:1, explain:'「聞く」 berarti "mendengar" atau "bertanya".' },
+      { q:'Apa arti dari 「話す」?',                options:['Mendengar','Berbicara','Membaca','Menulis'], answer:1, explain:'「話す」 berarti "berbicara".' },
+      { q:'Apa arti dari 「読む」?',                options:['Menulis','Membaca','Mendengar','Berbicara'], answer:1, explain:'「読む」 berarti "membaca".' },
+      { q:'Apa arti dari 「書く」?',                options:['Membaca','Menulis','Menggambar','Melihat'], answer:1, explain:'「書く」 berarti "menulis".' },
+      { q:'Apa arti dari 「買う」?',                options:['Menjual','Membeli','Memberi','Menerima'], answer:1, explain:'「買う」 berarti "membeli".' },
+      { q:'Apa arti dari 「友達」?',                options:['Keluarga','Teman','Guru','Tetangga'], answer:1, explain:'「友達」 berarti "teman".' },
+      { q:'Apa arti dari 「学校」?',                options:['Rumah','Sekolah','Kantor','Toko'], answer:1, explain:'「学校」 berarti "sekolah".' },
+      { q:'Apa arti dari 「先生」?',                options:['Murid','Guru','Dokter','Petani'], answer:1, explain:'「先生」 berarti "guru" (juga dipakai untuk dokter).' },
+      { q:'Apa arti dari 「学生」?',                options:['Guru','Siswa','Karyawan','Petani'], answer:1, explain:'「学生」 berarti "siswa / pelajar".' },
+      { q:'Apa arti dari 「本」?',                  options:['Pensil','Buku','Kertas','Pulpen'], answer:1, explain:'「本」 berarti "buku".' },
+      { q:'Apa arti dari 「猫」?',                  options:['Anjing','Kucing','Burung','Ikan'], answer:1, explain:'「猫」 berarti "kucing".' },
+      { q:'Apa arti dari 「犬」?',                  options:['Kucing','Anjing','Kelinci','Kuda'], answer:1, explain:'「犬」 berarti "anjing".' },
+      { q:'Apa arti dari 「父」?',                  options:['Ibu','Ayah','Kakak','Adik'], answer:1, explain:'「父」 berarti "ayah" (untuk keluarga sendiri).' },
+      { q:'Apa arti dari 「母」?',                  options:['Ayah','Ibu','Nenek','Kakak perempuan'], answer:1, explain:'「母」 berarti "ibu" (untuk keluarga sendiri).' },
+      { q:'Apa arti dari 「兄」?',                  options:['Adik laki-laki','Kakak laki-laki','Kakak perempuan','Ayah'], answer:1, explain:'「兄」 berarti "kakak laki-laki".' },
+      { q:'Apa arti dari 「姉」?',                  options:['Kakak perempuan','Adik perempuan','Ibu','Nenek'], answer:0, explain:'「姉」 berarti "kakak perempuan".' },
+      { q:'Apa arti dari 「弟」?',                  options:['Kakak laki-laki','Adik laki-laki','Adik perempuan','Kakak perempuan'], answer:1, explain:'「弟」 berarti "adik laki-laki".' },
+      { q:'Apa arti dari 「妹」?',                  options:['Kakak perempuan','Adik perempuan','Adik laki-laki','Kakak laki-laki'], answer:1, explain:'「妹」 berarti "adik perempuan".' },
+      { q:'Bagaimana cara membaca 「日本」?',        options:['Nihon','Chuugoku','Kankoku','Amerika'], answer:0, explain:'「日本」 dibaca "Nihon" atau "Nippon" — Jepang.' },
+      { q:'Apa arti dari 「日本語」?',              options:['Bahasa Inggris','Bahasa Jepang','Bahasa Indonesia','Bahasa Cina'], answer:1, explain:'「日本語」 berarti "bahasa Jepang".' },
+      { q:'Apa arti dari 「今日」?',                options:['Kemarin','Hari ini','Besok','Minggu depan'], answer:1, explain:'「今日」 dibaca "kyou" — hari ini.' },
+      { q:'Apa arti dari 「明日」?',                options:['Kemarin','Hari ini','Besok','Lusa'], answer:2, explain:'「明日」 dibaca "ashita" — besok.' },
+      { q:'Apa arti dari 「昨日」?',                options:['Kemarin','Hari ini','Besok','Lusa'], answer:0, explain:'「昨日」 dibaca "kinou" — kemarin.' },
+      { q:'Apa arti dari 「朝」?',                  options:['Siang','Pagi','Malam','Sore'], answer:1, explain:'「朝」 dibaca "asa" — pagi.' },
+      { q:'Apa arti dari 「昼」?',                  options:['Pagi','Siang','Malam','Subuh'], answer:1, explain:'「昼」 dibaca "hiru" — siang.' },
+      { q:'Apa arti dari 「夜」?',                  options:['Pagi','Siang','Malam','Sore'], answer:2, explain:'「夜」 dibaca "yoru" — malam.' },
+      { q:'Bagaimana cara membaca 「月曜日」?',      options:['Kayoubi','Getsuyoubi','Suiyoubi','Mokuyoubi'], answer:1, explain:'「月曜日」 dibaca "getsu-youbi" — Senin.' },
+      { q:'Bagaimana cara membaca 「火曜日」?',      options:['Kayoubi','Getsuyoubi','Suiyoubi','Kinyoubi'], answer:0, explain:'「火曜日」 dibaca "ka-youbi" — Selasa.' },
+      { q:'Bagaimana cara membaca 「水曜日」?',      options:['Suiyoubi','Kayoubi','Mokuyoubi','Doyoubi'], answer:0, explain:'「水曜日」 dibaca "sui-youbi" — Rabu.' },
+      { q:'Bagaimana cara membaca 「木曜日」?',      options:['Kayoubi','Mokuyoubi','Suiyoubi','Kinyoubi'], answer:1, explain:'「木曜日」 dibaca "moku-youbi" — Kamis.' },
+      { q:'Bagaimana cara membaca 「金曜日」?',      options:['Kinyoubi','Doyoubi','Nichiyoubi','Getsuyoubi'], answer:0, explain:'「金曜日」 dibaca "kin-youbi" — Jumat.' },
+      { q:'Bagaimana cara membaca 「土曜日」?',      options:['Doyoubi','Kinyoubi','Nichiyoubi','Suiyoubi'], answer:0, explain:'「土曜日」 dibaca "do-youbi" — Sabtu.' },
+      { q:'Bagaimana cara membaca 「日曜日」?',      options:['Nichiyoubi','Doyoubi','Getsuyoubi','Kayoubi'], answer:0, explain:'「日曜日」 dibaca "nichi-youbi" — Minggu.' },
+      { q:'Apa arti dari 「一」?',                  options:['Satu','Dua','Tiga','Empat'], answer:0, explain:'「一」 dibaca "ichi" — satu.' },
+      { q:'Apa arti dari 「二」?',                  options:['Satu','Dua','Tiga','Empat'], answer:1, explain:'「二」 dibaca "ni" — dua.' },
+      { q:'Apa arti dari 「三」?',                  options:['Dua','Tiga','Empat','Lima'], answer:1, explain:'「三」 dibaca "san" — tiga.' },
+      { q:'Apa arti dari 「四」?',                  options:['Tiga','Empat','Lima','Enam'], answer:1, explain:'「四」 dibaca "yon" atau "shi" — empat.' },
+      { q:'Apa arti dari 「五」?',                  options:['Empat','Lima','Enam','Tujuh'], answer:1, explain:'「五」 dibaca "go" — lima.' },
+      { q:'Apa arti dari 「六」?',                  options:['Lima','Enam','Tujuh','Delapan'], answer:1, explain:'「六」 dibaca "roku" — enam.' },
+      { q:'Apa arti dari 「七」?',                  options:['Enam','Tujuh','Delapan','Sembilan'], answer:1, explain:'「七」 dibaca "nana" atau "shichi" — tujuh.' },
+      { q:'Apa arti dari 「八」?',                  options:['Tujuh','Delapan','Sembilan','Sepuluh'], answer:1, explain:'「八」 dibaca "hachi" — delapan.' },
+      { q:'Apa arti dari 「九」?',                  options:['Delapan','Sembilan','Sepuluh','Sebelas'], answer:1, explain:'「九」 dibaca "kyuu" — sembilan.' },
+      { q:'Apa arti dari 「十」?',                  options:['Sembilan','Sepuluh','Sebelas','Dua belas'], answer:1, explain:'「十」 dibaca "juu" — sepuluh.' },
+      { q:'Apa arti dari 「百」?',                  options:['Sepuluh','Seratus','Seribu','Sepuluh ribu'], answer:1, explain:'「百」 dibaca "hyaku" — seratus.' },
+      { q:'Apa arti dari 「千」?',                  options:['Seratus','Seribu','Sepuluh ribu','Seratus ribu'], answer:1, explain:'「千」 dibaca "sen" — seribu.' },
+      { q:'Apa arti dari 「万」?',                  options:['Seribu','Sepuluh ribu','Seratus ribu','Sejuta'], answer:1, explain:'「万」 dibaca "man" — sepuluh ribu.' },
+      { q:'Apa arti dari 「大きい」?',              options:['Kecil','Besar','Panjang','Pendek'], answer:1, explain:'「大きい」 berarti "besar".' },
+      { q:'Apa arti dari 「小さい」?',              options:['Besar','Kecil','Tinggi','Rendah'], answer:1, explain:'「小さい」 berarti "kecil".' },
+      { q:'Apa arti dari 「高い」?',                options:['Rendah','Tinggi / Mahal','Murah','Panjang'], answer:1, explain:'「高い」 berarti "tinggi" atau "mahal".' },
+      { q:'Apa arti dari 「安い」?',                options:['Mahal','Murah','Tinggi','Rendah'], answer:1, explain:'「安い」 berarti "murah".' },
+      { q:'Apa arti dari 「新しい」?',              options:['Lama','Baru','Tua','Muda'], answer:1, explain:'「新しい」 berarti "baru".' },
+      { q:'Apa arti dari 「古い」?',                options:['Baru','Lama / Tua','Muda','Modern'], answer:1, explain:'「古い」 berarti "lama" atau "tua".' },
+      { q:'Apa arti dari 「暑い」?',                options:['Dingin','Panas (cuaca)','Sejuk','Hangat'], answer:1, explain:'「暑い」 berarti "panas" (untuk cuaca).' },
+      { q:'Apa arti dari 「寒い」?',                options:['Panas','Dingin (cuaca)','Hangat','Sejuk'], answer:1, explain:'「寒い」 berarti "dingin" (untuk cuaca).' },
+      { q:'Apa arti dari 「美味しい」?',            options:['Pahit','Manis','Lezat','Asam'], answer:2, explain:'「美味しい」 berarti "lezat" atau "enak".' },
+      { q:'Apa arti dari 「忙しい」?',              options:['Sibuk','Senggang','Cepat','Lambat'], answer:0, explain:'「忙しい」 berarti "sibuk".' },
+      { q:'Apa arti dari 「楽しい」?',              options:['Sedih','Menyenangkan','Sulit','Mudah'], answer:1, explain:'「楽しい」 berarti "menyenangkan".' },
+      { q:'Apa arti dari 「元気」?',                options:['Sakit','Sehat / Bersemangat','Lelah','Ngantuk'], answer:1, explain:'「元気」 berarti "sehat" atau "bersemangat".' },
+      { q:'Apa arti dari 「美味しい」dalam bentuk negatif?', options:['まずい','たかい','やすい','おおきい'], answer:0, explain:'「まずい」 adalah lawan kata "美味しい" — tidak enak.' },
+      { q:'Apa arti dari 「食べ物」?',              options:['Minuman','Makanan','Pakaian','Kendaraan'], answer:1, explain:'「食べ物」 berarti "makanan".' },
+      { q:'Apa arti dari 「飲み物」?',              options:['Makanan','Minuman','Obat','Snack'], answer:1, explain:'「飲み物」 berarti "minuman".' },
+      { q:'Apa arti dari 「ご飯」?',                options:['Roti','Nasi','Mie','Sup'], answer:1, explain:'「ご飯」 berarti "nasi" atau "makanan".' },
+      { q:'Apa arti dari 「水」?',                  options:['Teh','Kopi','Air','Susu'], answer:2, explain:'「水」 berarti "air".' },
+      { q:'Apa arti dari 「お茶」?',                options:['Kopi','Teh','Jus','Susu'], answer:1, explain:'「お茶」 berarti "teh".' },
+      { q:'Apa arti dari 「肉」?',                  options:['Ikan','Daging','Sayur','Buah'], answer:1, explain:'「肉」 berarti "daging".' },
+      { q:'Apa arti dari 「魚」?',                  options:['Daging','Ikan','Ayam','Telur'], answer:1, explain:'「魚」 berarti "ikan".' },
+      { q:'Apa arti dari 「野菜」?',                options:['Buah','Sayur','Daging','Ikan'], answer:1, explain:'「野菜」 berarti "sayur".' },
+      { q:'Apa arti dari 「果物」?',                options:['Sayur','Buah','Daging','Biji'], answer:1, explain:'「果物」 berarti "buah".' },
+      { q:'Apa arti dari 「お金」?',                options:['Uang','Kartu','Dompet','Harga'], answer:0, explain:'「お金」 berarti "uang".' },
+      { q:'Apa arti dari 「円」?',                  options:['Yuan','Yen','Won','Dollar'], answer:1, explain:'「円」 berarti "yen" — mata uang Jepang.' },
+      { q:'Apa arti dari 「いくら」?',              options:['Kapan','Di mana','Berapa (harga)','Siapa'], answer:2, explain:'「いくら」 berarti "berapa" — untuk menanyakan harga.' },
+      { q:'Apa arti dari 「どこ」?',                options:['Kapan','Di mana','Siapa','Apa'], answer:1, explain:'「どこ」 berarti "di mana".' },
+      { q:'Apa arti dari 「いつ」?',                options:['Kapan','Di mana','Siapa','Apa'], answer:0, explain:'「いつ」 berarti "kapan".' },
+      { q:'Apa arti dari 「だれ」?',                options:['Kapan','Di mana','Siapa','Apa'], answer:2, explain:'「だれ」 berarti "siapa".' },
+      { q:'Apa arti dari 「なに」?',                options:['Kapan','Di mana','Siapa','Apa'], answer:3, explain:'「なに」 berarti "apa".' },
+      { q:'Apa arti dari 「日本」?',                options:['Indonesia','Jepang','Korea','Cina'], answer:1, explain:'「日本」 berarti "Jepang".' },
+      { q:'Apa arti dari 「先生」?',                options:['Murid','Guru','Dokter','Petani'], answer:1, explain:'「先生」 berarti "guru" (juga dipakai untuk dokter).' },
+      { q:'Apa arti dari 「会社」?',                options:['Sekolah','Perusahaan','Rumah','Toko'], answer:1, explain:'「会社」 berarti "perusahaan".' },
+      { q:'Apa arti dari 「会社員」?',              options:['Guru','Karyawan','Dokter','Polisi'], answer:1, explain:'「会社員」 berarti "karyawan perusahaan".' },
+      { q:'Apa arti dari 「電車」?',                options:['Mobil','Kereta listrik','Bus','Sepeda'], answer:1, explain:'「電車」 berarti "kereta listrik".' },
+      { q:'Apa arti dari 「車」?',                  options:['Kereta','Mobil','Sepeda','Pesawat'], answer:1, explain:'「車」 berarti "mobil".' },
+      { q:'Apa arti dari 「駅」?',                  options:['Bandara','Stasiun','Terminal','Pelabuhan'], answer:1, explain:'「駅」 berarti "stasiun".' },
+      { q:'Apa arti dari 「家」?',                  options:['Sekolah','Rumah','Toko','Kantor'], answer:1, explain:'「家」 berarti "rumah".' },
+      { q:'Apa arti dari 「国」?',                  options:['Kota','Negara','Desa','Pulau'], answer:1, explain:'「国」 berarti "negara".' }
+    ];
+
+    /* ============================================================
+       STATE
+       ============================================================ */
+    let current = 0;
+    let score = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let answered = false;
+    let timerInterval = null;
+    let seconds = 0;
+
+    const elQuestion     = document.getElementById('questionText');
+    const elOptions      = document.getElementById('optionsContainer');
+    const elFeedback     = document.getElementById('feedback');
+    const elCurrentNum   = document.getElementById('currentNum');
+    const elTotalNum     = document.getElementById('totalNum');
+    const elLiveScore    = document.getElementById('liveScore');
+    const elTimer        = document.getElementById('timer');
+    const elFill         = document.getElementById('progressFill');
+    const elProgressPct  = document.getElementById('progressPercent');
+    const btnNext        = document.getElementById('btnNext');
+    const quizCard       = document.getElementById('quizCard');
+    const resultCard     = document.getElementById('resultCard');
+
+    elTotalNum.textContent = SOAL.length;
+
+    /* ============================================================
+       TIMER
+       ============================================================ */
+    function startTimer() {
+      seconds = 0;
+      updateTimerDisplay();
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        seconds++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      elTimer.textContent = `${m}:${s}`;
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    /* ============================================================
+       RENDER SOAL
+       ============================================================ */
+    function renderQuestion() {
+      answered = false;
+      const q = SOAL[current];
+
+      elQuestion.textContent = q.q;
+      elOptions.innerHTML = '';
+      elFeedback.className = 'feedback';
+      elFeedback.textContent = '';
+      btnNext.disabled = true;
+
+      const letters = ['A', 'B', 'C', 'D'];
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.type = 'button';
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+        btn.addEventListener('click', () => selectOption(i, btn));
+        elOptions.appendChild(btn);
+      });
+
+      updateProgress();
+      updateNextButton();
+    }
+
+    /* ============================================================
+       PILIH JAWABAN
+       ============================================================ */
+    function selectOption(index, el) {
+      if (answered) return;
+      answered = true;
+
+      const q = SOAL[current];
+      const allOpts = elOptions.querySelectorAll('.option');
+
+      allOpts.forEach((o, i) => {
+        o.classList.add('locked');
+        if (i === q.answer) o.classList.add('correct');
+        else if (i === index) o.classList.add('wrong');
+      });
+
+      if (index === q.answer) {
+        score += 10;
+        correctCount++;
+        elFeedback.className = 'feedback show correct';
+        elFeedback.innerHTML = `<strong><i class="fas fa-check-circle"></i> Benar! +10 poin</strong>${q.explain}`;
+      } else {
+        wrongCount++;
+        elFeedback.className = 'feedback show wrong';
+        elFeedback.innerHTML = `<strong><i class="fas fa-times-circle"></i> Kurang tepat</strong>${q.explain}`;
+      }
+
+      elLiveScore.textContent = score;
+      btnNext.disabled = false;
+    }
+
+    /* ============================================================
+       PROGRESS
+       ============================================================ */
+    function updateProgress() {
+      const percent = Math.round(((current + 1) / SOAL.length) * 100);
+      elCurrentNum.textContent = current + 1;
+      elFill.style.width = percent + '%';
+      elProgressPct.textContent = percent + '%';
+    }
+
+    function updateNextButton() {
+      if (current === SOAL.length - 1) {
+        btnNext.innerHTML = 'Lihat Hasil <i class="fas fa-flag-checkered"></i>';
+      } else {
+        btnNext.innerHTML = 'Soal Berikutnya <i class="fas fa-arrow-right"></i>';
+      }
+    }
+
+    /* ============================================================
+       NEXT / FINISH
+       ============================================================ */
+    btnNext.addEventListener('click', () => {
+      if (current < SOAL.length - 1) {
+        current++;
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResult();
+      }
+    });
+
+    /* ============================================================
+       HASIL AKHIR
+       ============================================================ */
+    function showResult() {
+      stopTimer();
+      quizCard.style.display = 'none';
+      resultCard.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const total = SOAL.length;
+      const percent = Math.round((correctCount / total) * 100);
+
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('statCorrect').textContent = correctCount;
+      document.getElementById('statWrong').textContent = wrongCount;
+      document.getElementById('statTotal').textContent = total;
+
+      let emoji, title, sub;
+
+      if (percent === 100) {
+        emoji = '🏆';
+        title = 'Sempurna! <span class="accent">素晴らしい</span>';
+        sub = 'Kamu menjawab semua soal dengan benar. Luar biasa!';
+      } else if (percent >= 80) {
+        emoji = '🎉';
+        title = 'Hebat! <span class="accent">よくできました</span>';
+        sub = `Skor kamu ${percent}%. Sedikit lagi menuju sempurna!`;
+      } else if (percent >= 60) {
+        emoji = '👍';
+        title = 'Bagus! <span class="accent">いいですね</span>';
+        sub = `Skor kamu ${percent}%. Terus berlatih untuk hasil lebih maksimal.`;
+      } else {
+        emoji = '💪';
+        title = 'Jangan Menyerah! <span class="accent">がんばって</span>';
+        sub = `Skor kamu ${percent}%. Pelajari kembali materinya, lalu coba lagi.`;
+      }
+
+      document.getElementById('resultEmoji').textContent = emoji;
+      document.getElementById('resultTitle').innerHTML = title;
+      document.getElementById('resultSub').textContent = sub;
+
+      // Simpan skor ke localStorage (opsional)
+      try {
+        localStorage.setItem('asahi_jlpt_n5_voc_last', score);
+        const best = parseInt(localStorage.getItem('asahi_jlpt_n5_voc_best') || '0', 10);
+        if (score > best) localStorage.setItem('asahi_jlpt_n5_voc_best', score);
+      } catch (e) { /* abaikan */ }
+    }
+
+    /* ============================================================
+       RETRY
+       ============================================================ */
+    document.getElementById('btnRetry').addEventListener('click', () => {
+      current = 0;
+      score = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      answered = false;
+
+      elLiveScore.textContent = '0';
+      resultCard.classList.remove('show');
+      quizCard.style.display = 'block';
+
+      renderQuestion();
+      startTimer();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ============================================================
+       START
+       ============================================================ */
+    renderQuestion();
+    startTimer();
+  </script>
+
+</body>
+</html>

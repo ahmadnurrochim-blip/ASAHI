@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hiragana & Katakana - Asahi Mandiri</title>
+
+  <!-- ============ FONTS & ICONS ============ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- ============ CSS POPUP LEVELING ============ -->
+  <link rel="stylesheet" href="css/leveling-popup.css" />
+
+  <style>
+    /* ============================================================
+       RESET & VARIABEL
+       ============================================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+      --green: #10b981;
+      --gray: #6b7280;
+      --gray-light: #9ca3af;
+      --border: #e8e2d8;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       BACKGROUND
+       ============================================================ */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.88), rgba(253, 250, 245, 0.94)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.06;
+      background-image:
+        radial-gradient(circle at 50% 100%, transparent 20%, var(--red) 21%, var(--red) 34%, transparent 35%, transparent 40%, var(--red) 41%, var(--red) 54%, transparent 55%);
+      background-size: 80px 40px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15);
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.4);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+    .brand-text .jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+
+    .brand-text .en {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid #e8e2d8;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn i { color: var(--red); font-size: 13px; }
+
+    .nav-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.18);
+    }
+
+    .nav-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .nav-btn.active i { color: #fff; }
+
+    /* ============================================================
+       MAIN
+       ============================================================ */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 28px 100px;
+      position: relative;
+    }
+
+    .kanji-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 340px;
+      font-weight: 800;
+      color: rgba(188, 0, 45, 0.04);
+      z-index: -1;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .sakura {
+      position: absolute;
+      font-size: 24px;
+      color: rgba(188, 0, 45, 0.2);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+    .sakura.s1 { top: 5%;  left: 2%;  animation-delay: 0s; }
+    .sakura.s2 { top: 20%; right: 3%; animation-delay: 1.5s; }
+    .sakura.s3 { bottom: 20%; left: 4%; animation-delay: 3s; }
+    .sakura.s4 { bottom: 5%; right: 5%; animation-delay: 4.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-16px) rotate(12deg); }
+    }
+
+    /* ============================================================
+       PAGE TITLE
+       ============================================================ */
+    .page-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .page-title .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .page-title h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .page-title h1 .accent { color: var(--red); }
+
+    .page-title p {
+      font-size: 15px;
+      color: var(--gray);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       TOGGLE HIRAGANA ↔ KATAKANA
+       ============================================================ */
+    .kana-toggle {
+      display: flex;
+      justify-content: center;
+      margin: 30px auto 26px;
+      max-width: 400px;
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      padding: 6px;
+      position: relative;
+    }
+
+    .kana-toggle-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--gray);
+      cursor: pointer;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .kana-toggle-btn i { font-size: 15px; }
+
+    .kana-toggle-btn.active {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(188, 0, 45, 0.25);
+    }
+
+    .kana-toggle-btn:hover:not(.active) {
+      color: var(--red);
+    }
+
+    /* ============================================================
+       PROGRESS BAR
+       ============================================================ */
+    .progress-wrap {
+      max-width: 460px;
+      margin: 0 auto 26px;
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 8px 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      background: #f0e9dc;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red), #ff3b63);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-text {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--red);
+      white-space: nowrap;
+      padding-right: 10px;
+    }
+
+    /* ============================================================
+       FILTER KATEGORI
+       ============================================================ */
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .filter-tab {
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .filter-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* ============================================================
+       SECTION KANA
+       ============================================================ */
+    .kana-section {
+      margin-bottom: 40px;
+    }
+
+    .kana-section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px dashed var(--border);
+    }
+
+    .kana-section-title .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      font-family: 'Shippori Mincho', serif;
+      flex-shrink: 0;
+    }
+
+    .kana-section-title h2 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .kana-section-title .count {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gray-light);
+      background: #fdfaf5;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 10px;
+      margin-left: auto;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ============================================================
+       GRID KANA (TABEL HURUF)
+       ============================================================ */
+    .kana-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+    }
+
+    /* Kartu huruf */
+    .kana-card {
+      background: rgba(255, 255, 255, 0.97);
+      border: 2px solid #f0e9dc;
+      border-radius: 14px;
+      padding: 14px 8px;
+      text-align: center;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .kana-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .kana-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--red);
+      box-shadow: 0 8px 20px rgba(188, 0, 45, 0.12);
+    }
+
+    .kana-card:hover::before { opacity: 1; }
+
+    .kana-card.playing {
+      background: #fff5f7;
+      border-color: var(--red);
+    }
+
+    .kana-card.hafal {
+      background: #ecfdf5;
+      border-color: var(--green);
+    }
+
+    .kana-card.hafal::after {
+      content: '✓';
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .kana-card .kana {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .kana-card.playing .kana {
+      color: var(--red);
+    }
+
+    .kana-card .romaji {
+      font-size: 11px;
+      color: var(--red);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    /* Kartu kosong (tidak ada huruf) */
+    .kana-card.empty {
+      background: transparent;
+      border: 2px dashed #f0e9dc;
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .kana-card.empty:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: #f0e9dc;
+    }
+
+    /* Kartu kecil (untuk youon) */
+    .kana-card.small .kana {
+      font-size: 26px;
+    }
+
+    /* ============================================================
+       INFO BOX
+       ============================================================ */
+    .info-box {
+      background: #fff9ec;
+      border: 2px dashed #fcd34d;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 26px;
+      font-size: 13px;
+      color: #92400e;
+      line-height: 1.6;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .info-box i {
+      color: #d97706;
+      margin-top: 3px;
+      flex-shrink: 0;
+      font-size: 15px;
+    }
+
+    .info-box strong { color: #78350f; }
+
+    /* ============================================================
+       TIPS AKSI
+       ============================================================ */
+    .action-tips {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .action-tips .tip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-tips .tip i {
+      color: var(--red);
+    }
+
+    .action-tips .tip strong { color: var(--ink); }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: var(--gray-light);
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9);
+      margin-top: 40px;
+    }
+
+    footer .jp {
+      font-family: 'Shippori Mincho', serif;
+      color: var(--red);
+      letter-spacing: 4px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 820px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .nav-buttons { width: 100%; justify-content: flex-start; }
+      .nav-btn { flex: 1 1 auto; justify-content: center; padding: 9px 14px; font-size: 13px; }
+      .container { padding: 32px 18px 80px; }
+      .kana-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+      .kana-card { padding: 12px 6px; min-height: 90px; }
+      .kana-card .kana { font-size: 28px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn span { display: none; }
+      .nav-btn i { font-size: 15px; }
+      .brand-text .jp { font-size: 17px; }
+      .kanji-watermark { font-size: 200px; }
+      .kana-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .kana-card { padding: 10px 4px; min-height: 80px; }
+      .kana-card .kana { font-size: 26px; }
+      .kana-card.small .kana { font-size: 20px; }
+      .kana-card .romaji { font-size: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ BACKGROUND ============ -->
+  <div class="bg"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="header-inner">
+
+      <a href="index.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+
+      <nav class="nav-buttons">
+        <a href="index.html" class="nav-btn">
+          <i class="fas fa-home"></i> <span>Beranda</span>
+        </a>
+        <a href="latihan.html" class="nav-btn">
+          <i class="fas fa-pen-fancy"></i> <span>Latihan</span>
+        </a>
+        <a href="materi.html" class="nav-btn">
+          <i class="fas fa-book-open"></i> <span>Materi</span>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container">
+
+    <div class="kanji-watermark">かな</div>
+
+    <div class="sakura s1">🌸</div>
+    <div class="sakura s2">🌸</div>
+    <div class="sakura s3">🌸</div>
+    <div class="sakura s4">🌸</div>
+
+    <!-- Judul -->
+    <div class="page-title">
+      <div class="badge">
+        <i class="fas fa-font"></i> かな表
+      </div>
+      <h1>Hiragana <span class="accent">&</span> Katakana</h1>
+      <p>Tabel lengkap 109 huruf masing-masing. Klik kartu untuk mendengar pelafalan, tandai yang sudah hafal.</p>
+    </div>
+
+    <!-- Toggle Hiragana ↔ Katakana -->
+    <div class="kana-toggle" role="tablist">
+      <button class="kana-toggle-btn active" id="btnHiragana" data-mode="hiragana">
+        <i class="fas fa-font"></i> Hiragana
+      </button>
+      <button class="kana-toggle-btn" id="btnKatakana" data-mode="katakana">
+        <i class="fas fa-language"></i> Katakana
+      </button>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-wrap">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span class="progress-text" id="progressText">0 / 0</span>
+    </div>
+
+    <!-- Info box -->
+    <div class="info-box">
+      <i class="fas fa-lightbulb"></i>
+      <span><strong>Tips:</strong> Hiragana dipakai untuk kata asli Jepang, Katakana untuk kata serapan asing. Bunyi keduanya sama — hanya bentuknya beda. <strong>Klik kartu</strong> untuk mendengar, <strong>klik dua kali</strong> untuk tandai hafal.</span>
+    </div>
+
+    <!-- Tips aksi -->
+    <div class="action-tips">
+      <span class="tip"><i class="fas fa-mouse-pointer"></i> Klik sekali = <strong>Dengar</strong></span>
+      <span class="tip"><i class="fas fa-check-circle"></i> Klik dua kali = <strong>Tandai Hafal</strong></span>
+    </div>
+
+    <!-- Filter kategori -->
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="all">Semua</button>
+      <button class="filter-tab" data-filter="dasar">Dasar</button>
+      <button class="filter-tab" data-filter="dakuon">Dakuon</button>
+      <button class="filter-tab" data-filter="youon">Youon</button>
+    </div>
+
+    <!-- ============================================================
+         KONTEN — di-render oleh JavaScript
+         ============================================================ -->
+    <div id="kanaContent"></div>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2026 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <!-- ============ SCRIPT POPUP LEVELING ============ -->
+  <script src="js/leveling-popup.js"></script>
+
+  <!-- ============ SCRIPT KANA ============ -->
+  <script>
+    /* ============================================================
+       DATA KANA — HIRAGANA & KATAKANA
+       ------------------------------------------------------------
+       Struktur:
+         KANA.hiragana.dasar   : array objek { kana, romaji }
+         KANA.hiragana.dakuon  : array objek
+         KANA.hiragana.youon   : array objek
+         KANA.katakana.*       : sama
+       ============================================================ */
+
+    const KANA = {
+      hiragana: {
+        dasar: [
+          { kana: 'あ', romaji: 'a' },   { kana: 'い', romaji: 'i' },   { kana: 'う', romaji: 'u' },   { kana: 'え', romaji: 'e' },   { kana: 'お', romaji: 'o' },
+          { kana: 'か', romaji: 'ka' },  { kana: 'き', romaji: 'ki' },  { kana: 'く', romaji: 'ku' },  { kana: 'け', romaji: 'ke' },  { kana: 'こ', romaji: 'ko' },
+          { kana: 'さ', romaji: 'sa' },  { kana: 'し', romaji: 'shi' }, { kana: 'す', romaji: 'su' },  { kana: 'せ', romaji: 'se' },  { kana: 'そ', romaji: 'so' },
+          { kana: 'た', romaji: 'ta' },  { kana: 'ち', romaji: 'chi' }, { kana: 'つ', romaji: 'tsu' }, { kana: 'て', romaji: 'te' },  { kana: 'と', romaji: 'to' },
+          { kana: 'な', romaji: 'na' },  { kana: 'に', romaji: 'ni' },  { kana: 'ぬ', romaji: 'nu' },  { kana: 'ね', romaji: 'ne' },  { kana: 'の', romaji: 'no' },
+          { kana: 'は', romaji: 'ha' },  { kana: 'ひ', romaji: 'hi' },  { kana: 'ふ', romaji: 'fu' },  { kana: 'へ', romaji: 'he' },  { kana: 'ほ', romaji: 'ho' },
+          { kana: 'ま', romaji: 'ma' },  { kana: 'み', romaji: 'mi' },  { kana: 'む', romaji: 'mu' },  { kana: 'め', romaji: 'me' },  { kana: 'も', romaji: 'mo' },
+          { kana: 'や', romaji: 'ya' },                                 { kana: 'ゆ', romaji: 'yu' },                                 { kana: 'よ', romaji: 'yo' },
+          { kana: 'ら', romaji: 'ra' },  { kana: 'り', romaji: 'ri' },  { kana: 'る', romaji: 'ru' },  { kana: 'れ', romaji: 're' },  { kana: 'ろ', romaji: 'ro' },
+          { kana: 'わ', romaji: 'wa' },                                 { kana: 'を', romaji: 'o' },
+          { kana: 'ん', romaji: 'n' }
+        ],
+        dakuon: [
+          { kana: 'が', romaji: 'ga' }, { kana: 'ぎ', romaji: 'gi' }, { kana: 'ぐ', romaji: 'gu' }, { kana: 'げ', romaji: 'ge' }, { kana: 'ご', romaji: 'go' },
+          { kana: 'ざ', romaji: 'za' }, { kana: 'じ', romaji: 'ji' }, { kana: 'ず', romaji: 'zu' }, { kana: 'ぜ', romaji: 'ze' }, { kana: 'ぞ', romaji: 'zo' },
+          { kana: 'だ', romaji: 'da' }, { kana: 'ぢ', romaji: 'ji' }, { kana: 'づ', romaji: 'zu' }, { kana: 'で', romaji: 'de' }, { kana: 'ど', romaji: 'do' },
+          { kana: 'ば', romaji: 'ba' }, { kana: 'び', romaji: 'bi' }, { kana: 'ぶ', romaji: 'bu' }, { kana: 'べ', romaji: 'be' }, { kana: 'ぼ', romaji: 'bo' },
+          { kana: 'ぱ', romaji: 'pa' }, { kana: 'ぴ', romaji: 'pi' }, { kana: 'ぷ', romaji: 'pu' }, { kana: 'ぺ', romaji: 'pe' }, { kana: 'ぽ', romaji: 'po' }
+        ],
+        youon: [
+          { kana: 'きゃ', romaji: 'kya' }, { kana: 'きゅ', romaji: 'kyu' }, { kana: 'きょ', romaji: 'kyo' },
+          { kana: 'しゃ', romaji: 'sha' }, { kana: 'しゅ', romaji: 'shu' }, { kana: 'しょ', romaji: 'sho' },
+          { kana: 'ちゃ', romaji: 'cha' }, { kana: 'ちゅ', romaji: 'chu' }, { kana: 'ちょ', romaji: 'cho' },
+          { kana: 'にゃ', romaji: 'nya' }, { kana: 'にゅ', romaji: 'nyu' }, { kana: 'にょ', romaji: 'nyo' },
+          { kana: 'ひゃ', romaji: 'hya' }, { kana: 'ひゅ', romaji: 'hyu' }, { kana: 'ひょ', romaji: 'hyo' },
+          { kana: 'みゃ', romaji: 'mya' }, { kana: 'みゅ', romaji: 'myu' }, { kana: 'みょ', romaji: 'myo' },
+          { kana: 'りゃ', romaji: 'rya' }, { kana: 'りゅ', romaji: 'ryu' }, { kana: 'りょ', romaji: 'ryo' },
+          { kana: 'ぎゃ', romaji: 'gya' }, { kana: 'ぎゅ', romaji: 'gyu' }, { kana: 'ぎょ', romaji: 'gyo' },
+          { kana: 'じゃ', romaji: 'ja' },  { kana: 'じゅ', romaji: 'ju' },  { kana: 'じょ', romaji: 'jo' },
+          { kana: 'びゃ', romaji: 'bya' }, { kana: 'びゅ', romaji: 'byu' }, { kana: 'びょ', romaji: 'byo' },
+          { kana: 'ぴゃ', romaji: 'pya' }, { kana: 'ぴゅ', romaji: 'pyu' }, { kana: 'ぴょ', romaji: 'pyo' }
+        ]
+      },
+      katakana: {
+        dasar: [
+          { kana: 'ア', romaji: 'a' },   { kana: 'イ', romaji: 'i' },   { kana: 'ウ', romaji: 'u' },   { kana: 'エ', romaji: 'e' },   { kana: 'オ', romaji: 'o' },
+          { kana: 'カ', romaji: 'ka' },  { kana: 'キ', romaji: 'ki' },  { kana: 'ク', romaji: 'ku' },  { kana: 'ケ', romaji: 'ke' },  { kana: 'コ', romaji: 'ko' },
+          { kana: 'サ', romaji: 'sa' },  { kana: 'シ', romaji: 'shi' }, { kana: 'ス', romaji: 'su' },  { kana: 'セ', romaji: 'se' },  { kana: 'ソ', romaji: 'so' },
+          { kana: 'タ', romaji: 'ta' },  { kana: 'チ', romaji: 'chi' }, { kana: 'ツ', romaji: 'tsu' }, { kana: 'テ', romaji: 'te' },  { kana: 'ト', romaji: 'to' },
+          { kana: 'ナ', romaji: 'na' },  { kana: 'ニ', romaji: 'ni' },  { kana: 'ヌ', romaji: 'nu' },  { kana: 'ネ', romaji: 'ne' },  { kana: 'ノ', romaji: 'no' },
+          { kana: 'ハ', romaji: 'ha' },  { kana: 'ヒ', romaji: 'hi' },  { kana: 'フ', romaji: 'fu' },  { kana: 'ヘ', romaji: 'he' },  { kana: 'ホ', romaji: 'ho' },
+          { kana: 'マ', romaji: 'ma' },  { kana: 'ミ', romaji: 'mi' },  { kana: 'ム', romaji: 'mu' },  { kana: 'メ', romaji: 'me' },  { kana: 'モ', romaji: 'mo' },
+          { kana: 'ヤ', romaji: 'ya' },                                 { kana: 'ユ', romaji: 'yu' },                                 { kana: 'ヨ', romaji: 'yo' },
+          { kana: 'ラ', romaji: 'ra' },  { kana: 'リ', romaji: 'ri' },  { kana: 'ル', romaji: 'ru' },  { kana: 'レ', romaji: 're' },  { kana: 'ロ', romaji: 'ro' },
+          { kana: 'ワ', romaji: 'wa' },                                 { kana: 'ヲ', romaji: 'o' },
+          { kana: 'ン', romaji: 'n' }
+        ],
+        dakuon: [
+          { kana: 'ガ', romaji: 'ga' }, { kana: 'ギ', romaji: 'gi' }, { kana: 'グ', romaji: 'gu' }, { kana: 'ゲ', romaji: 'ge' }, { kana: 'ゴ', romaji: 'go' },
+          { kana: 'ザ', romaji: 'za' }, { kana: 'ジ', romaji: 'ji' }, { kana: 'ズ', romaji: 'zu' }, { kana: 'ゼ', romaji: 'ze' }, { kana: 'ゾ', romaji: 'zo' },
+          { kana: 'ダ', romaji: 'da' }, { kana: 'ヂ', romaji: 'ji' }, { kana: 'ヅ', romaji: 'zu' }, { kana: 'デ', romaji: 'de' }, { kana: 'ド', romaji: 'do' },
+          { kana: 'バ', romaji: 'ba' }, { kana: 'ビ', romaji: 'bi' }, { kana: 'ブ', romaji: 'bu' }, { kana: 'ベ', romaji: 'be' }, { kana: 'ボ', romaji: 'bo' },
+          { kana: 'パ', romaji: 'pa' }, { kana: 'ピ', romaji: 'pi' }, { kana: 'プ', romaji: 'pu' }, { kana: 'ペ', romaji: 'pe' }, { kana: 'ポ', romaji: 'po' }
+        ],
+        youon: [
+          { kana: 'キャ', romaji: 'kya' }, { kana: 'キュ', romaji: 'kyu' }, { kana: 'キョ', romaji: 'kyo' },
+          { kana: 'シャ', romaji: 'sha' }, { kana: 'シュ', romaji: 'shu' }, { kana: 'ショ', romaji: 'sho' },
+          { kana: 'チャ', romaji: 'cha' }, { kana: 'チュ', romaji: 'chu' }, { kana: 'チョ', romaji: 'cho' },
+          { kana: 'ニャ', romaji: 'nya' }, { kana: 'ニュ', romaji: 'nyu' }, { kana: 'ニョ', romaji: 'nyo' },
+          { kana: 'ヒャ', romaji: 'hya' }, { kana: 'ヒュ', romaji: 'hyu' }, { kana: 'ヒョ', romaji: 'hyo' },
+          { kana: 'ミャ', romaji: 'mya' }, { kana: 'ミュ', romaji: 'myu' }, { kana: 'ミョ', romaji: 'myo' },
+          { kana: 'リャ', romaji: 'rya' }, { kana: 'リュ', romaji: 'ryu' }, { kana: 'リョ', romaji: 'ryo' },
+          { kana: 'ギャ', romaji: 'gya' }, { kana: 'ギュ', romaji: 'gyu' }, { kana: 'ギョ', romaji: 'gyo' },
+          { kana: 'ジャ', romaji: 'ja' },  { kana: 'ジュ', romaji: 'ju' },  { kana: 'ジョ', romaji: 'jo' },
+          { kana: 'ビャ', romaji: 'bya' }, { kana: 'ビュ', romaji: 'byu' }, { kana: 'ビョ', romaji: 'byo' },
+          { kana: 'ピャ', romaji: 'pya' }, { kana: 'ピュ', romaji: 'pyu' }, { kana: 'ピョ', romaji: 'pyo' }
+        ]
+      }
+    };
+
+    /* ============================================================
+       STATE
+       ============================================================ */
+    let mode = 'hiragana';          // 'hiragana' atau 'katakana'
+    let filter = 'all';             // 'all', 'dasar', 'dakuon', 'youon'
+    const hafalSet = new Set();     // menyimpan kana yang ditandai hafal
+
+    /* ============================================================
+       ELEMEN
+       ============================================================ */
+    const kanaContent = document.getElementById('kanaContent');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const btnHiragana = document.getElementById('btnHiragana');
+    const btnKatakana = document.getElementById('btnKatakana');
+
+    /* ============================================================
+       RENDER KONTEN
+       ============================================================ */
+    function render() {
+      kanaContent.innerHTML = '';
+
+      const data = KANA[mode];
+
+      // Tentukan section yang akan ditampilkan
+      const sections = [];
+      if (filter === 'all' || filter === 'dasar')  sections.push({ key: 'dasar',  title: 'Dasar',  num: 1, count: data.dasar.length,  items: data.dasar });
+      if (filter === 'all' || filter === 'dakuon') sections.push({ key: 'dakuon', title: 'Dakuon', num: 2, count: data.dakuon.length, items: data.dakuon });
+      if (filter === 'all' || filter === 'youon')  sections.push({ key: 'youon',  title: 'Youon',  num: 3, count: data.youon.length,  items: data.youon });
+
+      // Render setiap section
+      sections.forEach(sec => {
+        const section = document.createElement('div');
+        section.className = 'kana-section';
+
+        // Header section
+        const title = document.createElement('div');
+        title.className = 'kana-section-title';
+        title.innerHTML = `
+          <span class="num">${sec.num}</span>
+          <h2>${mode === 'hiragana' ? 'Hiragana' : 'Katakana'} ${sec.title}</h2>
+          <span class="count">${sec.count} huruf</span>
+        `;
+        section.appendChild(title);
+
+        // Grid kartu
+        const grid = document.createElement('div');
+        grid.className = 'kana-grid';
+
+        sec.items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'kana-card';
+          if (sec.key === 'youon') card.classList.add('small');
+
+          // Cek apakah sudah ditandai hafal
+          const hafalKey = mode + ':' + item.kana;
+          if (hafalSet.has(hafalKey)) card.classList.add('hafal');
+
+          card.dataset.kana = item.kana;
+          card.dataset.romaji = item.romaji;
+
+          card.innerHTML = `
+            <div class="kana">${item.kana}</div>
+            <div class="romaji">${item.romaji}</div>
+          `;
+
+          // Event: klik sekali = dengar, klik dua kali = tandai hafal
+          card.addEventListener('click', () => handleCardClick(card, item));
+          card.addEventListener('dblclick', (e) => {
+            e.preventDefault();
+            toggleHafal(card, item);
+          });
+
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        kanaContent.appendChild(section);
+      });
+
+      updateProgress();
+    }
+
+    /* ============================================================
+       HANDLE KLIK KARTU
+       ============================================================ */
+    let clickTimer = null;
+
+    function handleCardClick(card, item) {
+      // Delay sedikit agar bisa deteksi klik ganda
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => {
+        speak(item.kana, card);
+      }, 180);
+    }
+
+    /* ============================================================
+       TOGGLE HAFAL
+       ============================================================ */
+    function toggleHafal(card, item) {
+      const hafalKey = mode + ':' + item.kana;
+      if (hafalSet.has(hafalKey)) {
+        hafalSet.delete(hafalKey);
+        card.classList.remove('hafal');
+      } else {
+        hafalSet.add(hafalKey);
+        card.classList.add('hafal');
+      }
+      updateProgress();
+    }
+
+    /* ============================================================
+       TEXT-TO-SPEECH
+       ============================================================ */
+    function speak(text, card) {
+      if (!('speechSynthesis' in window)) {
+        alert('Browser kamu tidak mendukung fitur suara.');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ja-JP';
+      utter.rate = 0.7;
+      utter.pitch = 1;
+
+      card.classList.add('playing');
+      utter.onend = () => card.classList.remove('playing');
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    /* ============================================================
+       PROGRESS
+       ============================================================ */
+    function updateProgress() {
+      const data = KANA[mode];
+
+      // Hitung total huruf berdasarkan filter aktif
+      let total = 0;
+      if (filter === 'all' || filter === 'dasar')  total += data.dasar.length;
+      if (filter === 'all' || filter === 'dakuon') total += data.dakuon.length;
+      if (filter === 'all' || filter === 'youon')  total += data.youon.length;
+
+      // Hitung yang sudah hafal (khusus mode aktif)
+      let done = 0;
+      const items = [];
+      if (filter === 'all' || filter === 'dasar')  items.push(...data.dasar);
+      if (filter === 'all' || filter === 'dakuon') items.push(...data.dakuon);
+      if (filter === 'all' || filter === 'youon')  items.push(...data.youon);
+
+      items.forEach(item => {
+        if (hafalSet.has(mode + ':' + item.kana)) done++;
+      });
+
+      const pct = total > 0 ? (done / total) * 100 : 0;
+      progressFill.style.width = pct + '%';
+      progressText.textContent = `${done} / ${total}`;
+    }
+
+    /* ============================================================
+       TOGGLE MODE (Hiragana ↔ Katakana)
+       ============================================================ */
+    btnHiragana.addEventListener('click', () => {
+      mode = 'hiragana';
+      btnHiragana.classList.add('active');
+      btnKatakana.classList.remove('active');
+      render();
+    });
+
+    btnKatakana.addEventListener('click', () => {
+      mode = 'katakana';
+      btnKatakana.classList.add('active');
+      btnHiragana.classList.remove('active');
+      render();
+    });
+
+    /* ============================================================
+       FILTER KATEGORI
+       ============================================================ */
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        filter = tab.dataset.filter;
+        render();
+      });
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    render();
+  </script>
+
+</body>
+</html>
