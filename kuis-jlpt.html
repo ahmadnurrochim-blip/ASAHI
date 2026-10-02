@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuis JLPT - Asahi Mandiri</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/leveling-popup.css" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #bc002d; --red-dark: #8b0022; --ink: #1a1a1a; --paper: #fdfaf5;
+      --gold: #c9a227; --green: #10b981; --green-dark: #065f46;
+      --gray: #6b7280; --gray-light: #9ca3af; --border: #e8e2d8;
+    }
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink); background: var(--paper);
+      min-height: 100vh; overflow-x: hidden;
+    }
+    .bg {
+      position: fixed; inset: 0; z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.88), rgba(253, 250, 245, 0.94)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover; background-position: center; background-attachment: fixed;
+    }
+    .bg-pattern {
+      position: fixed; inset: 0; z-index: -1; opacity: 0.06;
+      background-image: radial-gradient(circle at 50% 100%, transparent 20%, var(--red) 21%, var(--red) 34%, transparent 35%, transparent 40%, var(--red) 41%, var(--red) 54%, transparent 55%);
+      background-size: 80px 40px; pointer-events: none;
+    }
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto; padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); flex-shrink: 0; }
+    .brand-mark {
+      width: 44px; height: 44px; border-radius: 50%; background: var(--red);
+      display: grid; place-items: center; color: #fff;
+      font-family: 'Shippori Mincho', serif; font-weight: 800; font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15); position: relative;
+    }
+    .brand-mark::after {
+      content: ''; position: absolute; inset: -6px; border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.4); animation: spin 20s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-text .jp { font-family: 'Shippori Mincho', serif; font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+    .brand-text .en { font-size: 10px; letter-spacing: 3px; color: var(--red); font-weight: 700; text-transform: uppercase; }
+    .nav-buttons { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .nav-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 600;
+      text-decoration: none; color: var(--ink); background: #fff;
+      border: 2px solid #e8e2d8; transition: all 0.25s ease; cursor: pointer;
+    }
+    .nav-btn i { color: var(--red); font-size: 13px; }
+    .nav-btn:hover {
+      border-color: var(--red); color: var(--red);
+      transform: translateY(-2px); box-shadow: 0 6px 16px rgba(188, 0, 45, 0.18);
+    }
+    .container {
+      max-width: 860px; margin: 0 auto;
+      padding: 50px 28px 100px; position: relative;
+    }
+    .kanji-watermark {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: 'Shippori Mincho', serif; font-size: 340px; font-weight: 800;
+      color: rgba(188, 0, 45, 0.04); z-index: -1;
+      user-select: none; pointer-events: none; line-height: 1;
+    }
+    .page-title { text-align: center; margin-bottom: 26px; }
+    .page-title .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 2px solid var(--red); color: var(--red);
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      padding: 7px 16px; border-radius: 999px; margin-bottom: 18px; text-transform: uppercase;
+    }
+    .page-title h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(24px, 4vw, 34px); font-weight: 800;
+      margin-bottom: 10px; line-height: 1.2;
+    }
+    .page-title h1 .accent { color: var(--red); }
+    .page-title p { font-size: 14px; color: var(--gray); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+    .info-bar {
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+      background: #fff; border: 2px solid var(--border); border-radius: 14px;
+      padding: 14px 18px; margin-bottom: 22px; flex-wrap: wrap;
+    }
+    .info-bar .info-item {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700; color: var(--gray);
+    }
+    .info-bar .info-item i { color: var(--red); font-size: 14px; }
+    .info-bar .info-item strong { color: var(--ink); font-size: 14px; }
+
+    .progress-wrap { margin-bottom: 24px; }
+    .progress-info {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--gray); margin-bottom: 8px; font-weight: 700;
+    }
+    .progress-info .score-badge { color: var(--red); }
+    .progress-bar {
+      height: 10px; background: #e8e2d8; border-radius: 999px; overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      border-radius: 999px; transition: width 0.4s ease;
+    }
+
+    .quiz-card {
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(8px); border-radius: 20px;
+      padding: 34px 30px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border: 2px solid #f0e9dc; position: relative; overflow: hidden;
+    }
+    .quiz-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+      background: linear-gradient(to right, var(--red), var(--gold), var(--red));
+    }
+    .question-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; color: var(--red); letter-spacing: 1.5px;
+      margin-bottom: 16px; text-transform: uppercase;
+      background: rgba(188, 0, 45, 0.08); padding: 6px 14px; border-radius: 999px;
+    }
+    .question-text {
+      font-family: 'Shippori Mincho', serif; font-size: 22px;
+      color: var(--ink); margin-bottom: 28px; font-weight: 700; line-height: 1.5;
+    }
+    .options { display: flex; flex-direction: column; gap: 12px; }
+    .option {
+      display: flex; align-items: center; padding: 16px 20px;
+      border: 2px solid #e8e2d8; border-radius: 12px; cursor: pointer;
+      font-size: 16px; background: #fff; transition: all 0.2s ease;
+      text-align: left; font-family: inherit; color: var(--ink); width: 100%;
+    }
+    .option:hover:not(.locked) {
+      border-color: var(--red); background: #fff5f7; transform: translateX(4px);
+    }
+    .option.locked { cursor: default; }
+    .option.correct { border-color: var(--green); background: #ecfdf5; }
+    .option.correct .option-letter { background: var(--green); color: #fff; }
+    .option.wrong { border-color: #ef4444; background: #fef2f2; }
+    .option.wrong .option-letter { background: #ef4444; color: #fff; }
+    .option-letter {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: #f3f4f6; color: #374151; font-weight: 700; font-size: 14px;
+      margin-right: 16px; flex-shrink: 0; transition: all 0.2s ease;
+    }
+    .feedback {
+      margin-top: 22px; padding: 18px 22px; border-radius: 12px;
+      font-size: 14px; line-height: 1.6; display: none;
+      animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .feedback.show { display: block; }
+    .feedback.correct { background: #ecfdf5; color: var(--green-dark); border-left: 4px solid var(--green); }
+    .feedback.wrong { background: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444; }
+    .feedback strong { display: block; margin-bottom: 4px; }
+
+    .nav-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; margin-top: 28px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px; font-size: 14px; font-weight: 700;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: all 0.25s ease; font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--red); color: #fff;
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.25);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--red-dark); transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(188, 0, 45, 0.35);
+    }
+    .btn-primary:disabled {
+      background: #cbd5e1; cursor: not-allowed; box-shadow: none; transform: none;
+    }
+    .btn-secondary {
+      background: #fff; color: var(--ink); border: 2px solid #e8e2d8;
+    }
+    .btn-secondary:hover { border-color: var(--red); color: var(--red); }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.97); border-radius: 20px;
+      padding: 50px 36px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border: 2px solid #f0e9dc; text-align: center; display: none;
+      animation: fadeIn 0.5s ease; position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+      background: linear-gradient(to right, var(--red), var(--gold), var(--red));
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .result-card.show { display: block; }
+    .result-emoji { font-size: 64px; margin-bottom: 16px; display: block; line-height: 1; }
+    .result-title {
+      font-family: 'Shippori Mincho', serif; font-size: 28px; font-weight: 800;
+      color: var(--ink); margin-bottom: 10px;
+    }
+    .result-title .accent { color: var(--red); }
+    .result-sub { font-size: 14px; color: var(--gray); margin-bottom: 30px; line-height: 1.6; }
+    .score-circle {
+      width: 160px; height: 160px; margin: 0 auto 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--gold));
+      display: grid; place-items: center; color: #fff;
+      box-shadow: 0 14px 36px rgba(188, 0, 45, 0.3); position: relative;
+    }
+    .score-circle::after {
+      content: ''; position: absolute; inset: -8px; border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.35); animation: spin 24s linear infinite;
+    }
+    .score-circle .num {
+      font-size: 52px; font-weight: 900; line-height: 1;
+      font-family: 'Shippori Mincho', serif;
+    }
+    .score-circle .label { font-size: 12px; letter-spacing: 2px; margin-top: 4px; opacity: 0.9; }
+    .result-stats {
+      display: flex; justify-content: center; gap: 32px;
+      margin-bottom: 32px; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat .num {
+      font-size: 24px; font-weight: 800; color: var(--red);
+      font-family: 'Shippori Mincho', serif;
+    }
+    .stat .label {
+      font-size: 11px; color: var(--gray); text-transform: uppercase;
+      letter-spacing: 1px; margin-top: 4px; font-weight: 700;
+    }
+    .result-actions {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+
+    footer {
+      text-align: center; padding: 30px 20px;
+      font-size: 13px; color: var(--gray-light);
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9); margin-top: 40px;
+    }
+    footer .jp {
+      font-family: 'Shippori Mincho', serif; color: var(--red);
+      letter-spacing: 4px; display: block; margin-bottom: 6px; font-size: 14px;
+    }
+
+    .not-found {
+      text-align: center; padding: 60px 20px;
+      background: #fff; border-radius: 20px;
+      border: 2px solid #f0e9dc;
+    }
+    .not-found i {
+      font-size: 64px; color: var(--gray-light);
+      margin-bottom: 16px; display: block;
+    }
+    .not-found h2 {
+      font-family: 'Shippori Mincho', serif; font-size: 24px;
+      font-weight: 800; color: var(--ink); margin-bottom: 8px;
+    }
+    .not-found p { font-size: 14px; color: var(--gray); margin-bottom: 20px; }
+
+    @media (max-width: 820px) {
+      .header-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .nav-buttons { width: 100%; justify-content: flex-start; }
+      .nav-btn { flex: 1 1 auto; justify-content: center; padding: 9px 14px; font-size: 13px; }
+      .container { padding: 32px 18px 60px; }
+      .quiz-card, .result-card { padding: 26px 20px; }
+      .question-text { font-size: 18px; }
+    }
+    @media (max-width: 480px) {
+      .nav-btn span { display: none; }
+      .nav-btn i { font-size: 15px; }
+      .brand-text .jp { font-size: 17px; }
+      .kanji-watermark { font-size: 200px; }
+      .nav-bottom { flex-direction: column-reverse; }
+      .nav-bottom .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg"></div>
+  <div class="bg-pattern"></div>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+      <nav class="nav-buttons">
+        <a href="index.html" class="nav-btn">
+          <i class="fas fa-home"></i> <span>Beranda</span>
+        </a>
+        <a href="latihan.html" class="nav-btn">
+          <i class="fas fa-pen-fancy"></i> <span>Latihan</span>
+        </a>
+        <a href="materi.html" class="nav-btn">
+          <i class="fas fa-book-open"></i> <span>Materi</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="kanji-watermark">JLPT</div>
+
+    <div id="content"></div>
+
+  </main>
+
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2026 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <script src="js/leveling-popup.js"></script>
+  <script src="js/soal-jlpt.js"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const setKey = params.get('set');
+    const content = document.getElementById('content');
+
+    if (!setKey || !window.SOAL_JLPT || !window.SOAL_JLPT[setKey]) {
+      content.innerHTML = `
+        <div class="not-found">
+          <i class="fas fa-search"></i>
+          <h2>Paket Tidak Ditemukan</h2>
+          <p>Paket soal dengan kode <strong>"${setKey || 'kosong'}"</strong> tidak tersedia.</p>
+          <a href="latihan-jlpt.html" class="btn btn-primary" style="display:inline-flex;">
+            <i class="fas fa-arrow-left"></i> Kembali ke JLPT
+          </a>
+        </div>
+      `;
+    } else {
+      initKuis();
+    }
+
+    function initKuis() {
+      const paket = window.SOAL_JLPT[setKey];
+      const SOAL = paket.soal;
+
+      content.innerHTML = `
+        <div class="page-title">
+          <div class="badge">
+            <i class="fas fa-award"></i> ${paket.label}
+          </div>
+          <h1>Kuis <span class="accent">${paket.title}</span></h1>
+          <p>${paket.desc}</p>
+        </div>
+
+        <div class="info-bar">
+          <div class="info-item">
+            <i class="fas fa-list-ol"></i>
+            Soal: <strong><span id="currentNum">1</span> / <span id="totalNum">${SOAL.length}</span></strong>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-star"></i>
+            Skor: <strong id="liveScore">0</strong>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-clock"></i>
+            Waktu: <strong id="timer">00:00</strong>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-info">
+            <span>Progress</span>
+            <span class="score-badge" id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <div class="quiz-card" id="quizCard">
+          <div class="question-label">
+            <i class="fas fa-question-circle"></i> Pilih jawaban yang benar
+          </div>
+          <div class="question-text" id="questionText">Memuat soal...</div>
+          <div class="options" id="optionsContainer"></div>
+          <div class="feedback" id="feedback"></div>
+
+          <div class="nav-bottom">
+            <a href="latihan-jlpt.html" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i> Keluar
+            </a>
+            <button class="btn btn-primary" id="btnNext" disabled>
+              Soal Berikutnya <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="result-card" id="resultCard">
+          <span class="result-emoji" id="resultEmoji">🎉</span>
+          <h2 class="result-title" id="resultTitle">Selamat! <span class="accent">Kamu Selesai</span></h2>
+          <p class="result-sub" id="resultSub">Berikut hasil latihanmu hari ini.</p>
+
+          <div class="score-circle">
+            <div>
+              <div class="num" id="finalScore">0</div>
+              <div class="label">SKOR</div>
+            </div>
+          </div>
+
+          <div class="result-stats">
+            <div class="stat">
+              <div class="num" id="statCorrect">0</div>
+              <div class="label">Benar</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="statWrong">0</div>
+              <div class="label">Salah</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="statTotal">0</div>
+              <div class="label">Total</div>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <button class="btn btn-secondary" id="btnRetry">
+              <i class="fas fa-redo"></i> Ulangi
+            </button>
+            <a href="latihan-jlpt.html" class="btn btn-primary">
+              <i class="fas fa-arrow-left"></i> Kembali ke JLPT
+            </a>
+          </div>
+        </div>
+      `;
+
+      const elQuestion = document.getElementById('questionText');
+      const elOptions = document.getElementById('optionsContainer');
+      const elFeedback = document.getElementById('feedback');
+      const elCurrentNum = document.getElementById('currentNum');
+      const elLiveScore = document.getElementById('liveScore');
+      const elTimer = document.getElementById('timer');
+      const elFill = document.getElementById('progressFill');
+      const elProgressPct = document.getElementById('progressPercent');
+      const btnNext = document.getElementById('btnNext');
+      const quizCard = document.getElementById('quizCard');
+      const resultCard = document.getElementById('resultCard');
+
+      let current = 0;
+      let score = 0;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let answered = false;
+      let seconds = 0;
+      let timerInterval = null;
+
+      function startTimer() {
+        seconds = 0;
+        updateTimerDisplay();
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => { seconds++; updateTimerDisplay(); }, 1000);
+      }
+
+      function updateTimerDisplay() {
+        const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+        const s = String(seconds % 60).padStart(2, '0');
+        elTimer.textContent = `${m}:${s}`;
+      }
+
+      function stopTimer() {
+        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+      }
+
+      function renderQuestion() {
+        answered = false;
+        const q = SOAL[current];
+        elQuestion.textContent = q.q;
+        elOptions.innerHTML = '';
+        elFeedback.className = 'feedback';
+        elFeedback.textContent = '';
+        btnNext.disabled = true;
+
+        const letters = ['A', 'B', 'C', 'D'];
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'option';
+          btn.type = 'button';
+          btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+          btn.addEventListener('click', () => selectOption(i, btn));
+          elOptions.appendChild(btn);
+        });
+
+        updateProgress();
+        updateNextButton();
+      }
+
+      function selectOption(index, el) {
+        if (answered) return;
+        answered = true;
+
+        const q = SOAL[current];
+        const allOpts = elOptions.querySelectorAll('.option');
+
+        allOpts.forEach((o, i) => {
+          o.classList.add('locked');
+          if (i === q.answer) o.classList.add('correct');
+          else if (i === index) o.classList.add('wrong');
+        });
+
+        if (index === q.answer) {
+          score += 10;
+          correctCount++;
+          elFeedback.className = 'feedback show correct';
+          elFeedback.innerHTML = `<strong><i class="fas fa-check-circle"></i> Benar! +10 poin</strong>${q.explain}`;
+        } else {
+          wrongCount++;
+          elFeedback.className = 'feedback show wrong';
+          elFeedback.innerHTML = `<strong><i class="fas fa-times-circle"></i> Kurang tepat</strong>${q.explain}`;
+        }
+
+        elLiveScore.textContent = score;
+        btnNext.disabled = false;
+      }
+
+      function updateProgress() {
+        const percent = Math.round(((current + 1) / SOAL.length) * 100);
+        elCurrentNum.textContent = current + 1;
+        elFill.style.width = percent + '%';
+        elProgressPct.textContent = percent + '%';
+      }
+
+      function updateNextButton() {
+        if (current === SOAL.length - 1) {
+          btnNext.innerHTML = 'Lihat Hasil <i class="fas fa-flag-checkered"></i>';
+        } else {
+          btnNext.innerHTML = 'Soal Berikutnya <i class="fas fa-arrow-right"></i>';
+        }
+      }
+
+      btnNext.addEventListener('click', () => {
+        if (current < SOAL.length - 1) {
+          current++;
+          renderQuestion();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          showResult();
+        }
+      });
+
+      function showResult() {
+        stopTimer();
+        quizCard.style.display = 'none';
+        resultCard.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        const total = SOAL.length;
+        const percent = Math.round((correctCount / total) * 100);
+
+        document.getElementById('finalScore').textContent = score;
+        document.getElementById('statCorrect').textContent = correctCount;
+        document.getElementById('statWrong').textContent = wrongCount;
+        document.getElementById('statTotal').textContent = total;
+
+        let emoji, title, sub;
+        if (percent === 100) {
+          emoji = '🏆'; title = 'Sempurna! <span class="accent">素晴らしい</span>';
+          sub = 'Kamu menjawab semua soal dengan benar. Luar biasa!';
+        } else if (percent >= 80) {
+          emoji = '🎉'; title = 'Hebat! <span class="accent">よくできました</span>';
+          sub = `Skor kamu ${percent}%. Sedikit lagi menuju sempurna!`;
+        } else if (percent >= 60) {
+          emoji = '👍'; title = 'Bagus! <span class="accent">いいですね</span>';
+          sub = `Skor kamu ${percent}%. Terus berlatih untuk hasil lebih maksimal.`;
+        } else {
+          emoji = '💪'; title = 'Jangan Menyerah! <span class="accent">がんばって</span>';
+          sub = `Skor kamu ${percent}%. Pelajari kembali materinya, lalu coba lagi.`;
+        }
+
+        document.getElementById('resultEmoji').textContent = emoji;
+        document.getElementById('resultTitle').innerHTML = title;
+        document.getElementById('resultSub').textContent = sub;
+
+        try {
+          localStorage.setItem('asahi_jlpt_' + setKey + '_last', score);
+          const best = parseInt(localStorage.getItem('asahi_jlpt_' + setKey + '_best') || '0', 10);
+          if (score > best) localStorage.setItem('asahi_jlpt_' + setKey + '_best', score);
+        } catch (e) { /* abaikan */ }
+      }
+
+      document.getElementById('btnRetry').addEventListener('click', () => {
+        current = 0; score = 0; correctCount = 0; wrongCount = 0; answered = false;
+        elLiveScore.textContent = '0';
+        resultCard.classList.remove('show');
+        quizCard.style.display = 'block';
+        renderQuestion();
+        startTimer();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      renderQuestion();
+      startTimer();
+    }
+  </script>
+
+</body>
+</html>
