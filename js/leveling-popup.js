@@ -9,7 +9,7 @@
     subtitle:    'N5 • N4 • N3',
     description: 'Tingkatkan kemampuan Bahasa Jepang kamu melalui materi dan latihan berdasarkan level.',
     buttonText:  'Mulai Leveling',
-    buttonHref:  'leveling.html',
+    buttonHref:  'portal.html',
     buttonIcon:  'fa-unlock-alt',
     headerIcon:  'fa-graduation-cap',
     // localStorage key supaya popup tidak muncul lagi setelah ditutup
