@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asahi Mandiri - Belajar Bahasa Jepang</title>
+
+  <!-- ============ FONTS & ICONS ============ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- ============ CSS POPUP LEVELING ============ -->
+  <link rel="stylesheet" href="css/leveling-popup.css" />
+
+  <style>
+    /* ============================================================
+       RESET & VARIABEL
+       ============================================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       BACKGROUND JEPANG
+       ============================================================ */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.82), rgba(253, 250, 245, 0.9)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Pola gelombang seigaiha (ornamen tradisional Jepang) */
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.06;
+      background-image:
+        radial-gradient(circle at 50% 100%, transparent 20%, var(--red) 21%, var(--red) 34%, transparent 35%, transparent 40%, var(--red) 41%, var(--red) 54%, transparent 55%);
+      background-size: 80px 40px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    /* --- Logo kiri --- */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15);
+      position: relative;
+    }
+
+    /* Efek matahari terbit */
+    .brand-mark::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.4);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-text .jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+
+    .brand-text .en {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* --- Tombol menu --- */
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid #e8e2d8;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .nav-btn i { color: var(--red); font-size: 13px; }
+
+    .nav-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.18);
+    }
+
+    .nav-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .nav-btn.active i { color: #fff; }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 90px 28px 70px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Ornamen kanji besar di background */
+    .kanji-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 320px;
+      font-weight: 800;
+      color: rgba(188, 0, 45, 0.05);
+      z-index: -1;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    /* Ornamen sakura */
+    .sakura {
+      position: absolute;
+      font-size: 28px;
+      color: rgba(188, 0, 45, 0.25);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+    .sakura.s1 { top: 10%;  left: 6%;  animation-delay: 0s; }
+    .sakura.s2 { top: 25%;  right: 8%; animation-delay: 1s; }
+    .sakura.s3 { bottom: 15%; left: 12%; animation-delay: 2s; }
+    .sakura.s4 { bottom: 25%; right: 10%; animation-delay: 3s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-18px) rotate(12deg); }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 .accent {
+      color: var(--red);
+      position: relative;
+    }
+
+    .hero .jp-sub {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 18px;
+      color: var(--red);
+      letter-spacing: 6px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin: 0 auto 36px;
+      font-size: 16px;
+      color: #4b5563;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 34px;
+      background: var(--red);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px rgba(188, 0, 45, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-main:hover {
+      background: var(--red-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(188, 0, 45, 0.35);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 34px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 10px;
+      border: 2px solid #e8e2d8;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-3px);
+    }
+
+    /* ============================================================
+       TORII DIVIDER
+       ============================================================ */
+    .torii-divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 28px 60px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      opacity: 0.5;
+    }
+
+    .torii-divider .line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--red), transparent);
+    }
+
+    .torii-divider .icon {
+      color: var(--red);
+      font-size: 26px;
+    }
+
+    /* ============================================================
+       FEATURE CARDS (dibuat <a> biar bisa diklik)
+       ============================================================ */
+    .features {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border: 2px solid #f0e9dc;
+      border-radius: 16px;
+      padding: 30px 24px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      cursor: pointer;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, var(--red), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--red);
+      box-shadow: 0 14px 30px rgba(188, 0, 45, 0.12);
+    }
+
+    .feature-card:hover::before { transform: scaleX(1); }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: rgba(188, 0, 45, 0.08);
+      color: var(--red);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .feature-card h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 19px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    /* Panah "Buka →" di dalam kartu */
+    .feature-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--red);
+      opacity: 0.85;
+      transition: all 0.25s ease;
+    }
+
+    .feature-card:hover .feature-arrow {
+      opacity: 1;
+      gap: 10px;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: #9ca3af;
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9);
+    }
+
+    footer .jp {
+      font-family: 'Shippori Mincho', serif;
+      color: var(--red);
+      letter-spacing: 4px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 820px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .nav-buttons {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .nav-btn {
+        flex: 1 1 auto;
+        justify-content: center;
+        padding: 9px 14px;
+        font-size: 13px;
+      }
+      .hero { padding: 60px 20px 50px; }
+      .kanji-watermark { font-size: 200px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn span { display: none; }
+      .nav-btn i { font-size: 15px; }
+      .brand-text .jp { font-size: 17px; }
+      .hero p { font-size: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ BACKGROUND ============ -->
+  <div class="bg"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="header-inner">
+
+      <!-- Logo kiri -->
+      <a href="index.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+
+      <!-- Menu kanan -->
+      <nav class="nav-buttons">
+        <a href="index.html" class="nav-btn active">
+          <i class="fas fa-home"></i> <span>Beranda</span>
+        </a>
+        <a href="latihan.html" class="nav-btn">
+          <i class="fas fa-pen-fancy"></i> <span>Latihan</span>
+        </a>
+        <a href="materi.html" class="nav-btn">
+          <i class="fas fa-book-open"></i> <span>Materi</span>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+
+    <!-- Ornamen kanji besar -->
+    <div class="kanji-watermark">日本語</div>
+
+    <!-- Ornamen sakura -->
+    <div class="sakura s1">🌸</div>
+    <div class="sakura s2">🌸</div>
+    <div class="sakura s3">🌸</div>
+    <div class="sakura s4">🌸</div>
+
+    <div class="hero-badge">
+      <i class="fas fa-torii-gate"></i> 日本語を学ぼう
+    </div>
+
+    <h1>Belajar Bahasa Jepang<br />dengan <span class="accent">Asahi Mandiri</span></h1>
+
+    <div class="jp-sub">あさひ まんぢり</div>
+
+    <p>
+      Kuasai bahasa Jepang dari dasar hingga mahir. 1500+ soal latihan,
+      pembahasan lengkap, dan materi yang disusun khusus untuk pelajar Indonesia.
+    </p>
+
+    <div class="hero-actions">
+      <a href="latihan.html" class="btn-main">
+        <i class="fas fa-play"></i> Mulai Latihan
+      </a>
+      <a href="materi.html" class="btn-ghost">
+        <i class="fas fa-book"></i> Lihat Materi
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ TORII DIVIDER ============ -->
+  <div class="torii-divider">
+    <div class="line"></div>
+    <i class="fas fa-torii-gate icon"></i>
+    <div class="line"></div>
+  </div>
+
+  <!-- ============ FITUR ============ -->
+  <section class="features">
+
+    <!-- Hiragana & Katakana -->
+    <a href="hiragana-katakana.html" class="feature-card">
+      <div class="feature-icon"><i class="fas fa-torii-gate"></i></div>
+      <h3>Hiragana &amp; Katakana</h3>
+      <p>Pelajari huruf dasar Jepang dengan metode interaktif dan mudah diingat.</p>
+      <span class="feature-arrow">
+        Buka <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+
+    <!-- Kanji Lengkap -->
+    <a href="kanji.html" class="feature-card">
+      <div class="feature-icon"><i class="fas fa-scroll"></i></div>
+      <h3>Kanji Lengkap</h3>
+      <p>Ratusan kanji dari level N5 hingga N3, lengkap dengan cara baca dan artinya.</p>
+      <span class="feature-arrow">
+        Buka <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+
+    <!-- Percakapan -->
+    <a href="percakapan.html" class="feature-card">
+      <div class="feature-icon"><i class="fas fa-comments"></i></div>
+      <h3>Percakapan</h3>
+      <p>Latih kemampuan berbicara dengan frasa sehari-hari yang praktis.</p>
+      <span class="feature-arrow">
+        Buka <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+
+    <!-- Latihan JLPT -->
+    <a href="latihan.html" class="feature-card">
+      <div class="feature-icon"><i class="fas fa-award"></i></div>
+      <h3>Latihan JLPT</h3>
+      <p>1500+ soal latihan dengan pembahasan untuk persiapan ujian JLPT.</p>
+      <span class="feature-arrow">
+        Buka <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2026 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <!-- ============ SCRIPT POPUP LEVELING ============ -->
+  <script src="js/leveling-popup.js"></script>
+
+</body>
+</html>
