@@ -261,7 +261,9 @@ window.SOAL_JLPT = {
       { q:'A: えいごが はなせますか。\nB: いいえ、はなせません。\nApakah B bisa bahasa Inggris?', options:['Bisa','Tidak bisa','Sedikit','Lancar'], answer:1, explain:'はなせません = tidak bisa berbicara.' },
       { q:'A: この ほんは おもしろいですか。\nB: ええ、とても。\nBagaimana bukunya?', options:['Membosankan','Menarik','Sulit','Pendek'], answer:1, explain:'おもしろい = menarik.' },
       { q:'A: コーヒーと こうちゃ、どちらが いいですか。\nB: コーヒーを おねがいします。\nApa yang dipesan?', options:['Teh','Kopi','Air','Jus'], answer:1, explain:'コーヒー = kopi.' },
-      { q:'A: にほんへ いった ことが ありますか。\nB: はい、2かい あります。\nBerapa kali ke Jepang?', options:['1 kali','2 kali','3 kali','Belum pernah'], answer:1, explain:'2かい = 2 kali.' },
+      { q:'A: にほんへ いった ことが ありますか。\nB: はい、2かい あります。\nBerapa kali ke Jepang?', options:['1 kali','2 kali','3 kali','Belum pernah'], answer:1, explain:'2かい = 2 kali.' }
+    ]
+  },
        
   /* ============================================================
      KOSAKATA N4 — SET 1
@@ -477,10 +479,6 @@ window.SOAL_JLPT = {
       { q:'A: 明日、雨が 降るそうですよ。傘を 持って 行った ほうが いいですよ。\nB: そうですか。ありがとう ございます。\nApa saran A?', options:['Pakai topi','Bawa payung','Pakai jaket','Bawa air'], answer:1, explain:'傘を 持って 行った ほうが いい = sebaiknya bawa payung.' },
       { q:'A: 引っ越しは もう 終わりましたか。\nB: はい、おかげさまで。\nApakah pindahannya sudah selesai?', options:['Belum','Sudah','Sedang berlangsung','Dibatalkan'], answer:1, explain:'はい、おかげさまで = ya, sudah (berkat bantuan).' },
       { q:'A: パソコンの 使い方を 教えて いただけませんか。\nB: ええ、いいですよ。\nApakah B bersedia membantu?', options:['Tidak','Ya','Ragu','Menyuruh orang lain'], answer:1, explain:'ええ、いいですよ = ya, boleh.' }
-    ]
-  }
-
-};
     ]
   }
 
