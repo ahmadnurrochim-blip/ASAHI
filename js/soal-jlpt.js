@@ -480,6 +480,194 @@ window.SOAL_JLPT = {
       { q:'A: 引っ越しは もう 終わりましたか。\nB: はい、おかげさまで。\nApakah pindahannya sudah selesai?', options:['Belum','Sudah','Sedang berlangsung','Dibatalkan'], answer:1, explain:'はい、おかげさまで = ya, sudah (berkat bantuan).' },
       { q:'A: パソコンの 使い方を 教えて いただけませんか。\nB: ええ、いいですよ。\nApakah B bersedia membantu?', options:['Tidak','Ya','Ragu','Menyuruh orang lain'], answer:1, explain:'ええ、いいですよ = ya, boleh.' }
     ]
+  },
+   
+  /* ============================================================
+     KOSAKATA N3 — SET 1
+     ============================================================ */
+  'kosakata-n3-1': {
+    label: 'Kosakata · N3',
+    title: 'Kosakata N3 — Set 1',
+    desc: 'Kosakata berita & akademik.',
+    soal: [
+      { q:'Apa arti dari 「影響」?', options:['Pengaruh','Penyebab','Akibat','Hubungan'], answer:0, explain:'「影響」 (eikyou) = pengaruh.' },
+      { q:'Apa arti dari 「解決」?', options:['Penyelesaian','Masalah','Pertanyaan','Perdebatan'], answer:0, explain:'「解決」 (kaiketsu) = penyelesaian.' },
+      { q:'Apa arti dari 「環境」?', options:['Lingkungan','Cuaca','Musim','Alam'], answer:0, explain:'「環境」 (kankyou) = lingkungan.' },
+      { q:'Apa arti dari 「経済」?', options:['Ekonomi','Politik','Budaya','Pendidikan'], answer:0, explain:'「経済」 (keizai) = ekonomi.' },
+      { q:'Apa arti dari 「計画」?', options:['Rencana','Laporan','Evaluasi','Perubahan'], answer:0, explain:'「計画」 (keikaku) = rencana.' },
+      { q:'Apa arti dari 「経験」dalam konteks N3?', options:['Pengalaman (kerja/hidup)','Pengalaman pertama','Pengalaman pahit','Pengalaman manis'], answer:0, explain:'「経験」 = pengalaman secara umum.' },
+      { q:'Apa arti dari 「研究」?', options:['Penelitian','Pelajaran','Pengajaran','Praktik'], answer:0, explain:'「研究」 (kenkyuu) = penelitian.' },
+      { q:'Apa arti dari 「現在」?', options:['Saat ini','Masa lalu','Masa depan','Dahulu'], answer:0, explain:'「現在」 (genzai) = saat ini.' },
+      { q:'Apa arti dari 「効果」?', options:['Efek / hasil','Usaha','Tujuan','Proses'], answer:0, explain:'「効果」 (kouka) = efek atau hasil.' },
+      { q:'Apa arti dari 「国際」?', options:['Internasional','Domestik','Regional','Lokal'], answer:0, explain:'「国際」 (kokusai) = internasional.' },
+      { q:'Apa arti dari 「今後」?', options:['Mulai sekarang','Sebelumnya','Dahulu','Sementara'], answer:0, explain:'「今後」 (kongo) = mulai sekarang / ke depan.' },
+      { q:'Apa arti dari 「最後」?', options:['Terakhir','Pertama','Tengah','Awal'], answer:0, explain:'「最後」 (saigo) = terakhir.' },
+      { q:'Apa arti dari 「最初」?', options:['Pertama / awal','Terakhir','Tengah','Selanjutnya'], answer:0, explain:'「最初」 (saisho) = pertama / awal.' },
+      { q:'Apa arti dari 「実際」?', options:['Kenyataan','Khayalan','Rencana','Perkiraan'], answer:0, explain:'「実際」 (jissai) = kenyataan / sebenarnya.' },
+      { q:'Apa arti dari 「状況」?', options:['Situasi','Perubahan','Keputusan','Rencana'], answer:0, explain:'「状況」 (joukyou) = situasi / keadaan.' },
+      { q:'Apa arti dari 「情報」?', options:['Informasi','Laporan','Berita','Pengumuman'], answer:0, explain:'「情報」 (jouhou) = informasi.' },
+      { q:'Apa arti dari 「成長」?', options:['Pertumbuhan','Penurunan','Perubahan','Kemunduran'], answer:0, explain:'「成長」 (seichou) = pertumbuhan / perkembangan.' },
+      { q:'Apa arti dari 「制度」?', options:['Sistem','Aturan','Kebiasaan','Tradisi'], answer:0, explain:'「制度」 (seido) = sistem / institusi.' },
+      { q:'Apa arti dari 「責任」?', options:['Tanggung jawab','Kewajiban','Hak','Tugas'], answer:0, explain:'「責任」 (sekinin) = tanggung jawab.' },
+      { q:'Apa arti dari 「組織」?', options:['Organisasi','Perusahaan','Kelompok','Tim'], answer:0, explain:'「組織」 (soshiki) = organisasi.' }
+    ]
+  },
+
+  /* ============================================================
+     KANJI N3 — SET 1
+     ============================================================ */
+  'kanji-n3-1': {
+    label: 'Kanji · N3',
+    title: 'Kanji N3 — Set 1',
+    desc: 'Kanji lanjutan N3.',
+    soal: [
+      { q:'Apa arti dari 「経」?', options:['Lewat / mengelola','Masuk','Keluar','Tinggal'], answer:0, explain:'「経」 dibaca "kei" — lewat atau mengelola (dalam 経済).' },
+      { q:'Apa arti dari 「済」?', options:['Selesai','Mulai','Berlanjut','Berhenti'], answer:0, explain:'「済」 dibaca "sai" atau "su" — selesai.' },
+      { q:'Apa arti dari 「政」?', options:['Politik','Ekonomi','Budaya','Sosial'], answer:0, explain:'「政」 dibaca "sei" — politik / pemerintahan.' },
+      { q:'Apa arti dari 「治」?', options:['Memerintah / sembuh','Menyakiti','Membantu','Melarang'], answer:0, explain:'「治」 dibaca "chi" atau "naosu" — memerintah atau menyembuhkan.' },
+      { q:'Apa arti dari 「文」?', options:['Kalimat / sastra','Gambar','Angka','Suara'], answer:0, explain:'「文」 dibaca "bun" — kalimat atau sastra.' },
+      { q:'Apa arti dari 「化」?', options:['Berubah','Tetap','Hilang','Muncul'], answer:0, explain:'「化」 dibaca "ka" — berubah / perubahan.' },
+      { q:'Apa arti dari 「歴」?', options:['Sejarah / riwayat','Sekarang','Depan','Masa lalu'], answer:0, explain:'「歴」 dibaca "reki" — sejarah atau riwayat.' },
+      { q:'Apa arti dari 「史」?', options:['Sejarah','Catatan','Dongeng','Berita'], answer:0, explain:'「史」 dibaca "shi" — sejarah.' },
+      { q:'Apa arti dari 「社」?', options:['Perusahaan / kuil','Sekolah','Kantor','Rumah'], answer:0, explain:'「社」 dibaca "sha" — perusahaan atau kuil Shinto.' },
+      { q:'Apa arti dari 「会」?', options:['Bertemu / perkumpulan','Berpisah','Berbicara','Bermain'], answer:0, explain:'「会」 dibaca "au" atau "kai" — bertemu atau perkumpulan.' },
+      { q:'Apa arti dari 「感」?', options:['Perasaan','Pikiran','Keinginan','Kenangan'], answer:0, explain:'「感」 dibaca "kan" — perasaan.' },
+      { q:'Apa arti dari 「情」?', options:['Emosi / perasaan','Pikiran','Logika','Alasan'], answer:0, explain:'「情」 dibaca "jou" — emosi atau perasaan.' },
+      { q:'Apa arti dari 「報」?', options:['Laporan / kabar','Pertanyaan','Jawaban','Cerita'], answer:0, explain:'「報」 dibaca "hou" — laporan atau kabar.' },
+      { q:'Apa arti dari 「告」?', options:['Memberitahu','Menyembunyikan','Menanyakan','Menjawab'], answer:0, explain:'「告」 dibaca "koku" — memberitahu / mengumumkan.' },
+      { q:'Apa arti dari 「説」?', options:['Penjelasan / teori','Pertanyaan','Jawaban','Perdebatan'], answer:0, explain:'「説」 dibaca "setsu" — penjelasan atau teori.' },
+      { q:'Apa arti dari 「明」?', options:['Jelas / terang','Gelap','Kabur','Samar'], answer:0, explain:'「明」 dibaca "mei" atau "akarui" — jelas atau terang.' },
+      { q:'Apa arti dari 「性」?', options:['Sifat / jenis','Bentuk','Warna','Ukuran'], answer:0, explain:'「性」 dibaca "sei" — sifat atau jenis.' },
+      { q:'Apa arti dari 「格」?', options:['Status / kualitas','Nama','Jumlah','Harga'], answer:0, explain:'「格」 dibaca "kaku" — status atau kualitas.' },
+      { q:'Apa arti dari 「法」?', options:['Hukum / metode','Aturan main','Kebiasaan','Tradisi'], answer:0, explain:'「法」 dibaca "hou" — hukum atau metode.' },
+      { q:'Apa arti dari 「制」?', options:['Sistem / kontrol','Kekuasaan','Aturan','Kebijakan'], answer:0, explain:'「制」 dibaca "sei" — sistem atau kontrol.' }
+    ]
+  },
+
+  /* ============================================================
+     TATA BAHASA N3 — SET 1
+     ============================================================ */
+  'tata-n3-1': {
+    label: 'Tata Bahasa · N3',
+    title: 'Tata Bahasa N3 — Set 1',
+    desc: 'Pola kalimat N3.',
+    soal: [
+      { q:'「〜はずです」 artinya...', options:['Seharusnya / pasti','Mungkin','Tidak mungkin','Belum pasti'], answer:0, explain:'〜はずです = seharusnya / pasti (berdasarkan logika).' },
+      { q:'「〜かもしれません」 artinya...', options:['Mungkin','Pasti','Tidak mungkin','Seharusnya'], answer:0, explain:'〜かもしれません = mungkin (kemungkinan).' },
+      { q:'「〜でしょう」 artinya...', options:['Mungkin / sepertinya','Pasti','Tidak mungkin','Belum pasti'], answer:0, explain:'〜でしょう = mungkin / sepertinya (perkiraan).' },
+      { q:'「〜ようです」 artinya...', options:['Sepertinya','Pasti','Tidak mungkin','Belum pasti'], answer:0, explain:'〜ようです = sepertinya (berdasarkan pengamatan).' },
+      { q:'「〜らしいです」 artinya...', options:['Sepertinya (dengar kabar)','Pasti','Tidak mungkin','Belum pasti'], answer:0, explain:'〜らしいです = sepertinya (berdasarkan kabar).' },
+      { q:'「〜そうです」 (bentuk pengamatan) artinya...', options:['Kelihatannya','Katanya','Pasti','Tidak mungkin'], answer:0, explain:'〜そうです (bentuk pengamatan) = kelihatannya.' },
+      { q:'「〜ため」 artinya...', options:['Karena / untuk','Meskipun','Sambil','Tanpa'], answer:0, explain:'〜ため = karena (sebab) atau untuk (tujuan).' },
+      { q:'「〜ように」 artinya...', options:['Supaya / seperti','Meskipun','Karena','Sambil'], answer:0, explain:'〜ように = supaya atau seperti.' },
+      { q:'「〜のに」 artinya...', options:['Meskipun / padahal','Karena','Supaya','Sambil'], answer:0, explain:'〜のに = meskipun / padahal (kontras).' },
+      { q:'「〜ても」 artinya...', options:['Meskipun','Karena','Supaya','Sambil'], answer:0, explain:'〜ても = meskipun (kondisional).' },
+      { q:'「〜ば」 artinya...', options:['Jika / kalau','Karena','Meskipun','Supaya'], answer:0, explain:'〜ば = jika / kalau (kondisional).' },
+      { q:'「〜なら」 artinya...', options:['Kalau (berdasarkan konteks)','Karena','Meskipun','Supaya'], answer:0, explain:'〜なら = kalau (berdasarkan konteks yang disebutkan).' },
+      { q:'「〜と」 (kondisional) artinya...', options:['Kalau / jika (otomatis)','Karena','Meskipun','Supaya'], answer:0, explain:'〜と = kalau (hasil otomatis/alamiah).' },
+      { q:'「〜うちに」 artinya...', options:['Selagi / sementara','Setelah','Sebelum','Meskipun'], answer:0, explain:'〜うちに = selagi / sementara (masih dalam kondisi).' },
+      { q:'「〜あいだ」 artinya...', options:['Selama','Setelah','Sebelum','Meskipun'], answer:0, explain:'〜あいだ = selama (rentang waktu).' },
+      { q:'「〜たびに」 artinya...', options:['Setiap kali','Kadang-kadang','Selalu','Jarang'], answer:0, explain:'〜たびに = setiap kali.' },
+      { q:'「〜とおりに」 artinya...', options:['Sesuai dengan','Berbeda dengan','Meskipun','Tanpa'], answer:0, explain:'〜とおりに = sesuai dengan.' },
+      { q:'「〜ばかり」 artinya...', options:['Hanya / terus-menerus','Kadang-kadang','Tidak pernah','Selalu'], answer:0, explain:'〜ばかり = hanya atau terus-menerus.' },
+      { q:'「〜ところ」 artinya...', options:['Saat / tempat','Orang','Benda','Cara'], answer:0, explain:'〜ところ = saat (sedang melakukan) atau tempat.' },
+      { q:'「〜ばかりでなく」 artinya...', options:['Tidak hanya... tapi juga','Hanya','Meskipun','Karena'], answer:0, explain:'〜ばかりでなく = tidak hanya... tapi juga.' }
+    ]
+  },
+
+  /* ============================================================
+     TATA BAHASA N3 — SET 2
+     ============================================================ */
+  'tata-n3-2': {
+    label: 'Tata Bahasa · N3',
+    title: 'Tata Bahasa N3 — Set 2',
+    desc: 'Idiom & peribahasa Jepang.',
+    soal: [
+      { q:'「一石二鳥」 artinya...', options:['Sekali mendayung dua tiga pulau terlampaui','Batu dan burung','Dua hal yang berbeda','Kerja keras'], answer:0, explain:'一石二鳥 (isseki nichou) = satu batu dua burung — sekali kerja dapat dua hasil.' },
+      { q:'「猿も木から落ちる」 artinya...', options:['Sepandai-pandainya orang bisa salah','Monyet jatuh dari pohon','Ahli juga bisa gagal','Belajar terus'], answer:0, explain:'猿も木から落ちる = bahkan monyet pun jatuh dari pohon — orang ahli bisa salah.' },
+      { q:'「七転び八起き」 artinya...', options:['Jatuh tujuh kali bangun delapan kali','Sering gagal','Jarang berhasil','Tidak pernah menyerah'], answer:0, explain:'七転び八起き = jatuh bangun — tidak menyerah.' },
+      { q:'「急がば回れ」 artinya...', options:['Kalau tergesa-gesa, ambil jalan aman','Cepat lebih baik','Jangan lambat','Jalan pintas'], answer:0, explain:'急がば回れ = kalau mau cepat, ambil jalan yang aman (bukan jalan pintas).' },
+      { q:'「石の上にも三年」 artinya...', options:['Kesabaran akan berbuah','Tiga tahun di atas batu','Bekerja keras','Duduk diam'], answer:0, explain:'石の上にも三年 = duduk 3 tahun di atas batu — kesabaran akan membuahkan hasil.' },
+      { q:'「目から鱗」 artinya...', options:['Tiba-tiba sadar / tercerahkan','Sakit mata','Buta','Melihat jelas'], answer:0, explain:'目から鱗 (me kara uroko) = seperti sisik jatuh dari mata — tiba-tiba mengerti.' },
+      { q:'「猫の手も借りたい」 artinya...', options:['Sangat sibuk','Suka kucing','Malas','Kesepian'], answer:0, explain:'猫の手も借りたい = ingin pinjam tangan kucing — sangat sibuk.' },
+      { q:'「犬と猿」 artinya...', options:['Hubungan buruk (seperti anjing & monyet)','Sahabat','Keluarga','Rekan kerja'], answer:0, explain:'犬と猿 = seperti anjing dan monyet — hubungan yang tidak akur.' },
+      { q:'「馬が合う」 artinya...', options:['Cocok / akur','Bertengkar','Berlari cepat','Kuat'], answer:0, explain:'馬が合う (uma ga au) = cocok / akur dengan seseorang.' },
+      { q:'「顔が広い」 artinya...', options:['Punya banyak kenalan','Berwajah lebar','Terkenal','Ramah'], answer:0, explain:'顔が広い = punya banyak kenalan / jaringan luas.' },
+      { q:'「頭が切れる」 artinya...', options:['Cerdas / tajam pikiran','Sakit kepala','Pusing','Bodoh'], answer:0, explain:'頭が切れる = cerdas / tajam pikiran.' },
+      { q:'「手を貸す」 artinya...', options:['Membantu','Meminjamkan tangan','Menyakiti','Melepas'], answer:0, explain:'手を貸す = meminjamkan tangan — membantu.' },
+      { q:'「足を運ぶ」 artinya...', options:['Pergi / mengunjungi','Berlari','Melompat','Berhenti'], answer:0, explain:'足を運ぶ = menggerakkan kaki — pergi / mengunjungi.' },
+      { q:'「口が堅い」 artinya...', options:['Bisa menyimpan rahasia','Sulit bicara','Banyak bicara','Pendiam'], answer:0, explain:'口が堅い = mulut terkunci — bisa menyimpan rahasia.' },
+      { q:'「耳が痛い」 artinya...', options:['Sakit mendengar kebenaran','Sakit telinga','Tuli','Peka'], answer:0, explain:'耳が痛い = sakit telinga — sakit mendengar kebenaran tentang diri sendiri.' },
+      { q:'「胸を張る」 artinya...', options:['Percaya diri','Sombong','Takut','Malu'], answer:0, explain:'胸を張る = membusungkan dada — percaya diri.' },
+      { q:'「油を売る」 artinya...', options:['Bermalas-malasan / buang waktu','Menjual minyak','Bekerja keras','Berjualan'], answer:0, explain:'油を売る = menjual minyak — buang waktu / mengobrol saat kerja.' },
+      { q:'「骨が折れる」 artinya...', options:['Sulit / butuh usaha keras','Patah tulang','Sakit','Lelah'], answer:0, explain:'骨が折れる = tulang patah — sulit / butuh usaha keras.' },
+      { q:'「水に流す」 artinya...', options:['Memaafkan / melupakan','Membuang air','Membersihkan','Mengalir'], answer:0, explain:'水に流す = mengalirkan ke air — memaafkan dan melupakan masa lalu.' },
+      { q:'「顔を出す」 artinya...', options:['Muncul / datang sebentar','Memperlihatkan wajah','Malu','Sembunyi'], answer:0, explain:'顔を出す = mengeluarkan wajah — muncul / datang sebentar.' }
+    ]
+  },
+
+  /* ============================================================
+     MEMBACA N3 — SET 1
+     ============================================================ */
+  'membaca-n3-1': {
+    label: 'Membaca · N3',
+    title: 'Membaca N3 — Set 1',
+    desc: 'Teks 400–600 huruf.',
+    soal: [
+      { q:'「近年、日本では 少子高齢化が 進んで います。子どもの 数が 減り、高齢者の 割合が 増えて いるのです。この 問題は、労働力の 不足や 社会保障費の 増大など、様々な 影響を 及ぼして います。」\nApa topik utama teks ini?', options:['Pendidikan anak','Penurunan angka kelahiran & penuaan populasi','Pariwisata Jepang','Ekonomi Jepang'], answer:1, explain:'少子高齢化 = penurunan kelahiran & penuaan populasi.' },
+      { q:'「環境問題は 今や 世界共通の 課題です。特に 地球温暖化は、海面の 上昇や 異常気象を 引き起こし、多くの 国々に 影響を 与えて います。私たち 一人ひとりが できる ことから 始める ことが 大切です。」\nApa pesan utama teks ini?', options:['Masalah lingkungan hanya untuk negara maju','Setiap orang harus mulai dari hal kecil','Pemanasan global tidak berbahaya','Ilmuwan yang bertanggung jawab'], answer:1, explain:'一人ひとりが できる ことから 始める = mulai dari hal kecil yang bisa dilakukan setiap orang.' },
+      { q:'「日本の 伝統的な 文化として、茶道が あります。茶道は 単に お茶を 飲む だけでなく、精神を 鍛える 修行でも あります。一つ一つの 動作に 意味が あり、客人を もてなす 心が 込められて います。」\nApa arti 茶道 menurut teks?', options:['Hanya minum teh','Latihan spiritual & melayani tamu','Pertunjukan seni','Upacara keagamaan'], answer:1, explain:'精神を 鍛える 修行 = latihan spiritual.' },
+      { q:'「AI技術の 発展に 伴い、多くの 職業が 変化しつつ あります。単純作業は 機械に 置き換わる 一方で、創造性や コミュニケーション能力が 求められる 仕事は、ますます 重要に なって います。」\nApa yang disampaikan teks ini?', options:['Semua pekerjaan akan hilang','Pekerjaan kreatif jadi makin penting','AI tidak berguna','Hanya pekerjaan manual yang bertahan'], answer:1, explain:'創造性や コミュニケーション能力...ますます 重要 = kreativitas & komunikasi makin penting.' },
+      { q:'「日本では、満員電車が 日常の 光景です。特に 朝の ラッシュアワーは 非常に 混雑し、時には 駅員が 乗客を 押し込む ことも あります。しかし、多くの 日本人は この 状況に 慣れて いて、文句を 言わずに 通勤して います。」\nBagaimana reaksi orang Jepang terhadap kereta penuh?', options:['Sangat marah','Sudah terbiasa','Menghindari kereta','Mengeluh terus'], answer:1, explain:'多くの 日本人は この 状況に 慣れて いて = banyak orang Jepang sudah terbiasa.' },
+      { q:'「読書は 知識を 増やす だけでなく、想像力を 豊かに する 効果も あります。また、ストレスを 減らし、リラックスする 効果も あると 言われて います。」\nApa manfaat membaca menurut teks?', options:['Hanya menambah pengetahuan','Menambah pengetahuan & mengurangi stres','Membuat bosan','Menghabiskan waktu'], answer:1, explain:'知識を 増やす だけでなく...ストレスを 減らす = menambah pengetahuan & mengurangi stres.' },
+      { q:'「日本の 会社では、報・連・相（ほうれんそう）が 大切だと 言われて います。これは 報告・連絡・相談の 略で、チームで 働く 上で 欠かせない ことです。」\nApa itu 報・連・相?', options:['Nama perusahaan','Laporan, komunikasi, konsultasi','Jenis dokumen','Aturan kantor'], answer:1, explain:'報告・連絡・相談 = laporan, komunikasi, konsultasi.' },
+      { q:'「外国語を 学ぶ ことで、新しい 世界が 開けます。言葉だけでなく、その 国の 文化や 考え方も 理解できる ように なります。」\nApa manfaat belajar bahasa asing?', options:['Hanya bisa bahasa','Membuka dunia baru & budaya','Sulit bergaul','Menghabiskan uang'], answer:1, explain:'新しい 世界が 開けます = membuka dunia baru.' },
+      { q:'「SNSの 普及により、私たちの コミュニケーションの 形は 大きく 変わりました。便利に なった 一方で、誤解や トラブルも 増えて います。」\nApa dampak SNS menurut teks?', options:['Hanya positif','Hanya negatif','Positif & negatif','Tidak ada dampak'], answer:2, explain:'便利に なった 一方で...トラブルも 増えて = di satu sisi nyaman, di sisi lain masalah bertambah.' },
+      { q:'「日本の 食事は、見た目も 大切に します。色とりどりの 食材を 使って、目で 楽しむ ことも 料理の 一部です。」\nApa yang penting dalam makanan Jepang?', options:['Hanya rasa','Penampilan juga','Hanya porsi','Hanya harga'], answer:1, explain:'見た目も 大切 = penampilan juga penting.' },
+      { q:'「ボランティア活動は、他者を 助ける だけでなく、自分自身の 成長にも つながります。様々な 人と 出会い、新しい 経験を 積む ことが できます。」\nApa manfaat volunteer menurut teks?', options:['Hanya membantu orang','Membantu orang & mengembangkan diri','Mengisi waktu','Mencari uang'], answer:1, explain:'他者を 助ける だけでなく、自分自身の 成長にも = membantu orang & mengembangkan diri.' },
+      { q:'「睡眠不足は、集中力の 低下や 健康問題を 引き起こします。特に スマートフォンの 使いすぎは、睡眠の 質を 悪く する 原因の 一つです。」\nApa penyebab kualitas tidur buruk?', options:['Terlalu banyak makan','Penggunaan smartphone berlebihan','Olahraga berlebihan','Terlalu banyak tidur'], answer:1, explain:'スマートフォンの 使いすぎ = penggunaan smartphone berlebihan.' },
+      { q:'「日本の 四季は、それぞれ 美しい 風景を 見せて くれます。春の 桜、夏の 花火、秋の 紅葉、冬の 雪。これらは 日本人の 心の 支えにも なって います。」\nApa yang menjadi penopang hati orang Jepang?', options:['Empat musim','Makanan','Teknologi','Olahraga'], answer:0, explain:'四季...心の 支えに = empat musim menjadi penopang hati.' },
+      { q:'「働き方改革が 進む 中、リモートワークを 取り入れる 企業が 増えて います。通勤時間の 削減や ワークライフバランスの 改善が 期待されて います。」\nApa manfaat remote work?', options:['Lebih cepat capek','Hemat waktu & work-life balance','Sulit komunikasi','Harus ke kantor'], answer:1, explain:'通勤時間の 削減や ワークライフバランスの 改善 = pengurangan waktu komuter & perbaikan work-life balance.' },
+      { q:'「外国人が 日本で 生活する 際、言語の 壁だけでなく、文化の 違いにも 戸惑う ことが あります。例えば、敬語の 使い方や 暗黙の ルールなどです。」\nApa yang membingungkan orang asing di Jepang?', options:['Hanya bahasa','Bahasa & budaya','Hanya makanan','Hanya cuaca'], answer:1, explain:'言語の 壁だけでなく、文化の 違いにも = tidak hanya bahasa, tapi juga perbedaan budaya.' },
+      { q:'「日本の 教育は、集団行動や 協調性を 重視する 傾向が あります。しかし 近年、個性や 創造性を 伸ばす 教育の 必要性も 叫ばれて います。」\nApa nilai yang ditekankan dalam pendidikan Jepang?', options:['Kerja kelompok & kerjasama','Kompetisi individu','Kebebasan penuh','Hafalan saja'], answer:0, explain:'集団行動や 協調性 = kerja kelompok & kerjasama.' },
+      { q:'「高齢化が 進む 日本では、介護の 人材不足が 深刻な 問題と なって います。外国人 労働者の 受け入れも 進んで いますが、言葉や 文化の 壁が 課題です。」\nApa masalah utama dalam perawatan lansia?', options:['Kurang tenaga kerja & hambatan bahasa','Terlalu banyak pekerja','Tidak ada masalah','Terlalu mahal'], answer:0, explain:'人材不足 & 言葉や 文化の 壁 = kurang tenaga kerja & hambatan bahasa/budaya.' },
+      { q:'「買い物に おいても、キャッシュレス化が 進んで います。しかし、高齢者の 中には 現金しか 使わない 人も 多く、新しい 技術に ついて いけない 人も います。」\nSiapa yang kesulitan dengan cashless?', options:['Anak muda','Sebagian orang tua','Semua orang','Pedagang'], answer:1, explain:'高齢者の 中には...新しい 技術に ついて いけない = sebagian orang tua tidak bisa mengikuti teknologi baru.' },
+      { q:'「ストレスを 感じた とき、適度な 運動を する ことが 効果的です。体を 動かす ことで、脳から 幸せホルモンが 分泌されます。」\nApa yang efektif untuk mengurangi stres?', options:['Tidur terus','Olahraga secukupnya','Makan banyak','Menonton TV'], answer:1, explain:'適度な 運動 = olahraga secukupnya.' },
+      { q:'「日本には、四季それぞれに 合わせた 行事が あります。お正月、花見、夏祭り、紅葉狩りなど、季節を 感じる 文化が 根付いて います。」\nApa yang berakar dalam budaya Jepang?', options:['Budaya musiman','Budaya barat','Budaya pop','Budaya digital'], answer:0, explain:'季節を 感じる 文化が 根付いて = budaya merasakan musim telah berakar.' }
+    ]
+  },
+
+  /* ============================================================
+     MENDENGAR N3 — SET 1
+     ============================================================ */
+  'mendengar-n3-1': {
+    label: 'Mendengar · N3',
+    title: 'Mendengar N3 — Set 1',
+    desc: 'Pemahaman percakapan panjang.',
+    soal: [
+      { q:'A: 来週の 打ち合わせ、火曜日の 午後で いかがですか。\nB: すみません、火曜日は 一日中 出張で。水曜日なら 空いて いますが。\nA: では、水曜日の 午後で お願いします。\nKapan rapat diadakan?', options:['Senin pagi','Selasa sore','Rabu sore','Kamis pagi'], answer:2, explain:'水曜日の 午後 = Rabu sore.' },
+      { q:'A: この 資料、明日の 朝までに 仕上げて いただけますか。\nB: すみません、今日は 残業できないんですが、明日の 始業前に 間に合うように します。\nKapan B akan menyelesaikan?', options:['Hari ini','Besok pagi sebelum kerja','Besok siang','Besok malam'], answer:1, explain:'明日の 始業前に 間に合う = besok sebelum jam kerja.' },
+      { q:'A: 山田さん、お客様が いらっしゃいましたよ。\nB: あ、すぐに 応接室に お通しします。\nApa yang akan dilakukan B?', options:['Menelepon pelanggan','Mengantar pelanggan ke ruang tamu','Menyuruh pelanggan pulang','Menyiapkan makanan'], answer:1, explain:'応接室に お通しします = mengantar ke ruang tamu.' },
+      { q:'A: すみません、この 書類の 書き方が わからないんですが。\nB: あ、それは 私も 詳しくないので、田中さんに 聞いた ほうが いいですよ。\nApa saran B?', options:['Tanya ke Tanaka','Tulis sendiri','Serahkan ke B','Tidak usah ditulis'], answer:0, explain:'田中さんに 聞いた ほうが いい = sebaiknya tanya ke Tanaka.' },
+      { q:'A: もしもし、佐藤と 申しますが、部長は いらっしゃいますか。\nB: 申し訳ございません、部長は ただいま 外出中で、3時ごろ 戻る 予定です。\nKapan bagian akan kembali?', options:['Jam 1','Jam 2','Jam 3','Jam 4'], answer:2, explain:'3時ごろ 戻る = kembali sekitar jam 3.' },
+      { q:'A: 日本に 来て から、もう どのくらいに なりますか。\nB: もうすぐ 2年です。最初は 大変でしたが、今は だいぶ 慣れました。\nBagaimana perasaan B sekarang?', options:['Masih sangat sulit','Sudah cukup terbiasa','Ingin pulang','Belum bisa bahasa Jepang'], answer:1, explain:'今は だいぶ 慣れました = sekarang sudah cukup terbiasa.' },
+      { q:'A: 週末、どこか 行きましたか。\nB: ええ、家族と 温泉に 行きました。とても リラックスできました。\nApa yang dilakukan B?', options:['Ke pantai','Ke onsen','Ke gunung','Ke kota'], answer:1, explain:'温泉に 行きました = pergi ke onsen.' },
+      { q:'A: この レポート、字数が 足りない ようですが。\nB: すみません、あと 500字ほど 追加 します。\nApa masalah laporan B?', options:['Terlalu panjang','Kurang panjang','Salah judul','Salah bahasa'], answer:1, explain:'字数が 足りない = jumlah kata kurang.' },
+      { q:'A: 課長、この 企画、いかがでしょうか。\nB: 面白い アイデアですね。ただ、予算の ことを もう少し 詰めた ほうが いいでしょう。\nApa saran atasan?', options:['Ide jelek','Perbaiki anggaran','Batalkan','Lanjut saja'], answer:1, explain:'予算の ことを もう少し 詰めた ほうが = sebaiknya anggaran dipikirkan lebih detail.' },
+      { q:'A: 昨日の 地震、大きかったですね。\nB: ええ、びっくりしました。でも、家族は みんな 無事でした。\nBagaimana kondisi keluarga B?', options:['Terluka','Selamat semua','Hilang','Sakit'], answer:1, explain:'家族は みんな 無事 = keluarga semua selamat.' },
+      { q:'A: 先生、この 文法、もう 一度 説明して いただけませんか。\nB: ええ、いいですよ。どの 部分が わかりにくいですか。\nApa yang diminta A?', options:['Nilai','Penjelasan ulang','Buku','Waktu'], answer:1, explain:'もう 一度 説明して = jelaskan sekali lagi.' },
+      { q:'A: 引っ越しの 準備は どうですか。\nB: だいぶ 進みましたが、まだ 本棚と 食器の 整理が 残って います。\nApa yang belum selesai?', options:['Pakaian','Buku & peralatan makan','Perabot','Elektronik'], answer:1, explain:'本棚と 食器の 整理 = rak buku & peralatan makan.' },
+      { q:'A: 新しい スマホ、どうですか。\nB: 画面が 大きくて 見やすいですが、バッテリーの 持ちが あまり よくないです。\nApa kelemahan HP baru?', options:['Layar kecil','Baterai cepat habis','Harga mahal','Berat'], answer:1, explain:'バッテリーの 持ちが よくない = ketahanan baterai kurang.' },
+      { q:'A: この カフェ、いつも 混んで いますね。\nB: そうですね。特に 昼時は 30分 待つ ことも ありますよ。\nBerapa lama biasanya menunggu?', options:['10 menit','20 menit','30 menit','1 jam'], answer:2, explain:'30分 待つ = menunggu 30 menit.' },
+      { q:'A: 来月、昇進する そうですね。おめでとうございます。\nB: ありがとうございます。責任が 増えるので、頑張らないと いけません。\nApa yang terjadi pada B?', options:['Pensiun','Promosi jabatan','Pindah kerja','Cuti'], answer:1, explain:'昇進する = naik jabatan / promosi.' },
+      { q:'A: 先輩、この 漢字の 読み方、教えて いただけますか。\nB: ええ、これは「はん」と 読みますよ。試験に よく 出ますから、覚えて おいた ほうが いいです。\nApa saran senior?', options:['Jangan hafal','Hafalkan karena sering keluar ujian','Lupakan saja','Cari di internet'], answer:1, explain:'試験に よく 出ますから、覚えて おいた ほうが = karena sering keluar ujian, sebaiknya dihafal.' },
+      { q:'A: 昨日、電車が 30分も 遅れたんです。\nB: それは 大変でしたね。事故でも あったんですか。\nA: いいえ、信号故障だそうです。\nKenapa kereta terlambat?', options:['Kecelakaan','Kerusakan sinyal','Cuaca buruk','Demo'], answer:1, explain:'信号故障 = kerusakan sinyal.' },
+      { q:'A: 今年の 夏休み、どこか 行く 予定は ありますか。\nB: まだ 決めて いませんが、海外に 行きたいなと 思って います。\nApa rencana B?', options:['Belum diputuskan','Sudah pasti ke luar negeri','Tidak ke mana-mana','Pergi ke gunung'], answer:0, explain:'まだ 決めて いません = belum diputuskan.' },
+      { q:'A: お疲れ様です。今日の 会議、長かったですね。\nB: ええ、3時間も かかりましたからね。でも、いい 結論が 出て よかったです。\nBerapa lama rapat tadi?', options:['1 jam','2 jam','3 jam','4 jam'], answer:2, explain:'3時間も かかりました = memakan waktu 3 jam.' },
+      { q:'A: 山田さん、顔色が 良くないですね。大丈夫ですか。\nB: ありがとう ございます。実は 昨日から 熱が あって、あまり 眠れて いないんです。\nApa masalah B?', options:['Tidak bisa tidur & demam','Kelelahan kerja','Sakit perut','Sakit gigi'], answer:0, explain:'熱が あって、あまり 眠れて いない = demam & tidak bisa tidur.' }
+    ]
   }
+
+};
 
 };
