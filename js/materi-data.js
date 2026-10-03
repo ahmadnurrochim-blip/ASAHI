@@ -268,7 +268,229 @@ window.MATERI_DATA = {
       { jp:'今年',     romaji:'Kotoshi',    arti:'Tahun ini' },
       { jp:'来年',     romaji:'Rainen',     arti:'Tahun depan' }
     ]
-  }
+  },
 
-  /* Bagian B (level 9-15) menyusul */
+  /* ============================================================
+     LEVEL 9 — Kata Kerja Dasar
+     ============================================================ */
+  'materi-9': {
+    title: 'Kata Kerja Dasar',
+    jp: '動詞',
+    desc: 'Hafalkan 20 kata kerja bahasa Jepang paling sering dipakai, lengkap dengan bentuk sopan (ます).',
+    tips: 'Kata kerja Jepang punya 2 bentuk: bentuk kamus (食べる) dan bentuk ます (食べます). Bentuk ます dipakai untuk bicara sopan.',
+    vocab: [
+      { jp:'食べる',   romaji:'Taberu',   arti:'Makan' },
+      { jp:'飲む',     romaji:'Nomu',     arti:'Minum' },
+      { jp:'行く',     romaji:'Iku',      arti:'Pergi' },
+      { jp:'来る',     romaji:'Kuru',     arti:'Datang' },
+      { jp:'帰る',     romaji:'Kaeru',    arti:'Pulang' },
+      { jp:'歩く',     romaji:'Aruku',    arti:'Berjalan' },
+      { jp:'走る',     romaji:'Hashiru',  arti:'Berlari' },
+      { jp:'見る',     romaji:'Miru',     arti:'Melihat' },
+      { jp:'聞く',     romaji:'Kiku',     arti:'Mendengar / Bertanya' },
+      { jp:'読む',     romaji:'Yomu',     arti:'Membaca' },
+      { jp:'書く',     romaji:'Kaku',     arti:'Menulis' },
+      { jp:'話す',     romaji:'Hanasu',   arti:'Berbicara' },
+      { jp:'する',     romaji:'Suru',     arti:'Melakukan' },
+      { jp:'買う',     romaji:'Kau',      arti:'Membeli' },
+      { jp:'売る',     romaji:'Uru',      arti:'Menjual' },
+      { jp:'待つ',     romaji:'Matsu',    arti:'Menunggu' },
+      { jp:'使う',     romaji:'Tsukau',   arti:'Menggunakan' },
+      { jp:'作る',     romaji:'Tsukuru',  arti:'Membuat' },
+      { jp:'分かる',   romaji:'Wakaru',   arti:'Mengerti' },
+      { jp:'知る',     romaji:'Shiru',    arti:'Tahu / Mengetahui' }
+    ]
+  },
+
+  /* ============================================================
+     LEVEL 10 — Kata Sifat Dasar
+     ============================================================ */
+  'materi-10': {
+    title: 'Kata Sifat Dasar',
+    jp: '形容詞',
+    desc: 'Hafalkan 20 kata sifat bahasa Jepang paling penting, lengkap dengan lawan katanya.',
+    tips: 'Kata sifat Jepang dibagi 2: い-adjective (berakhiran い) dan な-adjective (butuh な saat menerangkan kata benda).',
+    vocab: [
+      { jp:'大きい',   romaji:'Ookii',     arti:'Besar' },
+      { jp:'小さい',   romaji:'Chiisai',   arti:'Kecil' },
+      { jp:'長い',     romaji:'Nagai',     arti:'Panjang' },
+      { jp:'短い',     romaji:'Mijikai',   arti:'Pendek' },
+      { jp:'暑い',     romaji:'Atsui',     arti:'Panas (cuaca)' },
+      { jp:'寒い',     romaji:'Samui',     arti:'Dingin (cuaca)' },
+      { jp:'熱い',     romaji:'Atsui',     arti:'Panas (benda)' },
+      { jp:'冷たい',   romaji:'Tsumetai',  arti:'Dingin (benda)' },
+      { jp:'高い',     romaji:'Takai',     arti:'Mahal / Tinggi' },
+      { jp:'安い',     romaji:'Yasui',     arti:'Murah' },
+      { jp:'新しい',   romaji:'Atarashii', arti:'Baru' },
+      { jp:'古い',     romaji:'Furui',     arti:'Lama / Tua' },
+      { jp:'若い',     romaji:'Wakai',     arti:'Muda' },
+      { jp:'元気',     romaji:'Genki',     arti:'Sehat / Bersemangat' },
+      { jp:'おいしい', romaji:'Oishii',    arti:'Lezat' },
+      { jp:'甘い',     romaji:'Amai',      arti:'Manis' },
+      { jp:'辛い',     romaji:'Karai',     arti:'Pedas' },
+      { jp:'きれい',   romaji:'Kirei',     arti:'Cantik / Bersih' },
+      { jp:'便利',     romaji:'Benri',     arti:'Praktis / Berguna' },
+      { jp:'静か',     romaji:'Shizuka',   arti:'Tenang / Sepi' }
+    ]
+  },
+
+  /* ============================================================
+     LEVEL 11 — Partikel は・が・を
+     ============================================================ */
+  'materi-11': {
+    title: 'Partikel は・が・を',
+    jp: '助詞',
+    desc: 'Kuasai 3 partikel paling penting dalam bahasa Jepang. Kunci untuk bisa menyusun kalimat sendiri.',
+    tips: 'Tanpa partikel, kalimat Jepang tidak bisa tersusun. Hafalkan 3 ini dulu: は (topik), が (subjek), を (objek).',
+    vocab: [
+      { jp:'は', romaji:'wa',  arti:'Partikel topik kalimat' },
+      { jp:'が', romaji:'ga',  arti:'Partikel subjek kalimat' },
+      { jp:'を', romaji:'o',   arti:'Partikel objek kalimat' },
+      { jp:'私は学生です。',       romaji:'Watashi wa gakusei desu',    arti:'Saya adalah pelajar.' },
+      { jp:'これは本です。',       romaji:'Kore wa hon desu',           arti:'Ini adalah buku.' },
+      { jp:'猫がいます。',         romaji:'Neko ga imasu',              arti:'Ada kucing.' },
+      { jp:'私が行きます。',       romaji:'Watashi ga ikimasu',         arti:'Saya (yang) pergi.' },
+      { jp:'ご飯を食べます。',     romaji:'Gohan o tabemasu',           arti:'Saya makan nasi.' },
+      { jp:'本を読みます。',       romaji:'Hon o yomimasu',             arti:'Saya membaca buku.' },
+      { jp:'私',                   romaji:'Watashi',                   arti:'Saya' },
+      { jp:'あなた',               romaji:'Anata',                     arti:'Kamu' },
+      { jp:'彼',                   romaji:'Kare',                      arti:'Dia (laki-laki)' },
+      { jp:'彼女',                 romaji:'Kanojo',                    arti:'Dia (perempuan)' },
+      { jp:'これ',                 romaji:'Kore',                      arti:'Ini' },
+      { jp:'それ',                 romaji:'Sore',                      arti:'Itu' },
+      { jp:'あれ',                 romaji:'Are',                       arti:'Itu (jauh)' },
+      { jp:'学生',                 romaji:'Gakusei',                   arti:'Pelajar' },
+      { jp:'本',                   romaji:'Hon',                       arti:'Buku' },
+      { jp:'猫',                   romaji:'Neko',                      arti:'Kucing' },
+      { jp:'ご飯',                 romaji:'Gohan',                     arti:'Nasi' }
+    ]
+  },
+
+  /* ============================================================
+     LEVEL 12 — Pola 〜です・〜ます
+     ============================================================ */
+  'materi-12': {
+    title: 'Pola 〜です・〜ます',
+    jp: '文法基礎',
+    desc: 'Kuasai pola kalimat sopan dasar bahasa Jepang. Ini pondasi untuk semua percakapan formal.',
+    tips: 'です dipakai di akhir kalimat kata benda. ます dipakai di akhir kalimat kata kerja.',
+    vocab: [
+      { jp:'〜は〜です',              romaji:'~ wa ~ desu',          arti:'"〜 adalah 〜" (positif)' },
+      { jp:'〜は〜じゃありません',    romaji:'~ wa ~ ja arimasen',   arti:'"〜 bukan 〜" (negatif)' },
+      { jp:'〜は〜でした',            romaji:'~ wa ~ deshita',        arti:'"〜 dulu adalah 〜" (lampau)' },
+      { jp:'〜は〜じゃありませんでした', romaji:'~ wa ~ ja arimasen deshita', arti:'"〜 dulu bukan 〜" (lampau negatif)' },
+      { jp:'〜を〜ます',              romaji:'~ o ~ masu',            arti:'"melakukan 〜" (positif)' },
+      { jp:'〜を〜ません',            romaji:'~ o ~ masen',           arti:'"tidak melakukan 〜" (negatif)' },
+      { jp:'〜を〜ました',            romaji:'~ o ~ mashita',         arti:'"sudah melakukan 〜" (lampau)' },
+      { jp:'〜を〜ませんでした',      romaji:'~ o ~ masen deshita',   arti:'"tidak melakukan 〜" (lampau negatif)' },
+      { jp:'私は学生です。',          romaji:'Watashi wa gakusei desu', arti:'Saya adalah pelajar.' },
+      { jp:'私は学生じゃありません。', romaji:'Watashi wa gakusei ja arimasen', arti:'Saya bukan pelajar.' },
+      { jp:'彼は先生でした。',        romaji:'Kare wa sensei deshita', arti:'Dia dulu seorang guru.' },
+      { jp:'ご飯を食べます。',        romaji:'Gohan o tabemasu',      arti:'Saya makan nasi.' },
+      { jp:'肉を食べません。',        romaji:'Niku o tabemasen',      arti:'Saya tidak makan daging.' },
+      { jp:'昨日、本を読みました。',  romaji:'Kinou, hon o yomimashita', arti:'Kemarin saya membaca buku.' },
+      { jp:'朝ご飯を食べませんでした。', romaji:'Asagohan o tabemasen deshita', arti:'Saya tidak makan sarapan.' },
+      { jp:'学生',                    romaji:'Gakusei',                arti:'Pelajar' },
+      { jp:'先生',                    romaji:'Sensei',                 arti:'Guru' },
+      { jp:'ご飯',                    romaji:'Gohan',                  arti:'Nasi' },
+      { jp:'肉',                      romaji:'Niku',                   arti:'Daging' },
+      { jp:'本',                      romaji:'Hon',                    arti:'Buku' }
+    ]
+  },
+
+  /* ============================================================
+     LEVEL 13 — Partikel に・で・へ
+     ============================================================ */
+  'materi-13': {
+    title: 'Partikel に・で・へ',
+    jp: '助詞上級',
+    desc: 'Kuasai 3 partikel lanjutan yang paling sering muncul setelah は・が・を.',
+    tips: 'に = titik tujuan / waktu spesifik, で = tempat aksi / alat, へ = arah tujuan (lebih formal dari に).',
+    vocab: [
+      { jp:'に', romaji:'ni',  arti:'Titik tujuan / waktu / penerima' },
+      { jp:'で', romaji:'de',  arti:'Tempat aksi / alat / bahan' },
+      { jp:'へ', romaji:'e',   arti:'Arah tujuan (formal)' },
+      { jp:'学校に行きます。',      romaji:'Gakkou ni ikimasu',       arti:'Pergi ke sekolah.' },
+      { jp:'7時に起きます。',       romaji:'Shichi-ji ni okimasu',    arti:'Bangun jam 7.' },
+      { jp:'友達に手紙を書きます。', romaji:'Tomodachi ni tegami o kakimasu', arti:'Menulis surat untuk teman.' },
+      { jp:'学校で勉強します。',    romaji:'Gakkou de benkyou shimasu', arti:'Belajar di sekolah.' },
+      { jp:'車で行きます。',        romaji:'Kuruma de ikimasu',       arti:'Pergi naik mobil.' },
+      { jp:'日本語で話します。',    romaji:'Nihongo de hanashimasu',  arti:'Berbicara dalam bahasa Jepang.' },
+      { jp:'日本へ行きます。',      romaji:'Nihon e ikimasu',         arti:'Pergi ke Jepang.' },
+      { jp:'家へ帰ります。',        romaji:'Ie e kaerimasu',          arti:'Pulang ke rumah.' },
+      { jp:'学校',                  romaji:'Gakkou',                  arti:'Sekolah' },
+      { jp:'車',                    romaji:'Kuruma',                  arti:'Mobil' },
+      { jp:'友達',                  romaji:'Tomodachi',               arti:'Teman' },
+      { jp:'手紙',                  romaji:'Tegami',                  arti:'Surat' },
+      { jp:'日本語',                romaji:'Nihongo',                 arti:'Bahasa Jepang' },
+      { jp:'日本',                  romaji:'Nihon',                   arti:'Jepang' },
+      { jp:'家',                    romaji:'Ie',                      arti:'Rumah' },
+      { jp:'朝',                    romaji:'Asa',                     arti:'Pagi' },
+      { jp:'夜',                    romaji:'Yoru',                    arti:'Malam' }
+    ]
+  },
+
+  /* ============================================================
+     LEVEL 14 — Tempat, Arah & Kata Tanya
+     ============================================================ */
+  'materi-14': {
+    title: 'Tempat, Arah & Kata Tanya',
+    jp: '場所',
+    desc: 'Hafalkan 20 kosakata lokasi, arah, dan kata tanya penting dalam bahasa Jepang.',
+    tips: 'Kata tanya selalu diakhiri partikel か di akhir kalimat. Contoh: どこですか (di mana?).',
+    vocab: [
+      { jp:'ここ',       romaji:'Koko',      arti:'Di sini' },
+      { jp:'そこ',       romaji:'Soko',      arti:'Di situ' },
+      { jp:'あそこ',     romaji:'Asoko',     arti:'Di sana' },
+      { jp:'どこ',       romaji:'Doko',      arti:'Di mana?' },
+      { jp:'どちら',     romaji:'Dochira',   arti:'Di mana? (sopan)' },
+      { jp:'だれ',       romaji:'Dare',      arti:'Siapa?' },
+      { jp:'どなた',     romaji:'Donata',    arti:'Siapa? (sopan)' },
+      { jp:'なに / なん', romaji:'Nani / Nan', arti:'Apa?' },
+      { jp:'いつ',       romaji:'Itsu',      arti:'Kapan?' },
+      { jp:'なぜ / どうして', romaji:'Naze / Doushite', arti:'Mengapa?' },
+      { jp:'どう',       romaji:'Dou',       arti:'Bagaimana?' },
+      { jp:'右',         romaji:'Migi',      arti:'Kanan' },
+      { jp:'左',         romaji:'Hidari',    arti:'Kiri' },
+      { jp:'上',         romaji:'Ue',        arti:'Atas' },
+      { jp:'下',         romaji:'Shita',     arti:'Bawah' },
+      { jp:'前',         romaji:'Mae',       arti:'Depan' },
+      { jp:'後ろ',       romaji:'Ushiro',    arti:'Belakang' },
+      { jp:'中',         romaji:'Naka',      arti:'Dalam' },
+      { jp:'外',         romaji:'Soto',      arti:'Luar' },
+      { jp:'隣',         romaji:'Tonari',    arti:'Sebelah' }
+    ]
+  },
+
+  /* ============================================================
+     LEVEL 15 — Belanja & Harga
+     ============================================================ */
+  'materi-15': {
+    title: 'Belanja & Harga',
+    jp: '買い物',
+    desc: 'Hafalkan 20 kosakata uang, harga, dan percakapan di toko dalam bahasa Jepang.',
+    tips: 'Untuk menanyakan harga, pakai pola 〜はいくらですか (berapa harga 〜?).',
+    vocab: [
+      { jp:'お金',     romaji:'Okane',    arti:'Uang' },
+      { jp:'円',       romaji:'En',       arti:'Yen (mata uang Jepang)' },
+      { jp:'いくら',   romaji:'Ikura',    arti:'Berapa (harga)?' },
+      { jp:'値段',     romaji:'Nedan',    arti:'Harga' },
+      { jp:'高い',     romaji:'Takai',    arti:'Mahal' },
+      { jp:'安い',     romaji:'Yasui',    arti:'Murah' },
+      { jp:'無料',     romaji:'Muryou',   arti:'Gratis' },
+      { jp:'店',       romaji:'Mise',     arti:'Toko' },
+      { jp:'スーパー', romaji:'Suupaa',   arti:'Supermarket' },
+      { jp:'コンビニ', romaji:'Konbini',  arti:'Minimarket (24 jam)' },
+      { jp:'デパート', romaji:'Depaato',  arti:'Department store' },
+      { jp:'市場',     romaji:'Ichiba',   arti:'Pasar' },
+      { jp:'レジ',     romaji:'Reji',     arti:'Kasir' },
+      { jp:'買う',     romaji:'Kau',      arti:'Membeli' },
+      { jp:'売る',     romaji:'Uru',      arti:'Menjual' },
+      { jp:'払う',     romaji:'Harau',    arti:'Membayar' },
+      { jp:'選ぶ',     romaji:'Erabu',    arti:'Memilih' },
+      { jp:'現金',     romaji:'Genkin',   arti:'Uang tunai' },
+      { jp:'クレジットカード', romaji:'Kurejitto kaado', arti:'Kartu kredit' },
+      { jp:'レシート', romaji:'Reshiito', arti:'Struk belanja' }
+    ]
+  }
 };
