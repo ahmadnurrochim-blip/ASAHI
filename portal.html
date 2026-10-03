@@ -15,8 +15,9 @@
   <!-- ============ CSS POPUP LEVELING ============ -->
   <link rel="stylesheet" href="css/leveling-popup.css" />
 
-  <!-- ============ DAFTAR KODE AKSES (dibaca oleh portal & access-guard) ============ -->
-  <script src="js/kode-valid.js"></script>
+  <!-- ============ FIREBASE (WAJIB DI HEAD) ============ -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
 
   <style>
     /* ============================================================
@@ -44,9 +45,6 @@
       overflow-x: hidden;
     }
 
-    /* ============================================================
-       BACKGROUND
-       ============================================================ */
     .bg {
       position: fixed;
       inset: 0;
@@ -70,9 +68,7 @@
       pointer-events: none;
     }
 
-    /* ============================================================
-       HEADER
-       ============================================================ */
+    /* HEADER */
     header {
       position: sticky;
       top: 0;
@@ -186,9 +182,6 @@
     }
     .nav-btn.active i { color: #fff; }
 
-    /* ============================================================
-       MAIN
-       ============================================================ */
     .container {
       max-width: 720px;
       margin: 0 auto;
@@ -228,9 +221,6 @@
       50%      { transform: translateY(-16px) rotate(12deg); }
     }
 
-    /* ============================================================
-       PAGE TITLE
-       ============================================================ */
     .page-title {
       text-align: center;
       margin-bottom: 34px;
@@ -271,9 +261,7 @@
       line-height: 1.7;
     }
 
-    /* ============================================================
-       PANEL
-       ============================================================ */
+    /* PANEL */
     .panel {
       background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(8px);
@@ -310,9 +298,7 @@
 
     .panel-title i { color: var(--red); font-size: 16px; }
 
-    /* ============================================================
-       PRICE CARD
-       ============================================================ */
+    /* PRICE CARD */
     .price-card {
       text-align: center;
       padding: 20px 0 8px;
@@ -364,9 +350,7 @@
       margin-bottom: 22px;
     }
 
-    /* ============================================================
-       BENEFIT LIST
-       ============================================================ */
+    /* BENEFIT */
     .benefit-list {
       display: flex;
       flex-direction: column;
@@ -394,9 +378,7 @@
 
     .benefit-item strong { color: var(--red); }
 
-    /* ============================================================
-       QRIS BOX
-       ============================================================ */
+    /* QRIS */
     .qris-box {
       text-align: center;
       padding: 20px;
@@ -418,7 +400,6 @@
       margin: 0 auto;
     }
 
-    /* Placeholder kalau gambar QR belum ada */
     .qris-placeholder {
       width: 240px;
       height: 240px;
@@ -454,9 +435,7 @@
       margin-top: 4px;
     }
 
-    /* ============================================================
-       STEPS
-       ============================================================ */
+    /* STEPS */
     .steps {
       list-style: none;
       padding: 0;
@@ -486,9 +465,7 @@
       flex-shrink: 0;
     }
 
-    /* ============================================================
-       TOMBOL WA
-       ============================================================ */
+    /* BTN WA */
     .btn-wa {
       display: flex;
       align-items: center;
@@ -516,12 +493,8 @@
       box-shadow: 0 12px 26px rgba(37, 211, 102, 0.4);
     }
 
-    /* ============================================================
-       FORM KODE
-       ============================================================ */
-    .form-group {
-      margin-bottom: 16px;
-    }
+    /* FORM */
+    .form-group { margin-bottom: 16px; }
 
     .form-group label {
       display: block;
@@ -533,9 +506,7 @@
 
     .form-group label .req { color: var(--red); margin-left: 2px; }
 
-    .input-wrap {
-      position: relative;
-    }
+    .input-wrap { position: relative; }
 
     .input-wrap .input-icon {
       position: absolute;
@@ -583,9 +554,7 @@
 
     .form-group.error .error-msg { display: block; }
 
-    /* ============================================================
-       TOMBOL SUBMIT KODE
-       ============================================================ */
+    /* BTN PRIMARY */
     .btn-primary {
       display: flex;
       align-items: center;
@@ -619,9 +588,39 @@
       box-shadow: none;
     }
 
-    /* ============================================================
-       ALERT
-       ============================================================ */
+    /* GOOGLE LOGIN BUTTON */
+    .btn-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      border: 2px solid #e8e2d8;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-google:hover {
+      border-color: var(--red);
+      background: #fff5f7;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-google img {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ALERT */
     .alert {
       padding: 14px 18px;
       border-radius: 10px;
@@ -655,9 +654,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ============================================================
-       STATUS CARD (kalau sudah punya akses)
-       ============================================================ */
+    /* STATUS CARD */
     .status-card {
       text-align: center;
       padding: 40px 26px;
@@ -721,6 +718,38 @@
       word-break: break-all;
     }
 
+    /* USER PROFILE (header kanan) */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px 6px 6px;
+      background: #fff;
+      border: 2px solid #e8e2d8;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .user-profile img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .user-profile .logout {
+      color: var(--red);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .user-profile .logout:hover {
+      background: #fee2e2;
+    }
+
     .btn-group {
       display: flex;
       gap: 10px;
@@ -756,9 +785,6 @@
       color: var(--red);
     }
 
-    /* ============================================================
-       FOOTER
-       ============================================================ */
     footer {
       text-align: center;
       padding: 30px 20px;
@@ -778,14 +804,8 @@
       font-size: 14px;
     }
 
-    /* ============================================================
-       UTIL
-       ============================================================ */
     .hidden { display: none !important; }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
     @media (max-width: 820px) {
       .header-inner {
         flex-direction: column;
@@ -805,17 +825,17 @@
       .panel { padding: 22px 18px; }
       .qris-box img { max-width: 100%; }
       .price-main .amount { font-size: 52px; }
+      .user-profile .name { display: none; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ============ BACKGROUND ============ -->
   <div class="bg"></div>
   <div class="bg-pattern"></div>
 
-  <!-- ============ HEADER ============ -->
+  <!-- HEADER -->
   <header>
     <div class="header-inner">
 
@@ -837,12 +857,20 @@
         <a href="materi.html" class="nav-btn">
           <i class="fas fa-book-open"></i> <span>Materi</span>
         </a>
+
+        <!-- User profile (kalau login) -->
+        <div class="user-profile hidden" id="userProfile">
+          <img id="userAvatar" src="" alt="" />
+          <span class="name" id="userName">-</span>
+          <span class="logout" id="btnLogout" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+          </span>
+        </div>
       </nav>
 
     </div>
   </header>
 
-  <!-- ============ MAIN ============ -->
   <main class="container">
 
     <div class="kanji-watermark">鍵</div>
@@ -852,26 +880,45 @@
     <div class="sakura s3">🌸</div>
     <div class="sakura s4">🌸</div>
 
-    <!-- Judul -->
     <div class="page-title">
       <div class="badge">
         <i class="fas fa-key"></i> アクセスコード
       </div>
       <h1>Buka <span class="accent">Semua Level</span></h1>
-      <p>Satu kali bayar, akses level 11 sampai 50 selamanya. Masukkan kode akses dari admin untuk membuka.</p>
+      <p>Satu kali bayar, akses semua 100 level leveling selamanya. Login dulu, lalu masukkan kode akses dari admin.</p>
     </div>
 
-    <!-- ============================================================
-         ALERT GLOBAL
-         ============================================================ -->
     <div class="alert" id="globalAlert"></div>
 
-    <!-- ============================================================
-         TAMPILAN 1: BELUM PUNYA AKSES
-         ============================================================ -->
-    <div id="viewLocked">
+    <!-- VIEW: LOADING (cek login) -->
+    <div id="viewLoading" class="panel" style="text-align:center;padding:40px;">
+      <i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--red);"></i>
+      <p style="margin-top:14px;color:var(--gray);">Memuat...</p>
+    </div>
 
-      <!-- PANEL: HARGA & BENEFIT -->
+    <!-- VIEW: BELUM LOGIN -->
+    <div id="viewLogin" class="hidden">
+      <div class="panel">
+        <div class="panel-title">
+          <i class="fas fa-sign-in-alt"></i>
+          Login Dulu
+        </div>
+
+        <p style="font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:18px;">
+          Untuk membuka akses premium, kamu perlu login dengan <strong>Google</strong>.
+          Nama kamu akan otomatis muncul di <strong>leaderboard</strong>.
+        </p>
+
+        <button class="btn-google" id="btnLoginGoogle">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+          Login dengan Google
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW: BELUM PUNYA AKSES -->
+    <div id="viewLocked" class="hidden">
+
       <div class="panel">
         <div class="panel-title">
           <i class="fas fa-crown"></i>
@@ -885,17 +932,17 @@
           <div class="price-main">
             <span class="amount">15.000</span>
           </div>
-          <div class="price-sub">Akses semua level 11–50, selamanya</div>
+          <div class="price-sub">Akses semua 100 level leveling, selamanya</div>
         </div>
 
         <div class="benefit-list">
           <div class="benefit-item">
             <i class="fas fa-check-circle"></i>
-            <span>Buka <strong>40 level</strong> (11 sampai 50)</span>
+            <span>Buka <strong>100 level leveling</strong></span>
           </div>
           <div class="benefit-item">
             <i class="fas fa-check-circle"></i>
-            <span>Akses materi & latihan <strong>N5, N4, N3</strong></span>
+            <span>Masuk <strong>leaderboard global</strong></span>
           </div>
           <div class="benefit-item">
             <i class="fas fa-check-circle"></i>
@@ -903,12 +950,11 @@
           </div>
           <div class="benefit-item">
             <i class="fas fa-check-circle"></i>
-            <span>Update materi baru <strong>gratis</strong></span>
+            <span>Update konten baru <strong>gratis</strong></span>
           </div>
         </div>
       </div>
 
-      <!-- PANEL: QRIS -->
       <div class="panel">
         <div class="panel-title">
           <i class="fas fa-qrcode"></i>
@@ -916,27 +962,18 @@
         </div>
 
         <div class="qris-box">
-          <!--
-            ============================================================
-            GANTI src dengan nama file QRIS kamu.
-            Simpan gambar di folder yang sama dengan portal.html.
-            Contoh: qr-asahi.png
-            ============================================================
-          -->
           <img
             src="qr-asahi.png"
-            alt="QRIS Asahi Mandiri - ZUHRIA ID"
+            alt="QRIS Asahi Mandiri - ZUHRI AID"
             onerror="this.style.display='none';document.getElementById('qrisPlaceholder').style.display='flex';"
           />
-
-          <!-- Placeholder kalau gambar belum ada -->
           <div class="qris-placeholder" id="qrisPlaceholder">
             <i class="fas fa-qrcode"></i>
             <span>QRIS belum tersedia</span>
           </div>
 
           <div class="qris-label">Scan untuk membayar</div>
-          <div class="qris-merchant">ZUHRIA ID</div>
+          <div class="qris-merchant">ZUHRI AID</div>
         </div>
 
         <ol class="steps">
@@ -947,19 +984,11 @@
           <li><span class="num">5</span> Selesaikan pembayaran</li>
         </ol>
 
-        <!-- Tombol konfirmasi WhatsApp -->
-        <a
-          href="#"
-          class="btn-wa"
-          id="btnKonfirmasiWA"
-          target="_blank"
-          rel="noopener"
-        >
+        <a href="#" class="btn-wa" id="btnKonfirmasiWA" target="_blank" rel="noopener">
           <i class="fab fa-whatsapp"></i> Konfirmasi via WhatsApp
         </a>
       </div>
 
-      <!-- PANEL: MASUKKAN KODE -->
       <div class="panel">
         <div class="panel-title">
           <i class="fas fa-unlock-alt"></i>
@@ -995,9 +1024,7 @@
 
     </div>
 
-    <!-- ============================================================
-         TAMPILAN 2: SUDAH PUNYA AKSES
-         ============================================================ -->
+    <!-- VIEW: SUDAH PUNYA AKSES -->
     <div id="viewUnlocked" class="hidden">
       <div class="panel status-card">
 
@@ -1006,18 +1033,16 @@
         </div>
 
         <h2>Akses <span class="accent">Terbuka!</span></h2>
-        <p>Kamu sudah punya akses ke semua level 11–50. Selamat belajar!</p>
+        <p>Kamu sudah punya akses ke semua level. Selamat belajar!</p>
 
-        <div class="status-info" id="statusInfo">
-          <!-- Diisi oleh JS -->
-        </div>
+        <div class="status-info" id="statusInfo"></div>
 
         <div class="btn-group">
           <a href="leveling.html" class="btn-primary">
-            <i class="fas fa-graduation-cap"></i> START
+            <i class="fas fa-graduation-cap"></i> Mulai Leveling
           </a>
-          <button type="button" class="btn-secondary" id="btnReset">
-            <i class="fas fa-redo"></i> Reset Akses
+          <button type="button" class="btn-secondary" id="btnLogout2">
+            <i class="fas fa-sign-out-alt"></i> Logout
           </button>
         </div>
 
@@ -1026,44 +1051,33 @@
 
   </main>
 
-  <!-- ============ FOOTER ============ -->
   <footer>
     <span class="jp">朝日 自立</span>
     © 2026 Asahi Mandiri. Semua hak dilindungi.
   </footer>
 
-  <!-- ============ SCRIPT POPUP LEVELING ============ -->
-  <script src="js/leveling-popup.js"></script>
+  <!-- SCRIPT -->
+  <script src="js/kode-valid.js"></script>
+  <script src="js/access-guard.js"></script>
 
-  <!-- ============ SCRIPT PORTAL ============ -->
   <script>
     /* ============================================================
        KONFIGURASI
-       ------------------------------------------------------------
-       NOMOR_WA  : Nomor WhatsApp admin (format 62xxxxxxxxxx).
-       HARGA     : Nominal pembayaran.
-       STORAGE   : Key localStorage untuk menyimpan status akses.
        ============================================================ */
     const NOMOR_WA = '6281392496324';
     const HARGA    = 15000;
-    const STORAGE  = 'asahi_access_code';
 
     /* ============================================================
        DAFTAR KODE AKSES
-       ------------------------------------------------------------
-       Diambil dari js/kode-valid.js
-       Tambah/ubah kode CUKUP di file itu saja.
        ============================================================ */
     const KODE_VALID = window.KODE_VALID || {};
-
-    /* ============================================================
-       FORMAT RUPIAH
-       ============================================================ */
     const rupiah = (n) => 'Rp ' + n.toLocaleString('id-ID');
 
     /* ============================================================
        ELEMEN
        ============================================================ */
+    const viewLoading    = document.getElementById('viewLoading');
+    const viewLogin      = document.getElementById('viewLogin');
     const viewLocked     = document.getElementById('viewLocked');
     const viewUnlocked   = document.getElementById('viewUnlocked');
     const statusInfo     = document.getElementById('statusInfo');
@@ -1073,7 +1087,12 @@
     const groupKode      = document.getElementById('groupKode');
     const btnSubmitKode  = document.getElementById('btnSubmitKode');
     const btnKonfirmasi  = document.getElementById('btnKonfirmasiWA');
-    const btnReset       = document.getElementById('btnReset');
+    const btnLoginGoogle = document.getElementById('btnLoginGoogle');
+    const btnLogout      = document.getElementById('btnLogout');
+    const btnLogout2     = document.getElementById('btnLogout2');
+    const userProfile    = document.getElementById('userProfile');
+    const userName       = document.getElementById('userName');
+    const userAvatar     = document.getElementById('userAvatar');
 
     /* ============================================================
        ALERT HELPER
@@ -1089,32 +1108,46 @@
     }
 
     /* ============================================================
-       CEK STATUS AKSES
+       HIDE ALL VIEWS
        ============================================================ */
-    function cekAkses() {
-      try {
-        const saved = localStorage.getItem(STORAGE);
-        if (!saved) return null;
-        const data = JSON.parse(saved);
-        if (data && data.kode && KODE_VALID[data.kode]) return data;
-        return null;
-      } catch (e) {
-        return null;
-      }
+    function hideAllViews() {
+      viewLoading.classList.add('hidden');
+      viewLogin.classList.add('hidden');
+      viewLocked.classList.add('hidden');
+      viewUnlocked.classList.add('hidden');
     }
 
     /* ============================================================
-       TAMPILKAN TAMPILAN SESUAI STATUS
+       RENDER PORTAL
        ============================================================ */
-    function renderView() {
-      const akses = cekAkses();
+    async function renderPortal() {
+      hideAllViews();
 
-      if (akses) {
-        viewLocked.classList.add('hidden');
+      const user = window.AsahiFirebase?.currentUser;
+
+      // 1. Belum login → tampilkan view login
+      if (!user) {
+        userProfile.classList.add('hidden');
+        viewLogin.classList.remove('hidden');
+        return;
+      }
+
+      // 2. Sudah login → tampilkan user profile
+      userProfile.classList.remove('hidden');
+      userName.textContent  = user.displayName || user.email;
+      userAvatar.src        = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/mail.svg';
+
+      // 3. Cek akses premium
+      const info = await window.AsahiAccess.getInfo();
+
+      if (info) {
+        // Sudah premium
         viewUnlocked.classList.remove('hidden');
-
-        const info = KODE_VALID[akses.kode];
         statusInfo.innerHTML = `
+          <div class="row">
+            <span>Nama</span>
+            <strong>${user.displayName || '-'}</strong>
+          </div>
           <div class="row">
             <span>Status</span>
             <strong><i class="fas fa-check-circle"></i> Aktif</strong>
@@ -1125,28 +1158,67 @@
           </div>
           <div class="row">
             <span>Kode</span>
-            <strong>${akses.kode}</strong>
+            <strong>${info.kode}</strong>
           </div>
           <div class="row">
             <span>Tanggal Aktif</span>
-            <strong>${akses.tanggal || '-'}</strong>
+            <strong>${info.tanggal || '-'}</strong>
           </div>
         `;
       } else {
+        // Belum premium
         viewLocked.classList.remove('hidden');
-        viewUnlocked.classList.add('hidden');
       }
     }
 
     /* ============================================================
+       LOGIN GOOGLE
+       ============================================================ */
+    btnLoginGoogle.addEventListener('click', async () => {
+      try {
+        btnLoginGoogle.disabled = true;
+        btnLoginGoogle.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Membuka Google...';
+        await window.AsahiFirebase.loginGoogle();
+        // Auth listener akan otomatis render ulang
+      } catch (err) {
+        console.error(err);
+        showAlert('error', 'Login gagal: ' + (err.message || 'Coba lagi.'));
+      } finally {
+        btnLoginGoogle.disabled = false;
+        btnLoginGoogle.innerHTML = `
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+          Login dengan Google
+        `;
+      }
+    });
+
+    /* ============================================================
+       LOGOUT
+       ============================================================ */
+    async function handleLogout() {
+      if (!confirm('Yakin mau logout?')) return;
+      try {
+        await window.AsahiFirebase.logout();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    btnLogout.addEventListener('click', handleLogout);
+    btnLogout2.addEventListener('click', handleLogout);
+
+    /* ============================================================
        FORM SUBMIT KODE
        ============================================================ */
-    formKode.addEventListener('submit', (e) => {
+    formKode.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const kode = inputKode.value.trim().toUpperCase();
+      const user = window.AsahiFirebase?.currentUser;
+      if (!user) {
+        showAlert('error', 'Kamu harus login dulu.');
+        return;
+      }
 
-      // Reset error
+      const kode = inputKode.value.trim().toUpperCase();
       groupKode.classList.remove('error');
 
       if (!kode) {
@@ -1160,26 +1232,31 @@
         return;
       }
 
-      // Kode valid → simpan
+      // Kode valid → simpan ke Firestore
       btnSubmitKode.disabled = true;
       btnSubmitKode.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memverifikasi...';
 
-      setTimeout(() => {
-        const data = {
-          kode: kode,
-          tanggal: new Date().toLocaleDateString('id-ID', {
-            day: 'numeric', month: 'long', year: 'numeric'
-          })
-        };
-        localStorage.setItem(STORAGE, JSON.stringify(data));
+      try {
+        const tanggal = new Date().toLocaleDateString('id-ID', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        });
+
+        await window.AsahiFirebase.saveUserData(user.uid, {
+          nama: user.displayName || 'Anonim',
+          email: user.email || '',
+          foto: user.photoURL || '',
+          kodeAkses: kode,
+          tanggalAktif: tanggal,
+          totalPoin: 0
+        });
 
         btnSubmitKode.disabled = false;
         btnSubmitKode.innerHTML = '<i class="fas fa-unlock"></i> Buka Akses';
 
-        renderView();
-        showAlert('success', 'Berhasil! Akses semua level sudah terbuka. Selamat belajar! 🎉');
+        await renderPortal();
+        showAlert('success', 'Berhasil! Akses leveling sudah terbuka. Selamat belajar! 🎉');
 
-        // Kalau user tadi dilempar dari halaman terkunci → balik ke sana
+        // Redirect balik kalau tadi dari leveling
         const redirect = sessionStorage.getItem('asahi_redirect_after_unlock');
         if (redirect) {
           sessionStorage.removeItem('asahi_redirect_after_unlock');
@@ -1187,39 +1264,54 @@
             window.location.href = redirect;
           }, 1500);
         }
-      }, 800);
+
+      } catch (err) {
+        console.error(err);
+        btnSubmitKode.disabled = false;
+        btnSubmitKode.innerHTML = '<i class="fas fa-unlock"></i> Buka Akses';
+        showAlert('error', 'Gagal menyimpan akses: ' + (err.message || 'Coba lagi.'));
+      }
     });
 
-    // Hapus error saat user mengetik
     inputKode.addEventListener('input', () => groupKode.classList.remove('error'));
 
     /* ============================================================
        TOMBOL KONFIRMASI WA
        ============================================================ */
-    const pesanWA = encodeURIComponent(
-      `Halo Admin Asahi Mandiri,\n\n` +
-      `Saya sudah melakukan pembayaran langganan:\n` +
-      `• Nominal: ${rupiah(HARGA)}\n` +
-      `• Metode: QRIS (ZUHRI AID)\n\n` +
-      `Berikut saya lampirkan bukti transfernya. Mohon dikirim kode aksesnya ya. Terima kasih! 🙏`
-    );
-    btnKonfirmasi.href = `https://wa.me/${NOMOR_WA}?text=${pesanWA}`;
+    function updateWAButton() {
+      const user = window.AsahiFirebase?.currentUser;
+      const nama = user?.displayName || '(belum login)';
+      const email = user?.email || '-';
+
+      const pesanWA = encodeURIComponent(
+        `Halo Admin Asahi Mandiri,\n\n` +
+        `Saya sudah melakukan pembayaran:\n` +
+        `• Nominal: ${rupiah(HARGA)}\n` +
+        `• Metode: QRIS (ZUHRI AID)\n\n` +
+        `Data saya:\n` +
+        `• Nama: ${nama}\n` +
+        `• Email: ${email}\n\n` +
+        `Berikut saya lampirkan bukti transfernya. Mohon dikirim kode aksesnya ya. Terima kasih! 🙏`
+      );
+      btnKonfirmasi.href = `https://wa.me/${NOMOR_WA}?text=${pesanWA}`;
+    }
 
     /* ============================================================
-       TOMBOL RESET
+       LISTEN: AUTH STATE
        ============================================================ */
-    btnReset.addEventListener('click', () => {
-      if (confirm('Reset akses? Kamu perlu memasukkan kode lagi.')) {
-        localStorage.removeItem(STORAGE);
-        renderView();
-        showAlert('info', 'Akses berhasil direset.');
-      }
+    window.addEventListener('asahi-auth-changed', async () => {
+      await renderPortal();
+      updateWAButton();
     });
 
     /* ============================================================
        INIT
        ============================================================ */
-    renderView();
+    // Tunggu Firebase siap dulu
+    setTimeout(async () => {
+      await renderPortal();
+      updateWAButton();
+    }, 500);
 
   </script>
 
