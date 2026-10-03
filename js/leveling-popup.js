@@ -1,21 +1,30 @@
 /* ============================================================
-   LEADERBOARD POPUP — Asahi Mandiri
+   LEVELING + LEADERBOARD POPUP — Asahi Mandiri
    ------------------------------------------------------------
-   Otomatis inject popup leaderboard top 3 ke semua halaman.
-   Ambil data dari Firestore (users collection).
+   Popup gabungan: info leveling + leaderboard top 3.
+   Otomatis inject ke semua halaman yang memanggil script ini.
    ============================================================ */
 
 (function () {
   // ---------- KONFIGURASI ----------
   const CONFIG = {
-    title:       'Leaderboard',
-    subtitle:    'Top 3 Player',
-    headerIcon:  'fa-crown',
-    buttonText:  'Lihat Semua',
-    buttonHref:  'leaderboard.html',
-    buttonIcon:  'fa-list-ol',
+    // Bagian leveling
+    title:       'Akses Leveling',
+    subtitle:    'N5 • N4 • N3',
+    description: 'Tingkatkan kemampuan Bahasa Jepang kamu melalui materi dan latihan berdasarkan level.',
+    buttonText:  'Mulai Leveling',
+    buttonHref:  'portal.html',
+    buttonIcon:  'fa-unlock-alt',
+    headerIcon:  'fa-graduation-cap',
+
+    // Bagian leaderboard
+    lbTitle:     'Leaderboard',
+    lbSubtitle:  'Top 3 Player',
+    lbIcon:      'fa-crown',
+
     // localStorage key
-    storageKey:  'asahi_lb_popup_closed',
+    storageKey:  'asahi_leveling_popup_closed',
+
     // Fallback data kalau Firestore kosong / belum login
     fallback: [
       { nama: 'Budi S.',   totalPoin: 9800 },
@@ -29,65 +38,7 @@
     if (localStorage.getItem(CONFIG.storageKey) === '1') return;
   } catch (e) { /* abaikan */ }
 
-  // ---------- RENDER POPUP DENGAN DATA ----------
-  function renderPopup(topPlayers) {
-    const popup = document.createElement('div');
-    popup.className = 'leveling-access';
-    popup.id = 'levelingAccess';
-    popup.setAttribute('role', 'complementary');
-    popup.setAttribute('aria-label', 'Leaderboard Asahi Mandiri');
-
-    // Susun baris top 3
-    const medals = ['🥇', '🥈', '🥉'];
-    const rowsHtml = topPlayers.slice(0, 3).map((p, i) => `
-      <div class="lb-popup-row">
-        <div class="lb-popup-medal">${medals[i]}</div>
-        <div class="lb-popup-info">
-          <div class="lb-popup-name">${escapeHtml(p.nama || 'Anonim')}</div>
-          <div class="lb-popup-poin">${(p.totalPoin || 0).toLocaleString('id-ID')} poin</div>
-        </div>
-      </div>
-    `).join('');
-
-    popup.innerHTML = `
-      <button class="leveling-close" id="levelingClose" aria-label="Tutup">
-        <i class="fas fa-times"></i>
-      </button>
-
-      <div class="leveling-header">
-        <div class="leveling-icon">
-          <i class="fas ${CONFIG.headerIcon}"></i>
-        </div>
-        <div>
-          <div class="leveling-title">${CONFIG.title}</div>
-          <div class="leveling-subtitle">${CONFIG.subtitle}</div>
-        </div>
-      </div>
-
-      <div class="lb-popup-list">
-        ${rowsHtml}
-      </div>
-
-      <a href="${CONFIG.buttonHref}" class="leveling-button">
-        <i class="fas ${CONFIG.buttonIcon}"></i>
-        ${CONFIG.buttonText}
-      </a>
-    `;
-
-    document.body.appendChild(popup);
-
-    // ---------- TOMBOL CLOSE ----------
-    const btnClose = document.getElementById('levelingClose');
-    btnClose.addEventListener('click', () => {
-      popup.classList.add('is-closing');
-      try {
-        localStorage.setItem(CONFIG.storageKey, '1');
-      } catch (e) { /* abaikan */ }
-      setTimeout(() => popup.remove(), 300);
-    });
-  }
-
-  // ---------- ESCAPE HTML (anti-XSS) ----------
+  // ---------- ESCAPE HTML ----------
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, '&amp;')
@@ -97,7 +48,7 @@
       .replace(/'/g, '&#39;');
   }
 
-  // ---------- AMBIL DATA DARI FIRESTORE ----------
+  // ---------- AMBIL DATA LEADERBOARD ----------
   async function fetchLeaderboard() {
     try {
       // Tunggu Firebase siap (max 3 detik)
@@ -120,11 +71,8 @@
       if (!ready) return CONFIG.fallback;
 
       const list = await window.AsahiFirebase.getLeaderboard(3);
-
-      // Kalau kosong → pakai fallback
       if (!list || list.length === 0) return CONFIG.fallback;
 
-      // Kalau kurang dari 3 → isi sisanya dengan fallback
       const result = [...list];
       while (result.length < 3) {
         result.push(CONFIG.fallback[result.length]);
@@ -135,6 +83,78 @@
       console.warn('[Asahi] Gagal ambil leaderboard, pakai fallback:', err);
       return CONFIG.fallback;
     }
+  }
+
+  // ---------- RENDER POPUP ----------
+  function renderPopup(topPlayers) {
+    const popup = document.createElement('div');
+    popup.className = 'leveling-access';
+    popup.id = 'levelingAccess';
+    popup.setAttribute('role', 'complementary');
+    popup.setAttribute('aria-label', 'Akses Leveling & Leaderboard');
+
+    // Baris leaderboard
+    const medals = ['🥇', '🥈', '🥉'];
+    const lbRows = topPlayers.slice(0, 3).map((p, i) => `
+      <div class="lb-popup-row">
+        <div class="lb-popup-medal">${medals[i]}</div>
+        <div class="lb-popup-info">
+          <div class="lb-popup-name">${escapeHtml(p.nama || 'Anonim')}</div>
+          <div class="lb-popup-poin">${(p.totalPoin || 0).toLocaleString('id-ID')} poin</div>
+        </div>
+      </div>
+    `).join('');
+
+    popup.innerHTML = `
+      <button class="leveling-close" id="levelingClose" aria-label="Tutup">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- ======== BAGIAN 1: LEVELING ======== -->
+      <div class="leveling-header">
+        <div class="leveling-icon">
+          <i class="fas ${CONFIG.headerIcon}"></i>
+        </div>
+        <div>
+          <div class="leveling-title">${CONFIG.title}</div>
+          <div class="leveling-subtitle">${CONFIG.subtitle}</div>
+        </div>
+      </div>
+
+      <div class="leveling-description">
+        ${CONFIG.description}
+      </div>
+
+      <!-- ======== BAGIAN 2: LEADERBOARD ======== -->
+      <div class="lb-popup-section">
+        <div class="lb-popup-header">
+          <i class="fas ${CONFIG.lbIcon}"></i>
+          <span>${CONFIG.lbTitle}</span>
+          <small>${CONFIG.lbSubtitle}</small>
+        </div>
+        <div class="lb-popup-list">
+          ${lbRows}
+        </div>
+      </div>
+
+      <!-- ======== TOMBOL ======== -->
+      <a href="${CONFIG.buttonHref}" class="leveling-button">
+        <i class="fas ${CONFIG.buttonIcon}"></i>
+        ${CONFIG.buttonText}
+      </a>
+    `;
+
+    document.body.appendChild(popup);
+
+    // ---------- TOMBOL CLOSE ----------
+    const btnClose = document.getElementById('levelingClose');
+    btnClose.addEventListener('click', () => {
+      popup.classList.add('is-closing');
+      try {
+        localStorage.setItem(CONFIG.storageKey, '1');
+      } catch (e) { /* abaikan */ }
+      setTimeout(() => popup.remove(), 300);
+    });
   }
 
   // ---------- INJECT ----------
