@@ -336,5 +336,70 @@ window.LEVELING_DATA = {
       {"q": "Situasi: Sebelum tidur.\nA: 「おやすみなさい。」\nB: 「___」\n\nJawaban yang tepat adalah...", "options": ["「おやすみなさい」", "「おはようございます」", "「いただきます」", "「はじめまして」"], "answer": 0, "explain": "Ucapan selamat tidur dibalas dengan ucapan yang sama."}
     ]
   },
+     /* ============================================================
+     LEVEL 6 — Partikel, Dokkai & Listening
+     ============================================================ */
+  'level-6': {
+    title: 'Partikel, Dokkai & Listening',
+    kategori: 'N5',
+    deskripsi: 'Kombinasi 50 soal: partikel N5, pemahaman bacaan (dokkai), dan latihan mendengarkan (listening).',
+    soal: [
+      // ===== PARTIKEL N5 (1-25) =====
+      {"q": "「わたし___ がくせいです。」 partikel yang tepat?", "options": ["は", "を", "へ", "で"], "answer": 0, "explain": "Partikel 「は」 (dibaca \"wa\") menandai topik kalimat: 「わたしは がくせいです」."},
+      {"q": "「ほん___ よみます。」 partikel yang tepat?", "options": ["に", "を", "と", "の"], "answer": 1, "explain": "Partikel 「を」 menandai objek langsung dari kata kerja: 「ほんを よみます」."},
+      {"q": "「7じ___ おきます。」 partikel yang tepat?", "options": ["で", "を", "に", "が"], "answer": 2, "explain": "Partikel 「に」 menunjukkan waktu yang spesifik (jam): 「7じに おきます」."},
+      {"q": "「がっこう___ いきます。」 (tujuan: sekolah) partikel yang tepat?", "options": ["を", "で", "が", "に"], "answer": 3, "explain": "Tujuan perpindahan ditandai 「に」 atau 「へ」: 「がっこうに いきます」."},
+      {"q": "「レストラン___ ごはんを たべます。」 partikel yang tepat?", "options": ["で", "を", "は", "も"], "answer": 0, "explain": "Partikel 「で」 menunjukkan tempat berlangsungnya suatu aksi."},
+      {"q": "「ペン___ なまえを かきます。」 (menulis nama dengan pulpen) partikel yang tepat?", "options": ["を", "で", "に", "へ"], "answer": 1, "explain": "Partikel 「で」 juga menunjukkan alat atau cara: 「ペンで かきます」."},
+      {"q": "「にほん___ いきます。」 (arah: Jepang) partikel yang tepat?", "options": ["を", "と", "へ", "の"], "answer": 2, "explain": "Partikel 「へ」 (dibaca \"e\") menunjukkan arah tujuan: 「にほんへ いきます」."},
+      {"q": "「ともだち___ はなします。」 (berbicara dengan teman) partikel yang tepat?", "options": ["を", "が", "は", "と"], "answer": 3, "explain": "Partikel 「と」 berarti \"dengan\" (bersama seseorang)."},
+      {"q": "「わたし___ がくせいです。」 (Saya JUGA mahasiswa) partikel yang tepat?", "options": ["も", "は", "を", "に"], "answer": 0, "explain": "Partikel 「も」 berarti \"juga\" dan menggantikan 「は」."},
+      {"q": "「あなたは がくせいです___。」 (kalimat tanya) partikel yang tepat?", "options": ["の", "か", "を", "と"], "answer": 1, "explain": "Partikel 「か」 di akhir kalimat membentuk pertanyaan."},
+      {"q": "「わたし___ ほんです。」 (Buku saya) partikel yang tepat?", "options": ["は", "を", "の", "で"], "answer": 2, "explain": "Partikel 「の」 menunjukkan kepemilikan: 「わたしの ほん」."},
+      {"q": "「テーブルの うえに ねこ___ います。」 partikel yang tepat?", "options": ["を", "は", "で", "が"], "answer": 3, "explain": "Untuk menyatakan keberadaan makhluk hidup, objek ditandai 「が」: 「ねこが います」."},
+      {"q": "「あした ともだち___ あいます。」 (bertemu teman) partikel yang tepat?", "options": ["に", "を", "で", "の"], "answer": 0, "explain": "Kata kerja 「あいます」 memakai partikel 「に」 untuk orang yang ditemui."},
+      {"q": "「パン___ たべます。」 partikel yang tepat?", "options": ["で", "を", "に", "へ"], "answer": 1, "explain": "Roti adalah objek yang dimakan, jadi memakai 「を」."},
+      {"q": "「としょかん___ ほんを よみます。」 (membaca buku di perpustakaan) partikel yang tepat?", "options": ["を", "に", "で", "の"], "answer": 2, "explain": "Tempat berlangsungnya aksi membaca ditandai 「で」."},
+      {"q": "「まいあさ 6じ___ おきます。」 partikel yang tepat?", "options": ["で", "を", "が", "に"], "answer": 3, "explain": "Waktu spesifik (jam) memakai 「に」: 「6じに おきます」."},
+      {"q": "「これは わたし___ かばんです。」 partikel yang tepat?", "options": ["の", "を", "で", "と"], "answer": 0, "explain": "「わたしの かばん」 = tas saya (kepemilikan)."},
+      {"q": "「たなかさんも せんせい___。」 (Apakah Tanaka juga guru?) partikel akhir yang tepat?", "options": ["を", "ですか", "の", "に"], "answer": 1, "explain": "Kalimat tanya diakhiri 「ですか」, dengan partikel 「か」 sebagai penanda tanya."},
+      {"q": "「わたしは コーヒー___ のみます。そして、ともだち___ コーヒーを のみます。」 (teman JUGA) partikel kedua yang tepat?", "options": ["は", "を", "も", "で"], "answer": 2, "explain": "Teman juga minum kopi: 「ともだちも」. Partikel 「も」 = juga."},
+      {"q": "「でんしゃ___ かいしゃへ いきます。」 (pergi ke kantor naik kereta) partikel yang tepat?", "options": ["を", "に", "が", "で"], "answer": 3, "explain": "Alat transportasi ditandai 「で」: 「でんしゃで いきます」."},
+      {"q": "「わたしは かぞく___ にほんへ いきます。」 (pergi bersama keluarga) partikel yang tepat?", "options": ["と", "を", "で", "が"], "answer": 0, "explain": "「かぞくと」 = bersama keluarga."},
+      {"q": "「えいが___ すきです。」 (suka film) partikel yang tepat?", "options": ["を", "が", "に", "で"], "answer": 1, "explain": "Pola 「〜が すきです」 memakai partikel 「が」."},
+      {"q": "「ここ___ しゃしんを とります。」 (memotret di sini) partikel yang tepat?", "options": ["を", "に", "で", "の"], "answer": 2, "explain": "Tempat berlangsungnya aksi memotret ditandai 「で」."},
+      {"q": "「きょうしつ___ せんせいが います。」 (di kelas ada guru) partikel yang tepat?", "options": ["で", "を", "と", "に"], "answer": 3, "explain": "Tempat keberadaan dengan 「います/あります」 memakai 「に」."},
+      {"q": "「これは にほんご___ ほんです。」 (buku bahasa Jepang) partikel yang tepat?", "options": ["の", "を", "が", "と"], "answer": 0, "explain": "「にほんごの ほん」 = buku (tentang) bahasa Jepang. 「の」 menghubungkan dua kata benda."},
+
+      // ===== DOKKAI (26-35) =====
+      {"q": "「わたしは まいにち 6じに おきます。あさごはんを たべます。それから バスで がっこうへ いきます。」\n\nPertanyaan: Orang ini pergi ke sekolah naik apa?", "options": ["Bus", "Kereta", "Sepeda", "Berjalan kaki"], "answer": 0, "explain": "「バスで がっこうへ いきます」 = pergi ke sekolah naik bus."},
+      {"q": "「わたしの しゅみは えいがです。にちようびに ともだちと えいがを みます。きのうも えいがを みました。」\n\nPertanyaan: Apa hobi orang ini?", "options": ["Membaca buku", "Menonton film", "Berenang", "Memasak"], "answer": 1, "explain": "「しゅみは えいがです」 = hobinya film. 「しゅみ」 = hobi."},
+      {"q": "「きょうは あついです。わたしは うみへ いきます。うみで およぎます。ともだちも いきます。」\n\nPertanyaan: Apa yang dilakukan orang ini di laut?", "options": ["Memancing", "Berjemur", "Berenang", "Makan"], "answer": 2, "explain": "「うみで およぎます」 = berenang di laut."},
+      {"q": "「わたしの かぞくは ごにんです。ちちと ははと あにと いもうとと わたしです。いもうとは じゅっさいです。」\n\nPertanyaan: Ada berapa orang dalam keluarga ini?", "options": ["3 orang", "4 orang", "6 orang", "5 orang"], "answer": 3, "explain": "「ごにん」 = lima orang. Disebutkan: ayah, ibu, kakak laki-laki, adik perempuan, dan saya."},
+      {"q": "「たなかさんは まいあさ しんぶんを よみます。そして コーヒーを のみます。あさごはんは たべません。」\n\nPertanyaan: Apa yang TIDAK dilakukan Tanaka setiap pagi?", "options": ["Sarapan", "Membaca koran", "Minum kopi", "Semuanya dilakukan"], "answer": 0, "explain": "「あさごはんは たべません」 = tidak sarapan."},
+      {"q": "「きのうは あめでした。わたしは うちに いました。うちで ほんを よみました。テレビも みました。」\n\nPertanyaan: Bagaimana cuaca kemarin?", "options": ["Cerah", "Hujan", "Berangin", "Bersalju"], "answer": 1, "explain": "「きのうは あめでした」 = kemarin hujan."},
+      {"q": "「わたしは スーパーへ いきました。りんごと みかんを かいました。りんごは 300えんでした。」\n\nPertanyaan: Orang ini pergi ke mana?", "options": ["Bank", "Sekolah", "Supermarket", "Stasiun"], "answer": 2, "explain": "「スーパーへ いきました」 = pergi ke supermarket."},
+      {"q": "「スミスさんは アメリカじんです。いま にほんに すんでいます。にほんごの がっこうで べんきょうしています。」\n\nPertanyaan: Smith berasal dari negara mana?", "options": ["Jepang", "Inggris", "Indonesia", "Amerika"], "answer": 3, "explain": "「アメリカじんです」 = orang Amerika."},
+      {"q": "「わたしは にちようびに ともだちの うちへ いきます。いっしょに ごはんを つくります。とても たのしいです。」\n\nPertanyaan: Apa yang mereka lakukan bersama?", "options": ["Memasak", "Berbelanja", "Menonton TV", "Belajar"], "answer": 0, "explain": "「いっしょに ごはんを つくります」 = memasak (membuat makanan) bersama."},
+      {"q": "「えきの まえに パンやが あります。パンやの となりに はなやが あります。わたしは まいあさ パンを かいます。」\n\nPertanyaan: Toko bunga (はなや) ada di mana?", "options": ["Di depan sekolah", "Di sebelah toko roti", "Di dalam stasiun", "Di seberang bank"], "answer": 1, "explain": "「パンやの となりに はなやが あります」 = toko bunga di sebelah toko roti."},
+
+      // ===== LISTENING (36-50) =====
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "おはようございます", "options": ["Selamat pagi", "Selamat siang", "Selamat malam", "Terima kasih"], "answer": 0, "explain": "Audio: 「おはようございます」 = Selamat pagi."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "ありがとうございます", "options": ["Maaf", "Sama-sama", "Terima kasih", "Selamat tidur"], "answer": 2, "explain": "Audio: 「ありがとうございます」 = Terima kasih."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "いただきます", "options": ["Aku pulang", "Selamat makan (sebelum makan)", "Terima kasih atas makanannya", "Sampai jumpa"], "answer": 1, "explain": "Audio: 「いただきます」 diucapkan sebelum makan."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "さようなら", "options": ["Selamat pagi", "Salam kenal", "Selamat datang", "Selamat tinggal"], "answer": 3, "explain": "Audio: 「さようなら」 = Selamat tinggal / sampai jumpa."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "わたしは がくせいです", "options": ["Saya mahasiswa/pelajar", "Saya guru", "Saya karyawan", "Saya dokter"], "answer": 0, "explain": "Audio: 「わたしは がくせいです」 = Saya pelajar/mahasiswa."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "みずを のみます", "options": ["Makan nasi", "Minum air", "Membaca buku", "Menonton TV"], "answer": 1, "explain": "Audio: 「みずを のみます」 = minum air."},
+      {"q": "🎧 Dengarkan audio, lalu tentukan angka yang disebutkan:", "audio": "さんじです", "options": ["Jam 2", "Jam 4", "Jam 3", "Jam 5"], "answer": 2, "explain": "Audio: 「さんじ」 = jam 3."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "あしたは にちようびです", "options": ["Kemarin hari Minggu", "Hari ini hari Minggu", "Besok hari Senin", "Besok hari Minggu"], "answer": 3, "explain": "Audio: 「あした」 = besok, 「にちようび」 = hari Minggu."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "ここに なまえを かいてください", "options": ["Tolong tulis nama di sini", "Tolong baca buku ini", "Tolong tunggu di sini", "Tolong duduk di sini"], "answer": 0, "explain": "Audio: 「かいてください」 = tolong tulis. 「なまえ」 = nama."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "これは いくらですか", "options": ["Ini apa?", "Ini berapa harganya?", "Ini punya siapa?", "Ini di mana?"], "answer": 1, "explain": "Audio: 「いくらですか」 = berapa harganya?"},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "いっしょに いきませんか", "options": ["Saya tidak pergi", "Saya sudah pergi", "Bagaimana kalau pergi bersama?", "Tolong pergi"], "answer": 2, "explain": "Audio: 「〜ませんか」 adalah ajakan: bagaimana kalau pergi bersama?"},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "わたしは ねこが すきです", "options": ["Saya punya anjing", "Saya tidak suka kucing", "Ada kucing di rumah", "Saya suka kucing"], "answer": 3, "explain": "Audio: 「ねこが すきです」 = suka kucing."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "きのう えいがを みました", "options": ["Kemarin saya menonton film", "Besok saya menonton film", "Sekarang saya menonton film", "Saya ingin menonton film"], "answer": 0, "explain": "Audio: 「きのう」 = kemarin, 「みました」 = (sudah) menonton."},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "トイレは どこですか", "options": ["Stasiun di mana?", "Toilet di mana?", "Sekolah di mana?", "Toko di mana?"], "answer": 1, "explain": "Audio: 「トイレ」 = toilet, 「どこですか」 = di mana?"},
+      {"q": "🎧 Dengarkan audio, lalu pilih arti yang tepat:", "audio": "ごはんを たべています", "options": ["Ingin makan nasi", "Tidak makan nasi", "Sedang makan nasi", "Mari makan nasi"], "answer": 2, "explain": "Audio: 「たべています」 = sedang makan."}
+    ]
+  },
    
 };
