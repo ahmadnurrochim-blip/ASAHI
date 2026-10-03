@@ -12,6 +12,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
 
+  <!-- ============ FIREBASE (WAJIB DI HEAD) ============ -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
+
   <style>
     /* ============================================================
        RESET & VARIABEL
@@ -406,6 +410,21 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
+    /* Level terkunci */
+    .level-card.locked {
+      background: linear-gradient(135deg, #9ca3af 0%, #4b5563 100%);
+      cursor: not-allowed;
+      opacity: 0.85;
+    }
+
+    .level-card.locked::after {
+      content: '🔒';
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      font-size: 14px;
+    }
+
     .level-card .lv-num {
       font-family: 'Shippori Mincho', serif;
       font-size: 28px;
@@ -509,7 +528,6 @@
       padding: 12px 14px 14px;
     }
 
-    /* Baris user sendiri */
     .lb-self {
       background: rgba(188, 0, 45, 0.08);
       border: 2px dashed var(--red);
@@ -550,7 +568,6 @@
       margin-top: 2px;
     }
 
-    /* Daftar top player */
     .lb-list {
       display: flex;
       flex-direction: column;
@@ -615,7 +632,6 @@
       flex-shrink: 0;
     }
 
-    /* Toggle leaderboard */
     .lb-toggle {
       position: absolute;
       top: 14px;
@@ -760,19 +776,15 @@
     </div>
 
     <div class="lb-body">
-      <!-- Peringkat user sendiri -->
       <div class="lb-self">
         <div class="lb-rank" id="myRank">—</div>
         <div class="lb-info">
-          <div class="lb-name">Kamu</div>
+          <div class="lb-name" id="myName">Kamu</div>
           <div class="lb-poin"><span id="myPoin">0</span> poin</div>
         </div>
       </div>
 
-      <!-- Top player -->
-      <div class="lb-list" id="lbList">
-        <!-- Diisi oleh JavaScript -->
-      </div>
+      <div class="lb-list" id="lbList"></div>
     </div>
   </div>
 
@@ -786,7 +798,6 @@
     <div class="sakura s3">🌸</div>
     <div class="sakura s4">🌸</div>
 
-    <!-- Judul -->
     <div class="page-title">
       <div class="badge">
         <i class="fas fa-layer-group"></i> レベルアップ
@@ -795,7 +806,6 @@
       <p>100 level dari dasar hingga mahir. Setiap level bernilai 100 poin — kumpulkan sampai 10.000 poin!</p>
     </div>
 
-    <!-- Stats -->
     <div class="stats-bar">
       <div class="stat-pill">
         <i class="fas fa-layer-group"></i>
@@ -811,7 +821,6 @@
       </div>
     </div>
 
-    <!-- Filter -->
     <div class="filter-tabs" id="filterTabs">
       <button class="filter-tab active" data-filter="all">Semua</button>
       <button class="filter-tab" data-filter="done">Selesai</button>
@@ -822,60 +831,34 @@
       <button class="filter-tab" data-filter="n2">N2</button>
     </div>
 
-    <!-- Grid 100 Level -->
     <div class="level-grid" id="levelGrid"></div>
 
   </main>
 
-  <!-- ============ FOOTER ============ -->
   <footer>
     <span class="jp">朝日 自立</span>
     © 2026 Asahi Mandiri. Semua hak dilindungi.
   </footer>
 
-  <!-- ============ SCRIPT LEVEL GRID ============ -->
+  <!-- ============ SCRIPT ============ -->
+  <script src="js/kode-valid.js"></script>
+  <script src="js/access-guard.js"></script>
+
   <script>
     /* ============================================================
-       KONFIGURASI POIN
+       KONFIGURASI
        ============================================================ */
     const POIN_PER_LEVEL = 100;
     const TOTAL_LEVEL = 100;
-    const TOTAL_POIN = POIN_PER_LEVEL * TOTAL_LEVEL; // 10.000
+    const TOTAL_POIN = POIN_PER_LEVEL * TOTAL_LEVEL;
     const STORAGE_KEY = 'asahi_leveling_done';
-
-    /* ============================================================
-       DATA TOP PLAYER (hardcoded — bisa diedit manual)
-       ------------------------------------------------------------
-       Ganti nama & poin sesuai kebutuhan.
-       ============================================================ */
-    const TOP_PLAYERS = [
-      { name: 'Budi S.',    poin: 9800, medal: '🥇' },
-      { name: 'Siti A.',    poin: 9200, medal: '🥈' },
-      { name: 'Rina K.',    poin: 8500, medal: '🥉' },  
-    ];
-
-    /* ============================================================
-       GENERATE 100 LEVEL
-       ============================================================ */
-    const LEVELS = [];
-
-    for (let i = 1; i <= 100; i++) {
-      let badge = 'n5';
-      if (i >= 31 && i <= 60) badge = 'n4';
-      else if (i >= 61 && i <= 85) badge = 'n3';
-      else if (i >= 86) badge = 'n2';
-
-      LEVELS.push({
-        num: i,
-        badge: badge,
-        poin: POIN_PER_LEVEL
-      });
-    }
 
     /* ============================================================
        STATE
        ============================================================ */
     const doneSet = new Set();
+    let isPremium = false;
+    let currentUser = null;
 
     /* ============================================================
        ELEMEN
@@ -885,12 +868,13 @@
     const statPoin    = document.getElementById('statPoin');
     const myRank      = document.getElementById('myRank');
     const myPoin      = document.getElementById('myPoin');
+    const myName      = document.getElementById('myName');
     const lbList      = document.getElementById('lbList');
     const leaderboard = document.getElementById('leaderboard');
     const lbToggle    = document.getElementById('lbToggle');
 
     /* ============================================================
-       LOAD & SAVE
+       LOAD & SAVE LOCALSTORAGE
        ============================================================ */
     function loadDone() {
       try {
@@ -913,7 +897,7 @@
     }
 
     /* ============================================================
-       HITUNG POIN USER
+       HITUNG POIN
        ============================================================ */
     function getMyPoin() {
       return doneSet.size * POIN_PER_LEVEL;
@@ -922,24 +906,39 @@
     /* ============================================================
        RENDER LEADERBOARD
        ============================================================ */
-    function renderLeaderboard() {
+    async function renderLeaderboard() {
       const myPoinVal = getMyPoin();
       myPoin.textContent = myPoinVal.toLocaleString('id-ID');
 
-      // Gabungkan user + top players, lalu urutkan
-      const allPlayers = [
-        ...TOP_PLAYERS,
-        { name: 'Kamu', poin: myPoinVal, isMe: true, medal: '⭐' }
-      ].sort((a, b) => b.poin - a.poin);
+      // Nama user (dari Google)
+      if (currentUser && currentUser.displayName) {
+        myName.textContent = currentUser.displayName;
+      } else {
+        myName.textContent = 'Guest';
+      }
 
-      // Cari peringkat user
-      const myIndex = allPlayers.findIndex(p => p.isMe);
-      const rank = myIndex + 1;
-      myRank.textContent = '#' + rank;
+      // Ambil leaderboard dari Firebase
+      let topPlayers = [];
+      try {
+        if (window.AsahiFirebase) {
+          topPlayers = await window.AsahiFirebase.getLeaderboard(10);
+        }
+      } catch (err) {
+        console.warn('Gagal ambil leaderboard:', err);
+      }
 
-      // Render top 5 (atau top 7)
+      // Kalau gagal / kosong, pakai data dummy
+      if (!topPlayers || topPlayers.length === 0) {
+        topPlayers = [
+          { nama: 'Budi S.',   totalPoin: 9800 },
+          { nama: 'Siti A.',   totalPoin: 9200 },
+          { nama: 'Rina K.',   totalPoin: 8500 }
+        ];
+      }
+
+      // Render
       lbList.innerHTML = '';
-      allPlayers.slice(0, 7).forEach((p, i) => {
+      topPlayers.slice(0, 7).forEach((p, i) => {
         const row = document.createElement('div');
         row.className = 'lb-row';
         if (i === 0) row.classList.add('top-1');
@@ -947,7 +946,7 @@
         else if (i === 2) row.classList.add('top-3');
 
         const rankNum = i + 1;
-        let medal = p.medal || '🎖️';
+        let medal = '🎖️';
         if (rankNum === 1) medal = '🥇';
         else if (rankNum === 2) medal = '🥈';
         else if (rankNum === 3) medal = '🥉';
@@ -955,17 +954,25 @@
         row.innerHTML = `
           <div class="lb-rank">#${rankNum}</div>
           <div class="lb-info">
-            <div class="lb-name">${p.name}</div>
-            <div class="lb-poin">${p.poin.toLocaleString('id-ID')} poin</div>
+            <div class="lb-name">${p.nama || 'Anonim'}</div>
+            <div class="lb-poin">${(p.totalPoin || 0).toLocaleString('id-ID')} poin</div>
           </div>
           <div class="lb-medal">${medal}</div>
         `;
         lbList.appendChild(row);
       });
+
+      // Peringkat user sendiri
+      if (currentUser) {
+        const myIdx = topPlayers.findIndex(p => p.uid === currentUser.uid);
+        myRank.textContent = myIdx >= 0 ? '#' + (myIdx + 1) : '—';
+      } else {
+        myRank.textContent = '—';
+      }
     }
 
     /* ============================================================
-       UPDATE SEMUA
+       UPDATE POIN
        ============================================================ */
     function updatePoin() {
       const doneCount = doneSet.size;
@@ -978,13 +985,14 @@
     }
 
     /* ============================================================
-       RENDER GRID
+       RENDER GRID LEVEL
        ============================================================ */
     function renderGrid(filter = 'all') {
       grid.innerHTML = '';
 
       LEVELS.forEach(lv => {
         const isDone = doneSet.has(lv.num);
+        const isLocked = !isPremium; // kalau belum premium, semua level terkunci
 
         if (filter !== 'all') {
           if (filter === 'done'   && !isDone) return;
@@ -993,7 +1001,9 @@
         }
 
         const card = document.createElement('div');
-        card.className = 'level-card' + (isDone ? ' done' : '');
+        card.className = 'level-card'
+          + (isDone ? ' done' : '')
+          + (isLocked ? ' locked' : '');
         card.dataset.level = lv.num;
 
         card.innerHTML = `
@@ -1010,11 +1020,47 @@
     }
 
     /* ============================================================
-       KLIK LEVEL → BUKA HALAMAN level-X.html
+       KLIK LEVEL
+       ------------------------------------------------------------
+       Kalau belum premium → arahkan ke portal
+       Kalau sudah premium → buka level-X.html
        ============================================================ */
     function toggleLevel(num, card) {
+      if (!isPremium) {
+        // Belum premium → tanya & arahkan ke portal
+        const mau = confirm(
+          '🔒 Konten ini khusus member premium!\n\n' +
+          'Buka akses dengan bayar Rp 15.000.\n' +
+          'Kamu akan diarahkan ke portal pembayaran.\n\n' +
+          'Lanjutkan?'
+        );
+        if (mau) {
+          sessionStorage.setItem('asahi_redirect_after_unlock', 'leveling.html');
+          window.location.href = 'portal.html';
+        }
+        return;
+      }
+      // Sudah premium → buka level
       window.location.href = 'level-' + num + '.html';
     }
+
+    /* ============================================================
+       GENERATE 100 LEVEL
+       ============================================================ */
+    const LEVELS = [];
+    for (let i = 1; i <= 100; i++) {
+      let badge = 'n5';
+      if (i >= 31 && i <= 60) badge = 'n4';
+      else if (i >= 61 && i <= 85) badge = 'n3';
+      else if (i >= 86) badge = 'n2';
+
+      LEVELS.push({
+        num: i,
+        badge: badge,
+        poin: POIN_PER_LEVEL
+      });
+    }
+
     /* ============================================================
        FILTER
        ============================================================ */
@@ -1031,6 +1077,25 @@
        ============================================================ */
     lbToggle.addEventListener('click', () => {
       leaderboard.classList.toggle('collapsed');
+    });
+
+    /* ============================================================
+       LISTEN: AUTH STATE BERUBAH
+       ============================================================ */
+    window.addEventListener('asahi-auth-changed', async (e) => {
+      currentUser = e.detail.user;
+
+      if (currentUser) {
+        // Cek apakah premium
+        isPremium = await window.AsahiAccess.isPremium();
+        console.log('[Asahi] User login:', currentUser.displayName, '| Premium:', isPremium);
+      } else {
+        isPremium = false;
+      }
+
+      // Re-render grid dengan status premium terbaru
+      renderGrid();
+      updatePoin();
     });
 
     /* ============================================================
