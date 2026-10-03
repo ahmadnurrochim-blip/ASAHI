@@ -1412,7 +1412,7 @@ window.MATERI_DATA = {
       { jp:'対象',         romaji:'Taishou',      arti:'Objek / Target' },
       { jp:'影響',         romaji:'Eikyou',       arti:'Pengaruh' },
       { jp:'効果',         romaji:'Kouka',        arti:'Efek' },
-      { jp:'原因',         romaji:'Gen'in',       arti:'Penyebab' },
+      { jp:'原因',         romaji:'Gen in',       arti:'Penyebab' },
       { jp:'データ',       romaji:'Deeta',        arti:'Data' },
       { jp:'統計',         romaji:'Toukei',       arti:'Statistik' },
       { jp:'論文',         romaji:'Ronbun',       arti:'Makalah / Tesis' },
