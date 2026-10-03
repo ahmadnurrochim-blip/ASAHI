@@ -120,7 +120,13 @@
       </div>
     `).join('');
 
-    popup.innerHTML = `
+       popup.innerHTML = `
+      <!-- TOMBOL MINIMIZE (di header) -->
+      <button class="leveling-minimize" id="levelingMinimize" aria-label="Kecilkan">
+        <i class="fas fa-minus"></i>
+      </button>
+
+      <!-- TOMBOL CLOSE -->
       <button class="leveling-close" id="levelingClose" aria-label="Tutup">
         <i class="fas fa-times"></i>
       </button>
@@ -154,7 +160,6 @@
           </div>
         </div>
 
-        <!-- 2 TOMBOL -->
         <div class="leveling-buttons">
           <a href="${CONFIG.primaryHref}" class="leveling-button">
             <i class="fas ${CONFIG.primaryIcon}"></i>
@@ -171,16 +176,47 @@
 
     document.body.appendChild(popup);
 
-    // ---------- TOMBOL CLOSE ----------
+    // ---------- STATE MINIMIZE ----------
+    const MIN_STORAGE_KEY = 'asahi_popup_minimized';
+    const btnMin  = document.getElementById('levelingMinimize');
     const btnClose = document.getElementById('levelingClose');
-    btnClose.addEventListener('click', () => {
+
+    // Cek apakah sebelumnya di-minimize
+    try {
+      if (localStorage.getItem(MIN_STORAGE_KEY) === '1') {
+        popup.classList.add('is-minimized');
+      }
+    } catch (e) { /* abaikan */ }
+
+    // ---------- TOMBOL MINIMIZE ----------
+    btnMin.addEventListener('click', (e) => {
+      e.stopPropagation();
+      popup.classList.toggle('is-minimized');
+      const isMin = popup.classList.contains('is-minimized');
+      try {
+        localStorage.setItem(MIN_STORAGE_KEY, isMin ? '1' : '0');
+      } catch (e) { /* abaikan */ }
+    });
+
+    // ---------- KLIK POPUP SAAT MINIMIZE = BUKA LAGI ----------
+    popup.addEventListener('click', () => {
+      if (popup.classList.contains('is-minimized')) {
+        popup.classList.remove('is-minimized');
+        try {
+          localStorage.setItem(MIN_STORAGE_KEY, '0');
+        } catch (e) { /* abaikan */ }
+      }
+    });
+
+    // ---------- TOMBOL CLOSE ----------
+    btnClose.addEventListener('click', (e) => {
+      e.stopPropagation();
       popup.classList.add('is-closing');
       try {
         localStorage.setItem(CONFIG.storageKey, Date.now().toString());
       } catch (e) { /* abaikan */ }
       setTimeout(() => popup.remove(), 300);
     });
-  }
 
   // ---------- INJECT ----------
   async function inject() {
