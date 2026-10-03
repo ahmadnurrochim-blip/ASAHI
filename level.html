@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level - Asahi Mandiri</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- FIREBASE -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+      --green: #10b981;
+      --gray: #6b7280;
+      --gray-light: #9ca3af;
+      --border: #e8e2d8;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.92), rgba(253, 250, 245, 0.96)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid var(--border);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+    }
+
+    .back-btn i { color: var(--red); }
+
+    .level-indicator {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--red);
+      background: #fff;
+      border: 2px solid var(--red);
+      border-radius: 999px;
+      padding: 6px 16px;
+      letter-spacing: 1px;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    /* PROGRESS */
+    .progress-wrap {
+      margin-bottom: 24px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .progress-info .current {
+      color: var(--red);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #f0e9dc;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* SOAL CARD */
+    .soal-card {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      margin-bottom: 20px;
+    }
+
+    .soal-num {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--red);
+      background: rgba(188, 0, 45, 0.08);
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .soal-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.5;
+      margin-bottom: 24px;
+      font-family: 'Shippori Mincho', serif;
+    }
+
+    /* OPSI */
+    .opsi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .opsi-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: #fdfaf5;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      text-align: left;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    .opsi-item:hover:not(.disabled) {
+      border-color: var(--red);
+      background: #fff5f7;
+      transform: translateX(4px);
+    }
+
+    .opsi-item .opt-label {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--gray);
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .opsi-item .opt-text {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    .opsi-item.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .opsi-item.benar {
+      border-color: var(--green);
+      background: #ecfdf5;
+      color: #065f46;
+    }
+
+    .opsi-item.benar .opt-label {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .opsi-item.salah {
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .opsi-item.salah .opt-label {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #fff;
+    }
+
+    /* PENJELASAN */
+    .explain-box {
+      display: none;
+      padding: 14px 18px;
+      margin-top: 16px;
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #1e40af;
+      line-height: 1.6;
+      animation: slideDown 0.3s ease;
+    }
+
+    .explain-box.show { display: block; }
+
+    .explain-box strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HASIL */
+    .hasil-card {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 28px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      display: none;
+    }
+
+    .hasil-card.show { display: block; }
+
+    .hasil-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: grid;
+      place-items: center;
+      font-size: 50px;
+      animation: popIn 0.5s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .hasil-icon.lulus {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--green);
+    }
+
+    .hasil-icon.gagal {
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+    }
+
+    .hasil-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .hasil-title.lulus { color: var(--green); }
+    .hasil-title.gagal { color: #ef4444; }
+
+    .hasil-skor {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 56px;
+      font-weight: 800;
+      color: var(--red);
+      line-height: 1;
+      margin: 16px 0;
+    }
+
+    .hasil-skor .max {
+      font-size: 24px;
+      color: var(--gray-light);
+    }
+
+    .hasil-info {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .hasil-info strong { color: var(--ink); }
+
+    .hasil-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.25s ease;
+      min-width: 140px;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(188, 0, 45, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.35);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--ink);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* LOADING & ERROR */
+    .center-box {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .center-box i {
+      font-size: 48px;
+      color: var(--red);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .center-box h2 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .center-box p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .container { padding: 24px 14px 40px; }
+      .soal-card { padding: 24px 18px; }
+      .soal-text { font-size: 17px; }
+      .opsi-item { padding: 12px 14px; font-size: 13px; }
+      .hasil-skor { font-size: 44px; }
+      .btn { padding: 11px 18px; font-size: 13px; min-width: 120px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="leveling.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Leveling
+      </a>
+      <div class="level-indicator" id="levelIndicator">Level ?</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+
+    <!-- LOADING -->
+    <div id="loadingView" class="center-box">
+      <i class="fas fa-spinner fa-spin"></i>
+      <h2>Memuat soal...</h2>
+    </div>
+
+    <!-- ERROR -->
+    <div id="errorView" class="center-box" style="display:none;">
+      <i class="fas fa-exclamation-circle" style="color:#ef4444;"></i>
+      <h2>Level Tidak Ditemukan</h2>
+      <p id="errorMsg">Level yang kamu cari tidak tersedia.</p>
+      <a href="leveling.html" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Kembali ke Leveling
+      </a>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quizView" style="display:none;">
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span class="current" id="progressText">Soal 1 / 10</span>
+          <span id="skorText">Skor: 0</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="soal-card">
+        <div class="soal-num">
+          <i class="fas fa-question-circle"></i>
+          <span id="soalNum">Soal 1</span>
+        </div>
+        <div class="soal-text" id="soalText">Loading...</div>
+        <div class="opsi-list" id="opsiList"></div>
+        <div class="explain-box" id="explainBox">
+          <strong>💡 Penjelasan</strong>
+          <span id="explainText"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HASIL -->
+    <div id="hasilView" class="hasil-card">
+      <div class="hasil-icon" id="hasilIcon">🎉</div>
+      <div class="hasil-title" id="hasilTitle">Selamat!</div>
+      <div class="hasil-skor">
+        <span id="hasilSkor">0</span>
+        <span class="max">/ 100</span>
+      </div>
+      <div class="hasil-info" id="hasilInfo">
+        Kamu menjawab <strong>0 dari 10</strong> soal dengan benar.
+      </div>
+      <div class="hasil-buttons" id="hasilButtons">
+        <a href="leveling.html" class="btn btn-primary">
+          <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+        <button class="btn btn-secondary" onclick="location.reload()">
+          <i class="fas fa-redo"></i> Ulangi
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SCRIPTS -->
+  <script src="js/kode-valid.js"></script>
+  <script src="js/access-guard.js"></script>
+  <script src="js/leveling-data.js"></script>
+
+  <script>
+    /* ============================================================
+       KONFIGURASI
+       ============================================================ */
+    const POIN_PER_SOAL = 10; // 10 soal × 10 = 100 poin
+
+    /* ============================================================
+       AMBIL LEVEL DARI URL
+       ------------------------------------------------------------
+       Contoh: level.html?level=1  → levelId = 'level-1'
+       ============================================================ */
+    const params  = new URLSearchParams(window.location.search);
+    const levelNum = parseInt(params.get('level')) || 1;
+    const levelId  = 'level-' + levelNum;
+
+    /* ============================================================
+       ELEMEN
+       ============================================================ */
+    const loadingView   = document.getElementById('loadingView');
+    const errorView     = document.getElementById('errorView');
+    const errorMsg      = document.getElementById('errorMsg');
+    const quizView      = document.getElementById('quizView');
+    const hasilView     = document.getElementById('hasilView');
+
+    const levelIndicator = document.getElementById('levelIndicator');
+    const progressText   = document.getElementById('progressText');
+    const skorText       = document.getElementById('skorText');
+    const progressFill   = document.getElementById('progressFill');
+    const soalNum        = document.getElementById('soalNum');
+    const soalText       = document.getElementById('soalText');
+    const opsiList       = document.getElementById('opsiList');
+    const explainBox     = document.getElementById('explainBox');
+    const explainText    = document.getElementById('explainText');
+
+    const hasilIcon      = document.getElementById('hasilIcon');
+    const hasilTitle     = document.getElementById('hasilTitle');
+    const hasilSkor      = document.getElementById('hasilSkor');
+    const hasilInfo      = document.getElementById('hasilInfo');
+
+    /* ============================================================
+       STATE
+       ============================================================ */
+    let soalList     = [];
+    let indexSekarang = 0;
+    let skor         = 0;
+    let sudahJawab   = false;
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    function init() {
+      const data = window.LEVELING_DATA?.[levelId];
+
+      if (!data) {
+        loadingView.style.display = 'none';
+        errorView.style.display = 'block';
+        errorMsg.textContent = `Level ${levelNum} belum tersedia.`;
+        levelIndicator.textContent = 'Level ' + levelNum;
+        return;
+      }
+
+      soalList = data.soal;
+      levelIndicator.textContent = 'Level ' + levelNum;
+
+      loadingView.style.display = 'none';
+      quizView.style.display = 'block';
+
+      tampilkanSoal();
+    }
+
+    /* ============================================================
+       TAMPILKAN SOAL
+       ============================================================ */
+    function tampilkanSoal() {
+      if (indexSekarang >= soalList.length) {
+        tampilkanHasil();
+        return;
+      }
+
+      const soal = soalList[indexSekarang];
+      sudahJawab = false;
+
+      // Update header
+      soalNum.textContent = `Soal ${indexSekarang + 1}`;
+      progressText.textContent = `Soal ${indexSekarang + 1} / ${soalList.length}`;
+      skorText.textContent = `Skor: ${skor}`;
+      progressFill.style.width = ((indexSekarang) / soalList.length * 100) + '%';
+
+      // Soal text
+      soalText.textContent = soal.q;
+
+      // Sembunyikan penjelasan
+      explainBox.classList.remove('show');
+
+      // Render opsi
+      opsiList.innerHTML = '';
+      const labels = ['A', 'B', 'C', 'D'];
+
+      soal.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'opsi-item';
+        btn.innerHTML = `
+          <span class="opt-label">${labels[i]}</span>
+          <span class="opt-text">${opt}</span>
+        `;
+        btn.addEventListener('click', () => jawab(i));
+        opsiList.appendChild(btn);
+      });
+    }
+
+    /* ============================================================
+       JAWAB SOAL
+       ============================================================ */
+    function jawab(pilihan) {
+      if (sudahJawab) return;
+      sudahJawab = true;
+
+      const soal    = soalList[indexSekarang];
+      const buttons = opsiList.querySelectorAll('.opsi-item');
+
+      // Nonaktifkan semua
+      buttons.forEach(b => b.classList.add('disabled'));
+
+      // Tandai benar / salah
+      buttons.forEach((b, i) => {
+        if (i === soal.answer) b.classList.add('benar');
+        else if (i === pilihan) b.classList.add('salah');
+      });
+
+      // Update skor
+      if (pilihan === soal.answer) {
+        skor += POIN_PER_SOAL;
+        skorText.textContent = `Skor: ${skor}`;
+      }
+
+      // Tampilkan penjelasan
+      if (soal.explain) {
+        explainText.textContent = soal.explain;
+        explainBox.classList.add('show');
+      }
+
+      // Auto-lanjut setelah 2 detik
+      setTimeout(() => {
+        indexSekarang++;
+        tampilkanSoal();
+      }, 2000);
+    }
+
+    /* ============================================================
+       TAMPILKAN HASIL
+       ============================================================ */
+    async function tampilkanHasil() {
+      quizView.style.display = 'none';
+      hasilView.classList.add('show');
+
+      const benar = skor / POIN_PER_SOAL;
+      const total = soalList.length;
+      const lulus = skor >= 80;
+
+      hasilSkor.textContent = skor;
+
+      if (lulus) {
+        hasilIcon.textContent = '🎉';
+        hasilIcon.className = 'hasil-icon lulus';
+        hasilTitle.textContent = 'Selamat!';
+        hasilTitle.className = 'hasil-title lulus';
+        hasilInfo.innerHTML = `
+          Kamu menjawab <strong>${benar} dari ${total}</strong> soal dengan benar.<br>
+          Kamu lulus dan mendapat <strong>${skor} poin</strong>! 🌟
+        `;
+      } else {
+        hasilIcon.textContent = '😅';
+        hasilIcon.className = 'hasil-icon gagal';
+        hasilTitle.textContent = 'Belum Lulus';
+        hasilTitle.className = 'hasil-title gagal';
+        hasilInfo.innerHTML = `
+          Kamu menjawab <strong>${benar} dari ${total}</strong> soal dengan benar.<br>
+          Butuh minimal <strong>8 soal benar (80 poin)</strong> untuk lulus. Coba lagi ya!
+        `;
+      }
+
+      // Update progress bar jadi 100%
+      progressFill.style.width = '100%';
+
+      // Simpan ke Firestore kalau lulus
+      if (lulus) {
+        await simpanProgress(skor);
+      }
+    }
+
+    /* ============================================================
+       SIMPAN PROGRESS KE FIRESTORE
+       ============================================================ */
+    async function simpanProgress(poinDidapat) {
+      const user = window.AsahiFirebase?.currentUser;
+      if (!user) {
+        console.warn('[Asahi] User belum login, tidak simpan progress.');
+        return;
+      }
+
+      try {
+        // Ambil data user sekarang
+        const data = await window.AsahiFirebase.getUserData(user.uid);
+        if (!data) return;
+
+        // Level yang sudah selesai
+        const levelSelesai = data.levelSelesai || [];
+        const sudahSelesai = levelSelesai.includes(levelNum);
+
+        // Kalau belum selesai sebelumnya, tambahkan poin
+        let totalPoin = data.totalPoin || 0;
+        let newLevelSelesai = [...levelSelesai];
+
+        if (!sudahSelesai) {
+          totalPoin += poinDidapat;
+          newLevelSelesai.push(levelNum);
+        }
+
+        // Simpan ke Firestore
+        await window.AsahiFirebase.saveUserData(user.uid, {
+          levelSelesai: newLevelSelesai,
+          totalPoin: totalPoin,
+          lastPlayed: levelNum
+        });
+
+        console.log('[Asahi] Progress tersimpan! Total poin:', totalPoin);
+      } catch (err) {
+        console.error('[Asahi] Gagal simpan progress:', err);
+      }
+    }
+
+    /* ============================================================
+       JALANKAN
+       ============================================================ */
+    // Tunggu sebentar biar Firebase ready
+    setTimeout(init, 300);
+
+  </script>
+
+</body>
+</html>
