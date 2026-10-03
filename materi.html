@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Materi Bahasa Jepang - Asahi Mandiri</title>
+
+  <!-- ============ FONTS & ICONS ============ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- ============ CSS POPUP LEVELING ============ -->
+  <link rel="stylesheet" href="css/leveling-popup.css" />
+
+  <style>
+    /* ============================================================
+       RESET & VARIABEL
+       ============================================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+      --green: #10b981;
+      --gray: #6b7280;
+      --gray-light: #9ca3af;
+      --border: #e8e2d8;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       BACKGROUND
+       ============================================================ */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.88), rgba(253, 250, 245, 0.94)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.06;
+      background-image:
+        radial-gradient(circle at 50% 100%, transparent 20%, var(--red) 21%, var(--red) 34%, transparent 35%, transparent 40%, var(--red) 41%, var(--red) 54%, transparent 55%);
+      background-size: 80px 40px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15);
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.4);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+    .brand-text .jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+
+    .brand-text .en {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid #e8e2d8;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn i { color: var(--red); font-size: 13px; }
+
+    .nav-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.18);
+    }
+
+    .nav-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .nav-btn.active i { color: #fff; }
+
+    /* ============================================================
+       MAIN
+       ============================================================ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 50px 28px 100px;
+      position: relative;
+    }
+
+    .kanji-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 340px;
+      font-weight: 800;
+      color: rgba(188, 0, 45, 0.04);
+      z-index: -1;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .sakura {
+      position: absolute;
+      font-size: 24px;
+      color: rgba(188, 0, 45, 0.2);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+    .sakura.s1 { top: 5%;  left: 2%;  animation-delay: 0s; }
+    .sakura.s2 { top: 20%; right: 3%; animation-delay: 1.5s; }
+    .sakura.s3 { bottom: 20%; left: 4%; animation-delay: 3s; }
+    .sakura.s4 { bottom: 5%; right: 5%; animation-delay: 4.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-16px) rotate(12deg); }
+    }
+
+    /* ============================================================
+       PAGE TITLE
+       ============================================================ */
+    .page-title {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .page-title .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .page-title h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .page-title h1 .accent { color: var(--red); }
+
+    .page-title p {
+      font-size: 15px;
+      color: var(--gray);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       STATS BAR
+       ============================================================ */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray);
+    }
+
+    .stat-pill strong {
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    .stat-pill i { color: var(--red); font-size: 12px; }
+
+    /* ============================================================
+       FILTER TABS
+       ============================================================ */
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .filter-tab {
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .filter-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* ============================================================
+       GRID LEVEL
+       ============================================================ */
+    .level-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .level-card {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border: 2px solid #f0e9dc;
+      border-radius: 16px;
+      padding: 20px 18px 18px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 190px;
+    }
+
+    .level-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, var(--red), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .level-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--red);
+      box-shadow: 0 14px 32px rgba(188, 0, 45, 0.14);
+    }
+
+    .level-card:hover::before { transform: scaleX(1); }
+
+    .level-num {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .level-num .num {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .level-num .label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--gray-light);
+      text-transform: uppercase;
+    }
+
+    .level-card h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.3;
+      position: relative;
+      z-index: 1;
+    }
+
+    .level-card .jp-title {
+      font-size: 11px;
+      color: var(--red);
+      letter-spacing: 2px;
+      font-family: 'Shippori Mincho', serif;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .level-card p {
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.55;
+      margin-bottom: 14px;
+      flex-grow: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .level-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .level-badge.n5 { background: #dcfce7; color: #166534; }
+    .level-badge.n4 { background: #dbeafe; color: #1e40af; }
+    .level-badge.n3 { background: #fef3c7; color: #92400e; }
+
+    .level-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-level {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(188, 0, 45, 0.25);
+    }
+
+    .btn-level:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: var(--gray-light);
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9);
+      margin-top: 40px;
+    }
+
+    footer .jp {
+      font-family: 'Shippori Mincho', serif;
+      color: var(--red);
+      letter-spacing: 4px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 820px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .nav-buttons { width: 100%; justify-content: flex-start; }
+      .nav-btn { flex: 1 1 auto; justify-content: center; padding: 9px 14px; font-size: 13px; }
+      .container { padding: 32px 18px 80px; }
+      .level-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn span { display: none; }
+      .nav-btn i { font-size: 15px; }
+      .brand-text .jp { font-size: 17px; }
+      .kanji-watermark { font-size: 200px; }
+      .level-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .level-card { padding: 16px 14px; min-height: 160px; }
+      .level-num .num { font-size: 26px; }
+      .level-card h3 { font-size: 14px; }
+      .level-card p { font-size: 11px; }
+      .btn-level { font-size: 11px; padding: 8px 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ BACKGROUND ============ -->
+  <div class="bg"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="header-inner">
+
+      <a href="index.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+
+      <nav class="nav-buttons">
+        <a href="index.html" class="nav-btn">
+          <i class="fas fa-home"></i> <span>Beranda</span>
+        </a>
+        <a href="latihan.html" class="nav-btn">
+          <i class="fas fa-pen-fancy"></i> <span>Latihan</span>
+        </a>
+        <a href="materi.html" class="nav-btn active">
+          <i class="fas fa-book-open"></i> <span>Materi</span>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container">
+
+    <div class="kanji-watermark">教材</div>
+
+    <div class="sakura s1">🌸</div>
+    <div class="sakura s2">🌸</div>
+    <div class="sakura s3">🌸</div>
+    <div class="sakura s4">🌸</div>
+
+    <!-- Judul -->
+    <div class="page-title">
+      <div class="badge">
+        <i class="fas fa-torii-gate"></i> 学習教材
+      </div>
+      <h1>Materi <span class="accent">Bahasa Jepang</span></h1>
+      <p>50 level materi tersusun dari dasar hingga mahir. Pilih level yang ingin kamu pelajari — semua terbuka.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-pill">
+        <i class="fas fa-layer-group"></i>
+        Total: <strong>50</strong> Materi
+      </div>
+      <div class="stat-pill">
+        <i class="fas fa-graduation-cap"></i>
+        Kategori: <strong>N5 · N4 · N3</strong>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="all">Semua</button>
+      <button class="filter-tab" data-filter="n5">N5</button>
+      <button class="filter-tab" data-filter="n4">N4</button>
+      <button class="filter-tab" data-filter="n3">N3</button>
+    </div>
+
+    <!-- Grid 50 Level -->
+    <div class="level-grid" id="levelGrid"></div>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2026 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <!-- ============ SCRIPT POPUP LEVELING ============ -->
+  <script src="js/leveling-popup.js"></script>
+
+  <!-- ============ SCRIPT LEVEL GRID ============ -->
+  <script>
+    /* ============================================================
+       DATA 50 LEVEL MATERI
+       ------------------------------------------------------------
+       Semua level TERBUKA. Field href diarahkan ke file dinamis.
+       ============================================================ */
+    const LEVELS = [
+      // ============ N5 (Level 1 - 25) ============
+      { num: 1,  title: 'Kosakata Dasar',        jp: '基本単語',      desc: 'Salam, angka, dan kata sehari-hari.',          badge: 'n5', href: 'materi-level.html?level=1' },
+      { num: 2,  title: 'Hiragana Dasar',        jp: 'ひらがな',      desc: 'Huruf あ〜お, か〜こ.',                        badge: 'n5', href: 'materi-level.html?level=2' },
+      { num: 3,  title: 'Katakana Dasar',        jp: 'カタカナ',      desc: 'Huruf untuk kata serapan asing.',              badge: 'n5', href: 'materi-level.html?level=3' },
+      { num: 4,  title: 'Angka & Hitungan',      jp: '数字',          desc: 'Angka 1-100 dan cara menghitung.',             badge: 'n5', href: 'materi-level.html?level=4' },
+      { num: 5,  title: 'Sapaan Sehari-hari',    jp: '挨拶',          desc: 'Ohayou, konnichiwa, konbanwa.',                badge: 'n5', href: 'materi-level.html?level=5' },
+      { num: 6,  title: 'Keluarga & Orang',      jp: '家族',          desc: 'Ayah, ibu, kakak, adik, teman.',               badge: 'n5', href: 'materi-level.html?level=6' },
+      { num: 7,  title: 'Makanan & Minuman',     jp: '食べ物',        desc: 'Nasi, air, teh, roti.',                        badge: 'n5', href: 'materi-level.html?level=7' },
+      { num: 8,  title: 'Waktu & Hari',          jp: '時間',          desc: 'Jam, menit, hari, bulan, tahun.',              badge: 'n5', href: 'materi-level.html?level=8' },
+      { num: 9,  title: 'Kata Kerja Dasar',      jp: '動詞',          desc: 'Taberu, nomu, iku, miru.',                     badge: 'n5', href: 'materi-level.html?level=9' },
+      { num: 10, title: 'Kata Sifat Dasar',      jp: '形容詞',        desc: 'Ookii, chiisai, atsui, samui.',                badge: 'n5', href: 'materi-level.html?level=10' },
+      { num: 11, title: 'Partikel は・が・を',   jp: '助詞',          desc: 'Partikel dasar pembentuk kalimat.',            badge: 'n5', href: 'materi-level.html?level=11' },
+      { num: 12, title: 'Pola 〜です・〜ます',    jp: '文法基礎',      desc: 'Kalimat sopan dasar bahasa Jepang.',           badge: 'n5', href: 'materi-level.html?level=12' },
+      { num: 13, title: 'Partikel に・で・へ',   jp: '助詞上級',      desc: 'Partikel lanjutan untuk tempat & waktu.',      badge: 'n5', href: 'materi-level.html?level=13' },
+      { num: 14, title: 'Tempat & Arah',         jp: '場所',          desc: 'Koko, soko, asoko, migi, hidari.',              badge: 'n5', href: 'materi-level.html?level=14' },
+      { num: 15, title: 'Belanja & Harga',       jp: '買い物',        desc: 'Ikura desu ka, takai, yasui.',                 badge: 'n5', href: 'materi-level.html?level=15' },
+      { num: 16, title: 'Transportasi',          jp: '交通',          desc: 'Densha, basu, takushii, hikouki.',             badge: 'n5', href: 'materi-level.html?level=16' },
+      { num: 17, title: 'Tubuh & Kesehatan',     jp: '体',            desc: 'Atama, me, mimi, byouki.',                     badge: 'n5', href: 'materi-level.html?level=17' },
+      { num: 18, title: 'Cuaca & Musim',         jp: '天気',          desc: 'Haru, natsu, aki, fuyu.',                      badge: 'n5', href: 'materi-level.html?level=18' },
+      { num: 19, title: 'Hobi & Aktivitas',      jp: '趣味',          desc: 'Ongaku, supootsu, dokusho.',                   badge: 'n5', href: 'materi-level.html?level=19' },
+      { num: 20, title: 'Sekolah & Kerja',       jp: '学校・仕事',    desc: 'Sensei, gakusei, kaisha.',                     badge: 'n5', href: 'materi-level.html?level=20' },
+      { num: 21, title: 'Kata Tunjuk',           jp: '指示語',        desc: 'Kore, sore, are, dore.',                       badge: 'n5', href: 'materi-level.html?level=21' },
+      { num: 22, title: 'Bilangan & Counter',    jp: '助数詞',        desc: 'Hitori, futari, ikko.',                        badge: 'n5', href: 'materi-level.html?level=22' },
+      { num: 23, title: 'Kata Kerja ます形',     jp: 'ます形',        desc: 'Bentuk sopan kata kerja.',                     badge: 'n5', href: 'materi-level.html?level=23' },
+      { num: 24, title: 'Perkenalan Diri',       jp: '自己紹介',      desc: 'Memperkenalkan diri sendiri.',                 badge: 'n5', href: 'materi-level.html?level=24' },
+      { num: 25, title: 'Review N5',             jp: 'N5復習',        desc: 'Ulang semua materi N5.',                       badge: 'n5', href: 'materi-level.html?level=25' },
+
+      // ============ N4 (Level 26 - 40) ============
+      { num: 26, title: 'Kanji N4 Dasar',        jp: '漢字 N4',       desc: 'Kanji level menengah pertama.',                badge: 'n4', href: 'materi-level.html?level=26' },
+      { num: 27, title: 'Kata Kerja ない形',     jp: 'ない形',        desc: 'Bentuk negatif kata kerja.',                   badge: 'n4', href: 'materi-level.html?level=27' },
+      { num: 28, title: 'Kata Kerja た形',       jp: 'た形',          desc: 'Bentuk lampau kata kerja.',                    badge: 'n4', href: 'materi-level.html?level=28' },
+      { num: 29, title: 'Kata Kerja Potensial',  jp: '可能形',        desc: 'Menyatakan kemampuan.',                        badge: 'n4', href: 'materi-level.html?level=29' },
+      { num: 30, title: 'Kata Kerja Volitional', jp: '意向形',        desc: 'Menyatakan ajakan / niat.',                    badge: 'n4', href: 'materi-level.html?level=30' },
+      { num: 31, title: 'Kalimat Pasif',         jp: '受身形',        desc: 'Bentuk pasif dalam bahasa Jepang.',            badge: 'n4', href: 'materi-level.html?level=31' },
+      { num: 32, title: 'Kalimat Kausatif',      jp: '使役形',        desc: 'Menyuruh / membiarkan orang lain.',            badge: 'n4', href: 'materi-level.html?level=32' },
+      { num: 33, title: 'Kondisional たら',      jp: '条件形',        desc: 'Kalimat pengandaian.',                         badge: 'n4', href: 'materi-level.html?level=33' },
+      { num: 34, title: 'Partikel Lanjutan',     jp: '助詞上級',      desc: 'Partikel と, や, など.',                      badge: 'n4', href: 'materi-level.html?level=34' },
+      { num: 35, title: 'Keigo Dasar',           jp: '敬語',          desc: 'Sonkeigo, kenjougo, teineigo.',                badge: 'n4', href: 'materi-level.html?level=35' },
+      { num: 36, title: 'Kosakata Kerja',        jp: '仕事の語彙',    desc: 'Kosakata dunia kerja.',                        badge: 'n4', href: 'materi-level.html?level=36' },
+      { num: 37, title: 'Kosakata Sekolah',      jp: '学校の語彙',    desc: 'Kosakata dunia pendidikan.',                   badge: 'n4', href: 'materi-level.html?level=37' },
+      { num: 38, title: 'Percakapan Telepon',    jp: '電話会話',      desc: 'Berbicara di telepon.',                        badge: 'n4', href: 'materi-level.html?level=38' },
+      { num: 39, title: 'Surat & Email',         jp: '手紙',          desc: 'Menulis surat dan email formal.',              badge: 'n4', href: 'materi-level.html?level=39' },
+      { num: 40, title: 'Review N4',             jp: 'N4復習',        desc: 'Ulang semua materi N4.',                       badge: 'n4', href: 'materi-level.html?level=40' },
+
+      // ============ N3 (Level 41 - 50) ============
+      { num: 41, title: 'Kanji N3 Dasar',        jp: '漢字 N3',       desc: 'Kanji level lanjut.',                          badge: 'n3', href: 'materi-level.html?level=41' },
+      { num: 42, title: 'Tata Bahasa N3',        jp: 'N3文法',        desc: 'Pola kalimat N3.',                             badge: 'n3', href: 'materi-level.html?level=42' },
+      { num: 43, title: 'Kosakata Berita',       jp: 'ニュース語彙',  desc: 'Kosakata untuk membaca berita.',               badge: 'n3', href: 'materi-level.html?level=43' },
+      { num: 44, title: 'Kosakata Akademik',     jp: '学術語彙',      desc: 'Kosakata untuk teks akademik.',                badge: 'n3', href: 'materi-level.html?level=44' },
+      { num: 45, title: 'Idiom & Peribahasa',    jp: '慣用句',        desc: 'Kotowaza dan idiom Jepang.',                   badge: 'n3', href: 'materi-level.html?level=45' },
+      { num: 46, title: 'Keigo Lanjutan',        jp: '敬語上級',      desc: 'Keigo untuk situasi formal.',                  badge: 'n3', href: 'materi-level.html?level=46' },
+      { num: 47, title: 'Percakapan Bisnis',     jp: 'ビジネス会話',  desc: 'Percakapan dalam dunia bisnis.',               badge: 'n3', href: 'materi-level.html?level=47' },
+      { num: 48, title: 'Membaca Artikel',       jp: '記事を読む',    desc: 'Latihan membaca artikel Jepang.',              badge: 'n3', href: 'materi-level.html?level=48' },
+      { num: 49, title: 'Menulis Esai',          jp: '作文',          desc: 'Latihan menulis esai Jepang.',                 badge: 'n3', href: 'materi-level.html?level=49' },
+      { num: 50, title: 'Review N3',             jp: 'N3復習',        desc: 'Ulang semua materi N3.',                       badge: 'n3', href: 'materi-level.html?level=50' }
+    ];
+
+    /* ============================================================
+       RENDER GRID
+       ============================================================ */
+    const grid = document.getElementById('levelGrid');
+
+    function renderGrid(filter = 'all') {
+      grid.innerHTML = '';
+
+      LEVELS.forEach(lv => {
+        // Filter
+        if (filter !== 'all' && lv.badge !== filter) return;
+
+        // Buat kartu
+        const card = document.createElement('div');
+        card.className = 'level-card';
+
+        // Badge
+        let badgeText = '';
+        if (lv.badge === 'n5')      badgeText = '<span class="level-badge n5">N5</span>';
+        else if (lv.badge === 'n4') badgeText = '<span class="level-badge n4">N4</span>';
+        else if (lv.badge === 'n3') badgeText = '<span class="level-badge n3">N3</span>';
+
+        card.innerHTML = `
+          ${badgeText}
+          <div class="level-num">
+            <span class="num">${String(lv.num).padStart(2, '0')}</span>
+            <span class="label">Level</span>
+          </div>
+          <h3>${lv.title}</h3>
+          <div class="jp-title">${lv.jp}</div>
+          <p>${lv.desc}</p>
+          <div class="level-actions">
+            <a href="${lv.href}" class="btn-level">
+              <i class="fas fa-book-open"></i> Pelajari
+            </a>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    /* ============================================================
+       FILTER
+       ============================================================ */
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderGrid(tab.dataset.filter);
+      });
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    renderGrid();
+
+  </script>
+
+</body>
+</html>
