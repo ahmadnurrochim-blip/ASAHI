@@ -4,6 +4,7 @@
    Popup gabungan: info leveling + leaderboard top 3.
    2 tombol: Mulai Leveling + Lihat Leaderboard.
    Cooldown: muncul lagi setelah 1 menit dari close.
+   Fitur: Minimize (kecilkan jadi icon bulat).
    ============================================================ */
 
 (function () {
@@ -120,7 +121,7 @@
       </div>
     `).join('');
 
-       popup.innerHTML = `
+    popup.innerHTML = `
       <!-- TOMBOL MINIMIZE (di header) -->
       <button class="leveling-minimize" id="levelingMinimize" aria-label="Kecilkan">
         <i class="fas fa-minus"></i>
@@ -178,7 +179,7 @@
 
     // ---------- STATE MINIMIZE ----------
     const MIN_STORAGE_KEY = 'asahi_popup_minimized';
-    const btnMin  = document.getElementById('levelingMinimize');
+    const btnMin   = document.getElementById('levelingMinimize');
     const btnClose = document.getElementById('levelingClose');
 
     // Cek apakah sebelumnya di-minimize
@@ -217,6 +218,7 @@
       } catch (e) { /* abaikan */ }
       setTimeout(() => popup.remove(), 300);
     });
+  }
 
   // ---------- INJECT ----------
   async function inject() {
@@ -229,4 +231,4 @@
   } else {
     inject();
   }
-  )();
+})();
