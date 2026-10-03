@@ -195,4 +195,110 @@
   color: var(--gray, #6b7280);
   margin-top: 2px;
 }
+/* ============================================================
+   SECTION LEADERBOARD DI DALAM POPUP LEVELING
+   ============================================================ */
+
+.lb-popup-section {
+  background: linear-gradient(135deg, #fff9ec 0%, #ffffff 100%);
+  border: 2px solid var(--gold, #c9a227);
+  border-radius: 12px;
+  padding: 10px 10px 8px;
+  margin-bottom: 12px;
+}
+
+.lb-popup-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px dashed rgba(201, 162, 39, 0.4);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gold, #c9a227);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lb-popup-header i {
+  font-size: 13px;
+}
+
+.lb-popup-header small {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.lb-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.lb-popup-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: #fff;
+  border: 1px solid #f0e9dc;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.lb-popup-row:hover {
+  border-color: var(--red, #bc002d);
+  background: #fff5f7;
+}
+
+.lb-popup-row:nth-child(1) {
+  background: linear-gradient(135deg, #fff9ec 0%, #ffffff 100%);
+  border-color: var(--gold, #c9a227);
+}
+
+.lb-popup-row:nth-child(2) {
+  background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+  border-color: #cbd5e1;
+}
+
+.lb-popup-row:nth-child(3) {
+  background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%);
+  border-color: #fbbf24;
+}
+
+.lb-popup-medal {
+  font-size: 16px;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.lb-popup-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.lb-popup-name {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink, #1a1a1a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-popup-poin {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--gray, #6b7280);
+  margin-top: 1px;
+}
 }
