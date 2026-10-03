@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard - Asahi Mandiri</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- FIREBASE -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+      --green: #10b981;
+      --gray: #6b7280;
+      --gray-light: #9ca3af;
+      --border: #e8e2d8;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      min-height: 100vh;
+    }
+
+    /* BACKGROUND */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.92), rgba(253, 250, 245, 0.96)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15);
+    }
+
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+    .brand-text .jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+
+    .brand-text .en {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid var(--border);
+      transition: all 0.25s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+    }
+
+    .nav-btn i { color: var(--red); font-size: 13px; }
+
+    /* MAIN */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 28px 80px;
+    }
+
+    /* PAGE TITLE */
+    .page-title {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .page-title .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .page-title h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .page-title h1 .accent { color: var(--red); }
+
+    .page-title p {
+      font-size: 15px;
+      color: var(--gray);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* LOADING */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray);
+    }
+
+    .loading i {
+      font-size: 32px;
+      color: var(--red);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    /* PODIUM TOP 3 */
+    .podium {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .podium-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 22px 16px 18px;
+      text-align: center;
+      border: 2px solid var(--border);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .podium-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .podium-card.rank-1 {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, #fff9ec 0%, #ffffff 100%);
+      transform: scale(1.05);
+      order: 2;
+    }
+
+    .podium-card.rank-2 {
+      border-color: #cbd5e1;
+      background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+      order: 1;
+      margin-top: 20px;
+    }
+
+    .podium-card.rank-3 {
+      border-color: #d97706;
+      background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%);
+      order: 3;
+      margin-top: 20px;
+    }
+
+    .podium-medal {
+      font-size: 44px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .podium-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+      background: #f3f4f6;
+    }
+
+    .rank-1 .podium-avatar { border-color: var(--gold); }
+    .rank-2 .podium-avatar { border-color: #cbd5e1; }
+    .rank-3 .podium-avatar { border-color: #d97706; }
+
+    .podium-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .podium-poin {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--red);
+    }
+
+    .podium-rank-badge {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* LIST 4+ */
+    .list-section {
+      background: #fff;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      overflow: hidden;
+    }
+
+    .list-header {
+      padding: 14px 20px;
+      background: #fdfaf5;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .list-header i { color: var(--red); margin-right: 6px; }
+
+    .lb-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 20px;
+      border-bottom: 1px solid #f5f0e8;
+      transition: background 0.2s;
+    }
+
+    .lb-row:last-child { border-bottom: none; }
+
+    .lb-row:hover {
+      background: #fff5f7;
+    }
+
+    .lb-row.is-me {
+      background: #fff9ec;
+      border-left: 4px solid var(--gold);
+      font-weight: 700;
+    }
+
+    .lb-rank {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--gray-light);
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .lb-row.is-me .lb-rank { color: var(--gold); }
+
+    .lb-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #f3f4f6;
+      flex-shrink: 0;
+    }
+
+    .lb-name {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lb-poin {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+
+    /* KARTU "KAMU" */
+    .my-card {
+      margin-top: 22px;
+      background: linear-gradient(135deg, #fff9ec 0%, #ffffff 100%);
+      border: 2px dashed var(--gold);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .my-card .rank-big {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gold);
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .my-card .info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .my-card .label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 3px;
+    }
+
+    .my-card .name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .my-card .poin {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    /* LOGIN CTA */
+    .login-cta {
+      margin-top: 22px;
+      background: #fff;
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .login-cta p {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 14px;
+    }
+
+    .btn-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      background: var(--red);
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      transition: all 0.25s;
+      box-shadow: 0 4px 12px rgba(188, 0, 45, 0.25);
+    }
+
+    .btn-login:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: var(--gray-light);
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9);
+      margin-top: 40px;
+    }
+
+    footer .jp {
+      font-family: 'Shippori Mincho', serif;
+      color: var(--red);
+      letter-spacing: 4px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* RESPONSIVE */
+    @media (max-width: 720px) {
+      .header-inner { padding: 14px 18px; }
+      .container { padding: 32px 18px 60px; }
+
+      .podium {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .podium-card.rank-1,
+      .podium-card.rank-2,
+      .podium-card.rank-3 {
+        order: 0;
+        margin-top: 0;
+        transform: none;
+      }
+
+      .podium-card.rank-1 { border-width: 3px; }
+
+      .lb-row { padding: 10px 16px; gap: 10px; }
+      .lb-rank { min-width: 30px; font-size: 14px; }
+      .lb-avatar { width: 32px; height: 32px; }
+      .lb-name { font-size: 12px; }
+      .lb-poin { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+      <a href="leveling.html" class="nav-btn">
+        <i class="fas fa-layer-group"></i> Leveling
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- TITLE -->
+    <div class="page-title">
+      <div class="badge">
+        <i class="fas fa-crown"></i> ランキング
+      </div>
+      <h1>Leader<span class="accent">board</span></h1>
+      <p>Top 50 pemain Asahi Mandiri. Selesaikan level leveling untuk mengumpulkan poin dan naik peringkat!</p>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading" id="loadingView">
+      <i class="fas fa-spinner fa-spin"></i>
+      Memuat leaderboard...
+    </div>
+
+    <!-- CONTENT -->
+    <div id="contentView" class="hidden">
+
+      <!-- PODIUM TOP 3 -->
+      <div class="podium" id="podium"></div>
+
+      <!-- LIST 4-50 -->
+      <div class="list-section">
+        <div class="list-header">
+          <span><i class="fas fa-list-ol"></i> Peringkat 4 - 50</span>
+          <span id="totalUsers">0 pemain</span>
+        </div>
+        <div id="listContainer"></div>
+      </div>
+
+      <!-- KARTU "KAMU" (kalau login) -->
+      <div class="my-card hidden" id="myCard">
+        <div class="rank-big" id="myRankBig">#—</div>
+        <div class="info">
+          <div class="label">Peringkat Kamu</div>
+          <div class="name" id="myName">-</div>
+          <div class="poin" id="myPoin">0 poin</div>
+        </div>
+      </div>
+
+      <!-- LOGIN CTA (kalau belum login) -->
+      <div class="login-cta hidden" id="loginCta">
+        <p>Login untuk melihat posisimu di leaderboard!</p>
+        <a href="portal.html" class="btn-login">
+          <i class="fas fa-sign-in-alt"></i> Login Sekarang
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2026 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <script src="js/kode-valid.js"></script>
+  <script src="js/access-guard.js"></script>
+
+  <script>
+    /* ============================================================
+       KONFIGURASI
+       ============================================================ */
+    const TOP_N = 50;
+
+    /* ============================================================
+       ELEMEN
+       ============================================================ */
+    const loadingView = document.getElementById('loadingView');
+    const contentView = document.getElementById('contentView');
+    const podium      = document.getElementById('podium');
+    const listCont    = document.getElementById('listContainer');
+    const totalUsers  = document.getElementById('totalUsers');
+    const myCard      = document.getElementById('myCard');
+    const myRankBig   = document.getElementById('myRankBig');
+    const myName      = document.getElementById('myName');
+    const myPoin      = document.getElementById('myPoin');
+    const loginCta    = document.getElementById('loginCta');
+
+    /* ============================================================
+       ESCAPE HTML
+       ============================================================ */
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /* ============================================================
+       FORMAT POIN
+       ============================================================ */
+    function formatPoin(n) {
+      return (n || 0).toLocaleString('id-ID');
+    }
+
+    /* ============================================================
+       AVATAR DEFAULT
+       ============================================================ */
+    const DEFAULT_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="40" fill="#e5e7eb"/>
+        <circle cx="40" cy="32" r="14" fill="#9ca3af"/>
+        <ellipse cx="40" cy="68" rx="22" ry="16" fill="#9ca3af"/>
+      </svg>
+    `);
+
+    /* ============================================================
+       RENDER PODIUM (TOP 3)
+       ============================================================ */
+    function renderPodium(top3) {
+      const medals = ['🥇', '🥈', '🥉'];
+      const ranks  = ['TOP', 'SECOND', 'THIRD'];
+
+      podium.innerHTML = top3.map((p, i) => `
+        <div class="podium-card rank-${i + 1}">
+          <div class="podium-medal">${medals[i]}</div>
+          <img
+            class="podium-avatar"
+            src="${esc(p.foto) || DEFAULT_AVATAR}"
+            onerror="this.src='${DEFAULT_AVATAR}'"
+            alt=""
+          />
+          <div class="podium-name">${esc(p.nama || 'Anonim')}</div>
+          <div class="podium-poin">${formatPoin(p.totalPoin)}</div>
+          <div class="podium-rank-badge">${ranks[i]}</div>
+        </div>
+      `).join('');
+    }
+
+    /* ============================================================
+       RENDER LIST (4 - 50)
+       ============================================================ */
+    function renderList(list, myUid) {
+      if (!list.length) {
+        listCont.innerHTML = `
+          <div style="padding:30px;text-align:center;color:var(--gray);font-size:13px;">
+            Belum ada pemain lain. Jadilah yang pertama! 🎯
+          </div>
+        `;
+        return;
+      }
+
+      listCont.innerHTML = list.map((p, i) => {
+        const rank = i + 4;
+        const isMe = myUid && p.uid === myUid;
+        return `
+          <div class="lb-row ${isMe ? 'is-me' : ''}">
+            <div class="lb-rank">#${rank}</div>
+            <img
+              class="lb-avatar"
+              src="${esc(p.foto) || DEFAULT_AVATAR}"
+              onerror="this.src='${DEFAULT_AVATAR}'"
+              alt=""
+            />
+            <div class="lb-name">${esc(p.nama || 'Anonim')}${isMe ? ' <span style="color:var(--gold)">(Kamu)</span>' : ''}</div>
+            <div class="lb-poin">${formatPoin(p.totalPoin)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* ============================================================
+       LOAD LEADERBOARD
+       ============================================================ */
+    async function loadLeaderboard() {
+      // Tunggu Firebase siap
+      const waitForFirebase = () => new Promise((resolve) => {
+        if (window.AsahiFirebase) return resolve(true);
+        let tries = 0;
+        const timer = setInterval(() => {
+          tries++;
+          if (window.AsahiFirebase) {
+            clearInterval(timer);
+            resolve(true);
+          } else if (tries >= 30) {
+            clearInterval(timer);
+            resolve(false);
+          }
+        }, 100);
+      });
+
+      const ready = await waitForFirebase();
+
+      if (!ready) {
+        loadingView.innerHTML = `
+          <i class="fas fa-exclamation-circle" style="color:#ef4444;"></i>
+          Gagal memuat. Coba refresh halaman.
+        `;
+        return;
+      }
+
+      try {
+        // Ambil top 50 dari Firestore
+        const list = await window.AsahiFirebase.getLeaderboard(TOP_N);
+        const user = window.AsahiFirebase.currentUser;
+
+        // Kalau kosong → tampilkan pesan
+        if (!list || list.length === 0) {
+          loadingView.classList.add('hidden');
+          contentView.classList.remove('hidden');
+          podium.innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--gray);">
+              <div style="font-size:48px;margin-bottom:10px;">🌸</div>
+              <p>Belum ada yang masuk leaderboard.</p>
+              <p style="font-size:12px;margin-top:6px;">Jadilah yang pertama dengan menyelesaikan leveling!</p>
+            </div>
+          `;
+          listCont.innerHTML = '';
+          totalUsers.textContent = '0 pemain';
+          if (!user) loginCta.classList.remove('hidden');
+          return;
+        }
+
+        // Split top 3 vs sisanya
+        const top3   = list.slice(0, 3);
+        const rest   = list.slice(3);
+
+        // Podium & list
+        renderPodium(top3);
+        renderList(rest, user?.uid);
+
+        totalUsers.textContent = list.length + ' pemain';
+
+        // Cek apakah user ada di top 50
+        if (user) {
+          const myIndex = list.findIndex(p => p.uid === user.uid);
+
+          if (myIndex >= 0 && myIndex >= 3) {
+            // User ada di list 4-50 → sudah di-highlight di renderList, tidak perlu kartu
+            myCard.classList.add('hidden');
+          } else if (myIndex === -1) {
+            // User tidak ada di top 50 → tampilkan kartu posisi
+            // Ambil data user
+            const myData = await window.AsahiFirebase.getUserData(user.uid);
+            if (myData) {
+              myRankBig.textContent = '#—';
+              myName.textContent = myData.nama || user.displayName || 'Kamu';
+              myPoin.textContent = formatPoin(myData.totalPoin) + ' poin';
+              myCard.classList.remove('hidden');
+            }
+          }
+          // Kalau myIndex 0/1/2 → sudah tampil di podium, tidak perlu kartu
+        } else {
+          // Belum login
+          loginCta.classList.remove('hidden');
+        }
+
+        loadingView.classList.add('hidden');
+        contentView.classList.remove('hidden');
+
+      } catch (err) {
+        console.error('Gagal load leaderboard:', err);
+        loadingView.innerHTML = `
+          <i class="fas fa-exclamation-circle" style="color:#ef4444;"></i>
+          Terjadi kesalahan. Coba refresh halaman.
+        `;
+      }
+    }
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    // Tunggu auth state dulu
+    window.addEventListener('asahi-auth-changed', () => {
+      loadLeaderboard();
+    });
+
+    // Load awal
+    setTimeout(loadLeaderboard, 500);
+  </script>
+
+</body>
+</html>
