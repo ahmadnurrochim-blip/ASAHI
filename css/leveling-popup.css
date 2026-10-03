@@ -306,4 +306,132 @@
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(188, 0, 45, 0.15);
 }
+   /* ============================================================
+   RESPONSIVE FIX — MOBILE COMPACT
+   Popup lebih kecil di HP biar tidak makan tempat.
+   ============================================================ */
+@media (max-width: 480px) {
+
+  /* Container popup — lebih kecil & rapi */
+  .leveling-access {
+    right: 10px;
+    bottom: 10px;
+    left: auto;
+    width: 240px;          /* ← ukuran tetap, bukan full width */
+    max-width: calc(100vw - 20px);
+    border-radius: 14px;
+  }
+
+  /* Header — lebih ringkas */
+  .leveling-header {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .leveling-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .leveling-title {
+    font-size: 13px;
+    line-height: 1.1;
+  }
+
+  .leveling-subtitle {
+    font-size: 8.5px;
+    letter-spacing: 1px;
+    margin-top: 1px;
+  }
+
+  /* Body — padding lebih kecil */
+  .leveling-body {
+    padding: 10px 12px 12px;
+  }
+
+  /* Deskripsi — lebih kecil & max 2 baris */
+  .leveling-description {
+    font-size: 10.5px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;      /* max 2 baris */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Section leaderboard */
+  .lb-popup-section {
+    margin-bottom: 8px;
+  }
+
+  .lb-popup-header {
+    font-size: 8.5px;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+
+  .lb-popup-header i {
+    font-size: 9px;
+  }
+
+  .lb-popup-header small {
+    font-size: 7.5px;
+  }
+
+  /* List leaderboard */
+  .lb-popup-list {
+    padding: 4px;
+    gap: 1px;
+    border-radius: 8px;
+  }
+
+  /* Baris pemain — lebih tipis */
+  .lb-popup-row {
+    padding: 4px 6px;
+    gap: 6px;
+    border-radius: 6px;
+  }
+
+  /* Nomor peringkat — lebih kecil */
+  .lb-popup-rank {
+    width: 16px;
+    height: 16px;
+    font-size: 8px;
+  }
+
+  /* Nama pemain */
+  .lb-popup-name {
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* Poin pemain */
+  .lb-popup-poin {
+    font-size: 9.5px;
+  }
+
+  /* Tombol — lebih compact */
+  .leveling-button {
+    padding: 8px 12px;
+    font-size: 11px;
+    border-radius: 8px;
+    gap: 6px;
+  }
+
+  .leveling-button i {
+    font-size: 10px;
+  }
+
+  /* Tombol close — lebih kecil */
+  .leveling-close {
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+}
 }
