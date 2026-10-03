@@ -437,6 +437,7 @@
       font-size: 9px;
     }
 
+    /* LEADERBOARD */
     .leaderboard {
       position: fixed;
       top: 90px;
@@ -724,6 +725,7 @@
     </div>
   </header>
 
+  <!-- LEADERBOARD -->
   <div class="leaderboard" id="leaderboard">
     <div class="lb-header">
       <i class="fas fa-crown"></i>
@@ -805,10 +807,9 @@
     const POIN_PER_LEVEL = 100;
     const TOTAL_LEVEL = 100;
     const TOTAL_POIN = POIN_PER_LEVEL * TOTAL_LEVEL;
-    const STORAGE_KEY = 'asahi_leveling_done';
 
     /* ============================================================
-       GENERATE 100 LEVEL  ← PINDAH KE SINI (sebelum renderGrid)
+       GENERATE 100 LEVEL
        ============================================================ */
     const LEVELS = [];
     for (let i = 1; i <= 100; i++) {
@@ -827,9 +828,10 @@
     /* ============================================================
        STATE
        ============================================================ */
-    const doneSet = new Set();
-    let isPremium = false;
-    let currentUser = null;
+    let levelSelesai  = [];  // array nomor level yang sudah selesai (dari Firestore)
+    let totalPoinUser = 0;   // total poin dari Firestore
+    let isPremium     = false;
+    let currentUser   = null;
 
     /* ============================================================
        ELEMEN
@@ -845,25 +847,30 @@
     const lbToggle    = document.getElementById('lbToggle');
 
     /* ============================================================
-       LOAD & SAVE LOCALSTORAGE
+       AMBIL PROGRESS USER DARI FIRESTORE
        ============================================================ */
-    function loadDone() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (!saved) return;
-        const arr = JSON.parse(saved);
-        if (Array.isArray(arr)) arr.forEach(n => doneSet.add(n));
-      } catch (e) {
-        console.warn('Gagal memuat progress:', e);
+    async function loadUserProgress() {
+      const user = window.AsahiFirebase?.currentUser;
+      if (!user) {
+        levelSelesai  = [];
+        totalPoinUser = 0;
+        return;
       }
-    }
 
-    function saveDone() {
       try {
-        const arr = Array.from(doneSet);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-      } catch (e) {
-        console.warn('Gagal menyimpan progress:', e);
+        const data = await window.AsahiFirebase.getUserData(user.uid);
+        if (data) {
+          levelSelesai  = data.levelSelesai || [];
+          totalPoinUser = data.totalPoin || 0;
+        } else {
+          levelSelesai  = [];
+          totalPoinUser = 0;
+        }
+        console.log('[Asahi] Progress user:', levelSelesai, '| Poin:', totalPoinUser);
+      } catch (err) {
+        console.warn('[Asahi] Gagal ambil progress user:', err);
+        levelSelesai  = [];
+        totalPoinUser = 0;
       }
     }
 
@@ -871,22 +878,23 @@
        HITUNG POIN
        ============================================================ */
     function getMyPoin() {
-      return doneSet.size * POIN_PER_LEVEL;
+      return totalPoinUser;
     }
 
     /* ============================================================
        RENDER LEADERBOARD
        ============================================================ */
     async function renderLeaderboard() {
-      const myPoinVal = getMyPoin();
-      myPoin.textContent = myPoinVal.toLocaleString('id-ID');
+      myPoin.textContent = getMyPoin().toLocaleString('id-ID');
 
+      // Nama user
       if (currentUser && currentUser.displayName) {
         myName.textContent = currentUser.displayName;
       } else {
         myName.textContent = 'Guest';
       }
 
+      // Ambil leaderboard dari Firestore
       let topPlayers = [];
       try {
         if (window.AsahiFirebase) {
@@ -896,6 +904,7 @@
         console.warn('Gagal ambil leaderboard:', err);
       }
 
+      // Kalau kosong → fallback
       if (!topPlayers || topPlayers.length === 0) {
         topPlayers = [
           { nama: 'Budi S.',   totalPoin: 9800 },
@@ -904,6 +913,7 @@
         ];
       }
 
+      // Render
       lbList.innerHTML = '';
       topPlayers.slice(0, 7).forEach((p, i) => {
         const row = document.createElement('div');
@@ -929,6 +939,7 @@
         lbList.appendChild(row);
       });
 
+      // Peringkat user sendiri
       if (currentUser) {
         const myIdx = topPlayers.findIndex(p => p.uid === currentUser.uid);
         myRank.textContent = myIdx >= 0 ? '#' + (myIdx + 1) : '—';
@@ -941,7 +952,7 @@
        UPDATE POIN
        ============================================================ */
     function updatePoin() {
-      const doneCount = doneSet.size;
+      const doneCount = levelSelesai.length;
       const poin = getMyPoin();
 
       statDone.textContent = doneCount;
@@ -957,7 +968,7 @@
       grid.innerHTML = '';
 
       LEVELS.forEach(lv => {
-        const isDone = doneSet.has(lv.num);
+        const isDone = levelSelesai.includes(lv.num);
         const isLocked = !isPremium;
 
         if (filter !== 'all') {
@@ -986,7 +997,7 @@
     }
 
     /* ============================================================
-       KLIK LEVEL → CEK PREMIUM → BUKA HALAMAN level-X.html
+       KLIK LEVEL → CEK PREMIUM → BUKA HALAMAN level.html?level=X
        ============================================================ */
     async function toggleLevel(num, card) {
       const user = window.AsahiFirebase?.currentUser;
@@ -1019,8 +1030,7 @@
           return;
         }
 
-        // SEMENTARA: alert dulu (belum bikin level-X.html)
-              // Buka halaman level
+        // Buka halaman level
         window.location.href = 'level.html?level=' + num;
 
       } catch (err) {
@@ -1055,9 +1065,12 @@
 
       if (currentUser) {
         isPremium = await window.AsahiAccess.isPremium();
-        console.log('[Asahi] User login:', currentUser.displayName, '| Premium:', isPremium);
+        await loadUserProgress();
+        console.log('[Asahi] User login:', currentUser.displayName, '| Premium:', isPremium, '| Selesai:', levelSelesai.length, '| Poin:', totalPoinUser);
       } else {
         isPremium = false;
+        levelSelesai = [];
+        totalPoinUser = 0;
       }
 
       renderGrid();
@@ -1067,9 +1080,18 @@
     /* ============================================================
        INIT
        ============================================================ */
-    loadDone();
     renderGrid();
     updatePoin();
+
+    // Kalau user sudah login sejak awal, load progress
+    setTimeout(async () => {
+      if (window.AsahiFirebase?.currentUser) {
+        await loadUserProgress();
+        renderGrid();
+        updatePoin();
+      }
+    }, 500);
+
   </script>
 
 </body>
