@@ -6,13 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leveling - Asahi Mandiri</title>
 
-  <!-- ============ FONTS & ICONS ============ -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
 
-  <!-- ============ FIREBASE (WAJIB DI HEAD) ============ -->
+  <!-- FIREBASE (WAJIB DI HEAD) -->
   <script type="module" src="js/firebase-config.js"></script>
   <script type="module" src="js/firebase-init.js"></script>
 
@@ -43,9 +42,6 @@
       overflow-x: hidden;
     }
 
-    /* ============================================================
-       BACKGROUND
-       ============================================================ */
     .bg {
       position: fixed;
       inset: 0;
@@ -69,9 +65,6 @@
       pointer-events: none;
     }
 
-    /* ============================================================
-       HEADER
-       ============================================================ */
     header {
       position: sticky;
       top: 0;
@@ -185,9 +178,6 @@
     }
     .nav-btn.active i { color: #fff; }
 
-    /* ============================================================
-       MAIN
-       ============================================================ */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -227,9 +217,6 @@
       50%      { transform: translateY(-16px) rotate(12deg); }
     }
 
-    /* ============================================================
-       PAGE TITLE
-       ============================================================ */
     .page-title {
       text-align: center;
       margin-bottom: 34px;
@@ -270,9 +257,6 @@
       line-height: 1.7;
     }
 
-    /* ============================================================
-       STATS BAR
-       ============================================================ */
     .stats-bar {
       display: flex;
       justify-content: center;
@@ -301,9 +285,6 @@
 
     .stat-pill i { color: var(--red); font-size: 12px; }
 
-    /* ============================================================
-       FILTER TABS
-       ============================================================ */
     .filter-tabs {
       display: flex;
       gap: 8px;
@@ -336,9 +317,6 @@
       color: #fff;
     }
 
-    /* ============================================================
-       GRID LEVEL — 100 LEVEL
-       ============================================================ */
     .level-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -387,7 +365,6 @@
       transform: translateY(-2px) scale(1.0);
     }
 
-    /* Level selesai */
     .level-card.done {
       background: linear-gradient(135deg, var(--green) 0%, #047857 100%);
       box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
@@ -410,7 +387,6 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
-    /* Level terkunci */
     .level-card.locked {
       background: linear-gradient(135deg, #9ca3af 0%, #4b5563 100%);
       cursor: not-allowed;
@@ -461,9 +437,6 @@
       font-size: 9px;
     }
 
-    /* ============================================================
-       LEADERBOARD — POJOK ATAS
-       ============================================================ */
     .leaderboard {
       position: fixed;
       top: 90px;
@@ -661,9 +634,6 @@
       transform: rotate(180deg);
     }
 
-    /* ============================================================
-       FOOTER
-       ============================================================ */
     footer {
       text-align: center;
       padding: 30px 20px;
@@ -683,9 +653,6 @@
       font-size: 14px;
     }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
     @media (max-width: 820px) {
       .header-inner {
         flex-direction: column;
@@ -731,14 +698,11 @@
 
 <body>
 
-  <!-- ============ BACKGROUND ============ -->
   <div class="bg"></div>
   <div class="bg-pattern"></div>
 
-  <!-- ============ HEADER ============ -->
   <header>
     <div class="header-inner">
-
       <a href="index.html" class="brand">
         <div class="brand-mark">朝</div>
         <div class="brand-text">
@@ -746,7 +710,6 @@
           <span class="en">Japanese Learning</span>
         </div>
       </a>
-
       <nav class="nav-buttons">
         <a href="index.html" class="nav-btn">
           <i class="fas fa-home"></i> <span>Beranda</span>
@@ -758,11 +721,9 @@
           <i class="fas fa-book-open"></i> <span>Materi</span>
         </a>
       </nav>
-
     </div>
   </header>
 
-  <!-- ============ LEADERBOARD (pojok atas) ============ -->
   <div class="leaderboard" id="leaderboard">
     <div class="lb-header">
       <i class="fas fa-crown"></i>
@@ -774,7 +735,6 @@
         <i class="fas fa-chevron-up"></i>
       </button>
     </div>
-
     <div class="lb-body">
       <div class="lb-self">
         <div class="lb-rank" id="myRank">—</div>
@@ -783,16 +743,12 @@
           <div class="lb-poin"><span id="myPoin">0</span> poin</div>
         </div>
       </div>
-
       <div class="lb-list" id="lbList"></div>
     </div>
   </div>
 
-  <!-- ============ MAIN ============ -->
   <main class="container">
-
     <div class="kanji-watermark">挑戦</div>
-
     <div class="sakura s1">🌸</div>
     <div class="sakura s2">🌸</div>
     <div class="sakura s3">🌸</div>
@@ -832,7 +788,6 @@
     </div>
 
     <div class="level-grid" id="levelGrid"></div>
-
   </main>
 
   <footer>
@@ -840,7 +795,6 @@
     © 2026 Asahi Mandiri. Semua hak dilindungi.
   </footer>
 
-  <!-- ============ SCRIPT ============ -->
   <script src="js/kode-valid.js"></script>
   <script src="js/access-guard.js"></script>
 
@@ -852,6 +806,23 @@
     const TOTAL_LEVEL = 100;
     const TOTAL_POIN = POIN_PER_LEVEL * TOTAL_LEVEL;
     const STORAGE_KEY = 'asahi_leveling_done';
+
+    /* ============================================================
+       GENERATE 100 LEVEL  ← PINDAH KE SINI (sebelum renderGrid)
+       ============================================================ */
+    const LEVELS = [];
+    for (let i = 1; i <= 100; i++) {
+      let badge = 'n5';
+      if (i >= 31 && i <= 60) badge = 'n4';
+      else if (i >= 61 && i <= 85) badge = 'n3';
+      else if (i >= 86) badge = 'n2';
+
+      LEVELS.push({
+        num: i,
+        badge: badge,
+        poin: POIN_PER_LEVEL
+      });
+    }
 
     /* ============================================================
        STATE
@@ -910,14 +881,12 @@
       const myPoinVal = getMyPoin();
       myPoin.textContent = myPoinVal.toLocaleString('id-ID');
 
-      // Nama user (dari Google)
       if (currentUser && currentUser.displayName) {
         myName.textContent = currentUser.displayName;
       } else {
         myName.textContent = 'Guest';
       }
 
-      // Ambil leaderboard dari Firebase
       let topPlayers = [];
       try {
         if (window.AsahiFirebase) {
@@ -927,7 +896,6 @@
         console.warn('Gagal ambil leaderboard:', err);
       }
 
-      // Kalau gagal / kosong, pakai data dummy
       if (!topPlayers || topPlayers.length === 0) {
         topPlayers = [
           { nama: 'Budi S.',   totalPoin: 9800 },
@@ -936,7 +904,6 @@
         ];
       }
 
-      // Render
       lbList.innerHTML = '';
       topPlayers.slice(0, 7).forEach((p, i) => {
         const row = document.createElement('div');
@@ -962,7 +929,6 @@
         lbList.appendChild(row);
       });
 
-      // Peringkat user sendiri
       if (currentUser) {
         const myIdx = topPlayers.findIndex(p => p.uid === currentUser.uid);
         myRank.textContent = myIdx >= 0 ? '#' + (myIdx + 1) : '—';
@@ -992,7 +958,7 @@
 
       LEVELS.forEach(lv => {
         const isDone = doneSet.has(lv.num);
-        const isLocked = !isPremium; // kalau belum premium, semua level terkunci
+        const isLocked = !isPremium;
 
         if (filter !== 'all') {
           if (filter === 'done'   && !isDone) return;
@@ -1019,13 +985,10 @@
       });
     }
 
-        /* ============================================================
+    /* ============================================================
        KLIK LEVEL → CEK PREMIUM → BUKA HALAMAN level-X.html
        ============================================================ */
     async function toggleLevel(num, card) {
-      // ============================================
-      // 1. CEK: apakah user sudah login?
-      // ============================================
       const user = window.AsahiFirebase?.currentUser;
 
       if (!user) {
@@ -1040,9 +1003,6 @@
         return;
       }
 
-      // ============================================
-      // 2. CEK: apakah user sudah punya kode akses?
-      // ============================================
       try {
         const info = await window.AsahiAccess.getInfo();
 
@@ -1059,31 +1019,15 @@
           return;
         }
 
-        // ============================================
-        // 3. LOLOS CEK → BUKA LEVEL
-        // ============================================
-        window.location.href = 'level-' + num + '.html';
+        // SEMENTARA: alert dulu (belum bikin level-X.html)
+        alert('✅ Akses diterima! Level ' + num + ' segera hadir.');
+        // Nanti: aktifkan baris di bawah kalau level-X.html sudah ada
+        // window.location.href = 'level-' + num + '.html';
 
       } catch (err) {
         console.error('[Asahi] Error cek premium:', err);
         alert('Terjadi kesalahan. Coba lagi ya.');
       }
-    }
-    /* ============================================================
-       GENERATE 100 LEVEL
-       ============================================================ */
-    const LEVELS = [];
-    for (let i = 1; i <= 100; i++) {
-      let badge = 'n5';
-      if (i >= 31 && i <= 60) badge = 'n4';
-      else if (i >= 61 && i <= 85) badge = 'n3';
-      else if (i >= 86) badge = 'n2';
-
-      LEVELS.push({
-        num: i,
-        badge: badge,
-        poin: POIN_PER_LEVEL
-      });
     }
 
     /* ============================================================
@@ -1111,14 +1055,12 @@
       currentUser = e.detail.user;
 
       if (currentUser) {
-        // Cek apakah premium
         isPremium = await window.AsahiAccess.isPremium();
         console.log('[Asahi] User login:', currentUser.displayName, '| Premium:', isPremium);
       } else {
         isPremium = false;
       }
 
-      // Re-render grid dengan status premium terbaru
       renderGrid();
       updatePoin();
     });
@@ -1129,7 +1071,6 @@
     loadDone();
     renderGrid();
     updatePoin();
-
   </script>
 
 </body>
