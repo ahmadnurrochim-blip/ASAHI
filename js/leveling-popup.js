@@ -2,8 +2,7 @@
    LEVELING + LEADERBOARD POPUP — Asahi Mandiri
    ------------------------------------------------------------
    Popup gabungan: info leveling + leaderboard top 3.
-   Otomatis inject ke semua halaman yang memanggil script ini.
-   
+   2 tombol: Mulai Leveling + Lihat Leaderboard.
    Cooldown: muncul lagi setelah 1 menit dari close.
    ============================================================ */
 
@@ -14,10 +13,17 @@
     title:       'Akses Leveling',
     subtitle:    'N5 • N4 • N3',
     description: 'Tingkatkan kemampuan Bahasa Jepang kamu melalui materi dan latihan berdasarkan level.',
-    buttonText:  'Mulai Leveling',
-    buttonHref:  'portal.html',
-    buttonIcon:  'fa-unlock-alt',
     headerIcon:  'fa-graduation-cap',
+
+    // Tombol utama
+    primaryText:  'Mulai Leveling',
+    primaryHref:  'portal.html',
+    primaryIcon:  'fa-unlock-alt',
+
+    // Tombol kedua
+    secondaryText:  'Lihat Leaderboard',
+    secondaryHref:  'leaderboard.html',
+    secondaryIcon:  'fa-list-ol',
 
     // Bagian leaderboard
     lbTitle:     'Leaderboard',
@@ -28,15 +34,9 @@
     storageKey:  'asahi_leveling_popup_closed',
 
     // Cooldown: muncul lagi setelah 60 detik (1 menit)
-    // Ubah angka ini kalau mau waktu beda:
-    //   30 * 1000           = 30 detik
-    //   60 * 1000           = 1 menit
-    //   5 * 60 * 1000       = 5 menit
-    //   60 * 60 * 1000      = 1 jam
-    //   24 * 60 * 60 * 1000 = 1 hari
     cooldownMs: 60 * 1000,
 
-    // Fallback data kalau Firestore kosong / belum login
+    // Fallback data (dipakai kalau Firestore kosong / belum login)
     fallback: [
       { nama: 'Budi S.',   totalPoin: 9800 },
       { nama: 'Siti A.',   totalPoin: 9200 },
@@ -48,7 +48,7 @@
   try {
     const lastClosed = parseInt(localStorage.getItem(CONFIG.storageKey) || '0', 10);
     if (lastClosed && (Date.now() - lastClosed) < CONFIG.cooldownMs) {
-      return; // masih dalam cooldown, jangan tampilkan
+      return;
     }
   } catch (e) { /* abaikan */ }
 
@@ -65,7 +65,6 @@
   // ---------- AMBIL DATA LEADERBOARD ----------
   async function fetchLeaderboard() {
     try {
-      // Tunggu Firebase siap (max 3 detik)
       const waitForFirebase = () => new Promise((resolve) => {
         if (window.AsahiFirebase) return resolve(true);
         let tries = 0;
@@ -74,7 +73,7 @@
           if (window.AsahiFirebase) {
             clearInterval(timer);
             resolve(true);
-          } else if (tries >= 30) {
+          } else if (tries >= 20) {
             clearInterval(timer);
             resolve(false);
           }
@@ -85,9 +84,12 @@
       if (!ready) return CONFIG.fallback;
 
       const list = await window.AsahiFirebase.getLeaderboard(3);
-      if (!list || list.length === 0) return CONFIG.fallback;
 
-      const result = [...list];
+      // Kalau kosong / cuma 1 → isi sisanya dengan fallback
+      const result = [];
+      if (list && list.length > 0) {
+        list.forEach(p => result.push(p));
+      }
       while (result.length < 3) {
         result.push(CONFIG.fallback[result.length]);
       }
@@ -107,7 +109,7 @@
     popup.setAttribute('role', 'complementary');
     popup.setAttribute('aria-label', 'Akses Leveling & Leaderboard');
 
-    // Baris leaderboard — angka peringkat + nama + poin
+    // Baris leaderboard
     const lbRows = topPlayers.slice(0, 3).map((p, i) => `
       <div class="lb-popup-row">
         <div class="lb-popup-rank">${i + 1}</div>
@@ -152,10 +154,17 @@
           </div>
         </div>
 
-        <a href="${CONFIG.buttonHref}" class="leveling-button">
-          <i class="fas ${CONFIG.buttonIcon}"></i>
-          ${CONFIG.buttonText}
-        </a>
+        <!-- 2 TOMBOL -->
+        <div class="leveling-buttons">
+          <a href="${CONFIG.primaryHref}" class="leveling-button">
+            <i class="fas ${CONFIG.primaryIcon}"></i>
+            ${CONFIG.primaryText}
+          </a>
+          <a href="${CONFIG.secondaryHref}" class="leveling-button secondary">
+            <i class="fas ${CONFIG.secondaryIcon}"></i>
+            ${CONFIG.secondaryText}
+          </a>
+        </div>
 
       </div>
     `;
@@ -167,7 +176,6 @@
     btnClose.addEventListener('click', () => {
       popup.classList.add('is-closing');
       try {
-        // Simpan waktu close (bukan cuma flag "1")
         localStorage.setItem(CONFIG.storageKey, Date.now().toString());
       } catch (e) { /* abaikan */ }
       setTimeout(() => popup.remove(), 300);
