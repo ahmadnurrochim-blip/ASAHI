@@ -1,172 +1,286 @@
 /* ============================================================
    LEVELING + LEADERBOARD POPUP — Asahi Mandiri
-   ------------------------------------------------------------
-   Popup gabungan: info leveling + leaderboard top 3.
-   Otomatis inject ke semua halaman yang memanggil script ini.
+   Style untuk popup mengambang di kanan bawah.
+   Simpel, clean, menarik.
    ============================================================ */
 
-(function () {
-  // ---------- KONFIGURASI ----------
-  const CONFIG = {
-    // Bagian leveling
-    title:       'Akses Leveling',
-    subtitle:    'N5 • N4 • N3',
-    description: 'Tingkatkan kemampuan Bahasa Jepang kamu melalui materi dan latihan berdasarkan level.',
-    buttonText:  'Mulai Leveling',
-    buttonHref:  'portal.html',
-    buttonIcon:  'fa-unlock-alt',
-    headerIcon:  'fa-graduation-cap',
+.leveling-access {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  width: 280px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: levelingSlideIn 0.5s ease 0.8s forwards;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
 
-    // Bagian leaderboard
-    lbTitle:     'Leaderboard',
-    lbSubtitle:  'Top 3',
-    lbIcon:      'fa-crown',
+@keyframes levelingSlideIn {
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    // localStorage key
-    storageKey:  'asahi_leveling_popup_closed',
+.leveling-access:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+}
 
-    // Fallback data kalau Firestore kosong / belum login
-    fallback: [
-      { nama: 'Budi S.',   totalPoin: 9800 },
-      { nama: 'Siti A.',   totalPoin: 9200 },
-      { nama: 'Rina K.',   totalPoin: 8500 }
-    ]
-  };
+.leveling-access.is-closing {
+  opacity: 0;
+  transform: translateY(20px);
+}
 
-  // ---------- JIKA USER SUDAH PERNAH MENUTUP POPUP ----------
-  try {
-    if (localStorage.getItem(CONFIG.storageKey) === '1') return;
-  } catch (e) { /* abaikan */ }
+/* ============================================================
+   HEADER — Merah Asahi
+   ============================================================ */
+.leveling-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, var(--red, #bc002d) 0%, var(--red-dark, #8b0022) 100%);
+  color: #fff;
+  position: relative;
+}
 
-  // ---------- ESCAPE HTML ----------
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+.leveling-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.leveling-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+}
+
+.leveling-subtitle {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 2px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   BODY
+   ============================================================ */
+.leveling-body {
+  padding: 14px 18px 16px;
+}
+
+.leveling-description {
+  font-size: 11.5px;
+  color: #6b7280;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+/* ============================================================
+   SECTION LEADERBOARD
+   ============================================================ */
+.lb-popup-section {
+  margin-bottom: 14px;
+}
+
+.lb-popup-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.lb-popup-header i {
+  font-size: 11px;
+  color: var(--gold, #c9a227);
+}
+
+.lb-popup-header small {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  color: #cbd5e1;
+  letter-spacing: 1px;
+}
+
+.lb-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: #fafaf7;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+.lb-popup-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.lb-popup-row:hover {
+  background: #fff;
+}
+
+/* Peringkat 1 — emas */
+.lb-popup-row:nth-child(1) .lb-popup-rank {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #fff;
+}
+
+/* Peringkat 2 — silver */
+.lb-popup-row:nth-child(2) .lb-popup-rank {
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  color: #fff;
+}
+
+/* Peringkat 3 — bronze */
+.lb-popup-row:nth-child(3) .lb-popup-rank {
+  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  color: #fff;
+}
+
+.lb-popup-rank {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 900;
+  background: #e5e7eb;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.lb-popup-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lb-popup-name {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-popup-poin {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--red, #bc002d);
+  flex-shrink: 0;
+  font-family: 'Shippori Mincho', serif;
+}
+
+/* ============================================================
+   TOMBOL
+   ============================================================ */
+.leveling-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: var(--red, #bc002d);
+  color: #fff;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(188, 0, 45, 0.25);
+  border: none;
+  cursor: pointer;
+}
+
+.leveling-button:hover {
+  background: var(--red-dark, #8b0022);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(188, 0, 45, 0.35);
+}
+
+.leveling-button i {
+  font-size: 12px;
+}
+
+/* ============================================================
+   TOMBOL CLOSE
+   ============================================================ */
+.leveling-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.leveling-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 480px) {
+  .leveling-access {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    max-width: 340px;
   }
 
-  // ---------- AMBIL DATA LEADERBOARD ----------
-  async function fetchLeaderboard() {
-    try {
-      const waitForFirebase = () => new Promise((resolve) => {
-        if (window.AsahiFirebase) return resolve(true);
-        let tries = 0;
-        const timer = setInterval(() => {
-          tries++;
-          if (window.AsahiFirebase) {
-            clearInterval(timer);
-            resolve(true);
-          } else if (tries >= 30) {
-            clearInterval(timer);
-            resolve(false);
-          }
-        }, 100);
-      });
-
-      const ready = await waitForFirebase();
-      if (!ready) return CONFIG.fallback;
-
-      const list = await window.AsahiFirebase.getLeaderboard(3);
-      if (!list || list.length === 0) return CONFIG.fallback;
-
-      const result = [...list];
-      while (result.length < 3) {
-        result.push(CONFIG.fallback[result.length]);
-      }
-      return result;
-
-    } catch (err) {
-      console.warn('[Asahi] Gagal ambil leaderboard, pakai fallback:', err);
-      return CONFIG.fallback;
-    }
+  .leveling-header {
+    padding: 14px 16px;
   }
 
-  // ---------- RENDER POPUP ----------
-  function renderPopup(topPlayers) {
-    const popup = document.createElement('div');
-    popup.className = 'leveling-access';
-    popup.id = 'levelingAccess';
-    popup.setAttribute('role', 'complementary');
-    popup.setAttribute('aria-label', 'Akses Leveling & Leaderboard');
+  .leveling-title { font-size: 14px; }
 
-    // Baris leaderboard — angka peringkat + nama + poin
-    const lbRows = topPlayers.slice(0, 3).map((p, i) => `
-      <div class="lb-popup-row">
-        <div class="lb-popup-rank">${i + 1}</div>
-        <div class="lb-popup-info">
-          <div class="lb-popup-name">${escapeHtml(p.nama || 'Anonim')}</div>
-          <div class="lb-popup-poin">${(p.totalPoin || 0).toLocaleString('id-ID')}</div>
-        </div>
-      </div>
-    `).join('');
+  .leveling-body { padding: 12px 16px 14px; }
 
-    popup.innerHTML = `
-      <button class="leveling-close" id="levelingClose" aria-label="Tutup">
-        <i class="fas fa-times"></i>
-      </button>
-
-      <!-- HEADER -->
-      <div class="leveling-header">
-        <div class="leveling-icon">
-          <i class="fas ${CONFIG.headerIcon}"></i>
-        </div>
-        <div>
-          <div class="leveling-title">${CONFIG.title}</div>
-          <div class="leveling-subtitle">${CONFIG.subtitle}</div>
-        </div>
-      </div>
-
-      <!-- BODY -->
-      <div class="leveling-body">
-
-        <div class="leveling-description">
-          ${CONFIG.description}
-        </div>
-
-        <div class="lb-popup-section">
-          <div class="lb-popup-header">
-            <i class="fas ${CONFIG.lbIcon}"></i>
-            <span>${CONFIG.lbTitle}</span>
-            <small>${CONFIG.lbSubtitle}</small>
-          </div>
-          <div class="lb-popup-list">
-            ${lbRows}
-          </div>
-        </div>
-
-        <a href="${CONFIG.buttonHref}" class="leveling-button">
-          <i class="fas ${CONFIG.buttonIcon}"></i>
-          ${CONFIG.buttonText}
-        </a>
-
-      </div>
-    `;
-
-    document.body.appendChild(popup);
-
-    // ---------- TOMBOL CLOSE ----------
-    const btnClose = document.getElementById('levelingClose');
-    btnClose.addEventListener('click', () => {
-      popup.classList.add('is-closing');
-      try {
-        localStorage.setItem(CONFIG.storageKey, '1');
-      } catch (e) { /* abaikan */ }
-      setTimeout(() => popup.remove(), 300);
-    });
-  }
-
-  // ---------- INJECT ----------
-  async function inject() {
-    const topPlayers = await fetchLeaderboard();
-    renderPopup(topPlayers);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inject);
-  } else {
-    inject();
-  }
-})();
+  .leveling-description { font-size: 11px; }
+}
