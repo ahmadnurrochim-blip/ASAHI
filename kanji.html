@@ -302,13 +302,13 @@
       transition: transform 0.3s ease;
     }
 
-    .menu-card:hover:not(.disabled) {
+    .menu-card:hover {
       transform: translateY(-5px);
       border-color: var(--red);
       box-shadow: 0 14px 32px rgba(188, 0, 45, 0.14);
     }
 
-    .menu-card:hover:not(.disabled)::before { transform: scaleX(1); }
+    .menu-card:hover::before { transform: scaleX(1); }
 
     .menu-card.active {
       border-color: var(--red);
@@ -317,11 +317,6 @@
     }
 
     .menu-card.active::before { transform: scaleX(1); }
-
-    .menu-card.disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
 
     .menu-card .menu-num {
       position: absolute;
@@ -352,14 +347,9 @@
     }
 
     .menu-card.active .menu-icon,
-    .menu-card:hover:not(.disabled) .menu-icon {
+    .menu-card:hover .menu-icon {
       background: var(--red);
       color: #fff;
-    }
-
-    .menu-card.disabled .menu-icon {
-      background: #f3f4f6;
-      color: var(--gray-light);
     }
 
     .menu-card h3 {
@@ -405,10 +395,6 @@
       font-weight: 800;
       color: var(--red);
       white-space: nowrap;
-    }
-
-    .menu-card.disabled .menu-progress-text {
-      color: var(--gray-light);
     }
 
     /* ============================================================
@@ -497,7 +483,9 @@
       pointer-events: none;
     }
 
-    /* Filter pelajaran */
+    /* ============================================================
+       FILTER PELAJARAN
+       ============================================================ */
     .pelajaran-filter {
       display: flex;
       gap: 6px;
@@ -651,37 +639,6 @@
       padding: 2px 7px;
       letter-spacing: 0.5px;
       flex-shrink: 0;
-    }
-
-    /* ============================================================
-       KOSONG / SEGERA
-       ============================================================ */
-    .coming-soon {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--gray);
-    }
-
-    .coming-soon i {
-      font-size: 64px;
-      color: var(--gray-light);
-      margin-bottom: 18px;
-      display: block;
-    }
-
-    .coming-soon h3 {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-
-    .coming-soon p {
-      font-size: 14px;
-      line-height: 1.7;
-      max-width: 400px;
-      margin: 0 auto;
     }
 
     /* ============================================================
@@ -845,7 +802,7 @@
     <!-- Info box -->
     <div class="info-box">
       <i class="fas fa-lightbulb"></i>
-      <span><strong>Tips:</strong> Kanji Irodori disusun per pelajaran (S-1 sampai S-18 untuk Starter). Hafalkan sedikit demi sedikit setiap selesai satu pelajaran.</span>
+      <span><strong>Tips:</strong> Kanji Irodori disusun per level: Starter (A1), Elementary 1 (A2.1), Elementary 2 (A2.2). Pilih menu di bawah untuk mulai belajar.</span>
     </div>
 
     <!-- Aksi tips -->
@@ -869,29 +826,29 @@
         </div>
       </button>
 
-      <button class="menu-card disabled" data-group="elementary1" disabled>
+      <button class="menu-card" data-group="elementary1">
         <span class="menu-num">Menu 2</span>
         <div class="menu-icon"><i class="fas fa-book"></i></div>
-        <h3>Elementary 1 (A2)</h3>
-        <p>Kanji level menengah pertama. Segera hadir.</p>
+        <h3>Elementary 1 (A2.1)</h3>
+        <p>Kanji level menengah pertama.</p>
         <div class="menu-progress">
           <div class="menu-progress-bar">
             <div class="menu-progress-fill" data-progress="elementary1"></div>
           </div>
-          <span class="menu-progress-text" data-progress-text="elementary1">Segera</span>
+          <span class="menu-progress-text" data-progress-text="elementary1">0 / 0</span>
         </div>
       </button>
 
-      <button class="menu-card disabled" data-group="elementary2" disabled>
+      <button class="menu-card" data-group="elementary2">
         <span class="menu-num">Menu 3</span>
         <div class="menu-icon"><i class="fas fa-graduation-cap"></i></div>
-        <h3>Elementary 2 (A2)</h3>
-        <p>Kanji level menengah lanjutan. Segera hadir.</p>
+        <h3>Elementary 2 (A2.2)</h3>
+        <p>Kanji level menengah lanjutan.</p>
         <div class="menu-progress">
           <div class="menu-progress-bar">
             <div class="menu-progress-fill" data-progress="elementary2"></div>
           </div>
-          <span class="menu-progress-text" data-progress-text="elementary2">Segera</span>
+          <span class="menu-progress-text" data-progress-text="elementary2">0 / 0</span>
         </div>
       </button>
     </div>
@@ -939,10 +896,10 @@
     /* ============================================================
        STATE
        ============================================================ */
-    let activeGroup = 'starter';      // 'starter', 'elementary1', 'elementary2'
-    let activePelajaran = 'all';      // 'all' atau 'S-1', 'S-2', dst
-    let filterText = '';              // teks pencarian
-    const hafalSet = new Set();       // kanji yang ditandai hafal
+    let activeGroup = 'starter';
+    let activePelajaran = 'all';
+    let filterText = '';
+    const hafalSet = new Set();
 
     /* ============================================================
        ELEMEN
@@ -954,18 +911,17 @@
     const pelajaranFilter = document.getElementById('pelajaranFilter');
 
     /* ============================================================
-       AMBIL DATA DARI FILE
+       AMBIL DATA
        ============================================================ */
     const DATA = window.KANJI_IRODORI || {};
-    const DATA_STARTER = DATA.starter || [];
 
     /* ============================================================
        FORMAT JUDUL
        ============================================================ */
     const GROUP_TITLES = {
       starter: 'Kanji Starter (A1)',
-      elementary1: 'Kanji Elementary 1 (A2)',
-      elementary2: 'Kanji Elementary 2 (A2)'
+      elementary1: 'Kanji Elementary 1 (A2.1)',
+      elementary2: 'Kanji Elementary 2 (A2.2)'
     };
 
     /* ============================================================
@@ -974,16 +930,17 @@
     function renderPelajaranFilter() {
       pelajaranFilter.innerHTML = '';
 
-      if (activeGroup !== 'starter') {
+      const data = DATA[activeGroup] || [];
+      if (data.length === 0) {
         pelajaranFilter.style.display = 'none';
         return;
       }
       pelajaranFilter.style.display = 'flex';
 
       // Ambil semua pelajaran unik
-      const pels = [...new Set(DATA_STARTER.map(k => k.pel))].sort((a, b) => {
-        const na = parseInt(a.replace('S-', ''), 10);
-        const nb = parseInt(b.replace('S-', ''), 10);
+      const pels = [...new Set(data.map(k => k.pel))].sort((a, b) => {
+        const na = parseInt((a || '').replace(/\D/g, ''), 10) || 0;
+        const nb = parseInt((b || '').replace(/\D/g, ''), 10) || 0;
         return na - nb;
       });
 
@@ -1020,14 +977,15 @@
     function render() {
       kanjiGrid.innerHTML = '';
 
-      // Kalau bukan starter → tampilkan placeholder
-      if (activeGroup !== 'starter') {
-        kanjiGrid.style.display = 'block';
+      const data = DATA[activeGroup] || [];
+
+      // Kalau data kosong → placeholder
+      if (data.length === 0) {
         kanjiGrid.innerHTML = `
-          <div class="coming-soon" style="grid-column: 1 / -1;">
-            <i class="fas fa-hourglass-half"></i>
-            <h3>Segera Hadir</h3>
-            <p>Data kanji ${GROUP_TITLES[activeGroup]} sedang disiapkan. Silakan cek kembali nanti.</p>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+            <i class="fas fa-hourglass-half" style="font-size: 60px; color: var(--gray-light); margin-bottom: 16px; display: block;"></i>
+            <h3 style="font-family: 'Shippori Mincho', serif; font-size: 20px; margin-bottom: 8px;">Segera Hadir</h3>
+            <p style="font-size: 14px; color: var(--gray);">Data kanji ${GROUP_TITLES[activeGroup]} sedang disiapkan.</p>
           </div>
         `;
         panelTitle.textContent = GROUP_TITLES[activeGroup];
@@ -1035,14 +993,10 @@
         return;
       }
 
-      kanjiGrid.style.display = 'grid';
-
       // Filter data
-      const filtered = DATA_STARTER.filter(k => {
-        // Filter pelajaran
+      const filtered = data.filter(k => {
         if (activePelajaran !== 'all' && k.pel !== activePelajaran) return false;
 
-        // Filter pencarian
         if (filterText) {
           const q = filterText.toLowerCase();
           const kana = k.k || '';
@@ -1087,13 +1041,13 @@
         kanjiGrid.appendChild(card);
       });
 
-      // Kalau tidak ada hasil
+      // Kalau tidak ada hasil filter
       if (filtered.length === 0) {
         kanjiGrid.innerHTML = `
-          <div class="coming-soon" style="grid-column: 1 / -1;">
-            <i class="fas fa-search"></i>
-            <h3>Tidak Ada Hasil</h3>
-            <p>Coba kata kunci lain, atau hapus filter.</p>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+            <i class="fas fa-search" style="font-size: 60px; color: var(--gray-light); margin-bottom: 16px; display: block;"></i>
+            <h3 style="font-family: 'Shippori Mincho', serif; font-size: 20px; margin-bottom: 8px;">Tidak Ada Hasil</h3>
+            <p style="font-size: 14px; color: var(--gray);">Coba kata kunci lain, atau hapus filter.</p>
           </div>
         `;
       }
@@ -1148,18 +1102,26 @@
     /* ============================================================
        PROGRESS DI MENU
        ============================================================ */
-    function updateMenuProgress() {
-      // Starter
-      const starterTotal = DATA_STARTER.length;
-      let starterDone = 0;
-      DATA_STARTER.forEach(item => {
-        if (hafalSet.has('starter:' + item.k + ':' + item.pel)) starterDone++;
+    function updateProgressFor(groupKey) {
+      const data = DATA[groupKey] || [];
+      if (data.length === 0) return;
+
+      let done = 0;
+      data.forEach(item => {
+        if (hafalSet.has(groupKey + ':' + item.k + ':' + item.pel)) done++;
       });
-      const pct = starterTotal > 0 ? (starterDone / starterTotal) * 100 : 0;
-      const fillStarter = document.querySelector('[data-progress="starter"]');
-      const textStarter = document.querySelector('[data-progress-text="starter"]');
-      if (fillStarter) fillStarter.style.width = pct + '%';
-      if (textStarter) textStarter.textContent = `${starterDone} / ${starterTotal}`;
+
+      const pct = (done / data.length) * 100;
+      const fill = document.querySelector(`[data-progress="${groupKey}"]`);
+      const text = document.querySelector(`[data-progress-text="${groupKey}"]`);
+      if (fill) fill.style.width = pct + '%';
+      if (text) text.textContent = `${done} / ${data.length}`;
+    }
+
+    function updateMenuProgress() {
+      updateProgressFor('starter');
+      updateProgressFor('elementary1');
+      updateProgressFor('elementary2');
     }
 
     /* ============================================================
@@ -1167,8 +1129,6 @@
        ============================================================ */
     document.querySelectorAll('.menu-card').forEach(card => {
       card.addEventListener('click', () => {
-        if (card.classList.contains('disabled')) return;
-
         document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         activeGroup = card.dataset.group;
