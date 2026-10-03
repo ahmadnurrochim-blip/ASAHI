@@ -1019,20 +1019,19 @@
       });
     }
 
-    /* ============================================================
-       KLIK LEVEL
-       ------------------------------------------------------------
-       Kalau belum premium → arahkan ke portal
-       Kalau sudah premium → buka level-X.html
+        /* ============================================================
+       KLIK LEVEL → CEK PREMIUM → BUKA HALAMAN level-X.html
        ============================================================ */
-    function toggleLevel(num, card) {
-      if (!isPremium) {
-        // Belum premium → tanya & arahkan ke portal
+    async function toggleLevel(num, card) {
+      // ============================================
+      // 1. CEK: apakah user sudah login?
+      // ============================================
+      const user = window.AsahiFirebase?.currentUser;
+
+      if (!user) {
         const mau = confirm(
-          '🔒 Konten ini khusus member premium!\n\n' +
-          'Buka akses dengan bayar Rp 15.000.\n' +
-          'Kamu akan diarahkan ke portal pembayaran.\n\n' +
-          'Lanjutkan?'
+          '🔒 Login dulu untuk ikut leveling!\n\n' +
+          'Klik OK untuk ke halaman login.'
         );
         if (mau) {
           sessionStorage.setItem('asahi_redirect_after_unlock', 'leveling.html');
@@ -1040,10 +1039,36 @@
         }
         return;
       }
-      // Sudah premium → buka level
-      window.location.href = 'level-' + num + '.html';
-    }
 
+      // ============================================
+      // 2. CEK: apakah user sudah punya kode akses?
+      // ============================================
+      try {
+        const info = await window.AsahiAccess.getInfo();
+
+        if (!info) {
+          const mau = confirm(
+            '🔒 Akses leveling khusus member premium!\n\n' +
+            'Bayar Rp 15.000 sekali untuk buka semua 100 level.\n\n' +
+            'Klik OK untuk ke halaman pembayaran.'
+          );
+          if (mau) {
+            sessionStorage.setItem('asahi_redirect_after_unlock', 'leveling.html');
+            window.location.href = 'portal.html';
+          }
+          return;
+        }
+
+        // ============================================
+        // 3. LOLOS CEK → BUKA LEVEL
+        // ============================================
+        window.location.href = 'level-' + num + '.html';
+
+      } catch (err) {
+        console.error('[Asahi] Error cek premium:', err);
+        alert('Terjadi kesalahan. Coba lagi ya.');
+      }
+    }
     /* ============================================================
        GENERATE 100 LEVEL
        ============================================================ */
