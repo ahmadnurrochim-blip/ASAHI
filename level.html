@@ -176,12 +176,53 @@
     }
 
     .soal-text {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       color: var(--ink);
-      line-height: 1.5;
-      margin-bottom: 24px;
-      font-family: 'Shippori Mincho', serif;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+
+    /* 🎧 AUDIO BUTTON */
+    .audio-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.3);
+    }
+
+    .audio-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(188, 0, 45, 0.4);
+    }
+
+    .audio-btn:active {
+      transform: translateY(0);
+    }
+
+    .audio-btn i {
+      font-size: 16px;
+    }
+
+    .audio-btn.playing i {
+      animation: audioPulse 0.8s ease-in-out infinite;
+    }
+
+    @keyframes audioPulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.3); }
     }
 
     /* OPSI */
@@ -444,7 +485,7 @@
     @media (max-width: 480px) {
       .container { padding: 24px 14px 40px; }
       .soal-card { padding: 24px 18px; }
-      .soal-text { font-size: 17px; }
+      .soal-text { font-size: 16px; }
       .opsi-item { padding: 12px 14px; font-size: 13px; }
       .hasil-skor { font-size: 44px; }
       .btn { padding: 11px 18px; font-size: 13px; min-width: 120px; }
@@ -456,7 +497,6 @@
 
   <div class="bg"></div>
 
-  <!-- HEADER -->
   <header>
     <div class="header-inner">
       <a href="leveling.html" class="back-btn">
@@ -466,16 +506,13 @@
     </div>
   </header>
 
-  <!-- MAIN -->
   <main class="container">
 
-    <!-- LOADING -->
     <div id="loadingView" class="center-box">
       <i class="fas fa-spinner fa-spin"></i>
       <h2>Memuat soal...</h2>
     </div>
 
-    <!-- ERROR -->
     <div id="errorView" class="center-box" style="display:none;">
       <i class="fas fa-exclamation-circle" style="color:#ef4444;"></i>
       <h2>Level Tidak Ditemukan</h2>
@@ -485,11 +522,10 @@
       </a>
     </div>
 
-    <!-- QUIZ -->
     <div id="quizView" style="display:none;">
       <div class="progress-wrap">
         <div class="progress-info">
-          <span class="current" id="progressText">Soal 1 / 10</span>
+          <span class="current" id="progressText">Soal 1 / 50</span>
           <span id="skorText">Skor: 0</span>
         </div>
         <div class="progress-bar">
@@ -502,6 +538,13 @@
           <i class="fas fa-question-circle"></i>
           <span id="soalNum">Soal 1</span>
         </div>
+
+        <!-- 🎧 TOMBOL AUDIO (muncul kalau soal punya field "audio") -->
+        <button class="audio-btn" id="audioBtn" style="display:none;" onclick="playAudio()">
+          <i class="fas fa-volume-up"></i>
+          <span>Dengarkan</span>
+        </button>
+
         <div class="soal-text" id="soalText">Loading...</div>
         <div class="opsi-list" id="opsiList"></div>
         <div class="explain-box" id="explainBox">
@@ -511,7 +554,6 @@
       </div>
     </div>
 
-    <!-- HASIL -->
     <div id="hasilView" class="hasil-card">
       <div class="hasil-icon" id="hasilIcon">🎉</div>
       <div class="hasil-title" id="hasilTitle">Selamat!</div>
@@ -520,7 +562,7 @@
         <span class="max">/ 100</span>
       </div>
       <div class="hasil-info" id="hasilInfo">
-        Kamu menjawab <strong>0 dari 10</strong> soal dengan benar.
+        Kamu menjawab <strong>0 dari 50</strong> soal dengan benar.
       </div>
       <div class="hasil-buttons" id="hasilButtons">
         <a href="leveling.html" class="btn btn-primary">
@@ -534,7 +576,6 @@
 
   </main>
 
-  <!-- SCRIPTS -->
   <script src="js/kode-valid.js"></script>
   <script src="js/access-guard.js"></script>
   <script src="js/leveling-data.js"></script>
@@ -543,25 +584,24 @@
     /* ============================================================
        KONFIGURASI
        ============================================================ */
-    const POIN_PER_SOAL = 2; // 10 soal × 10 = 100 poin
+    const POIN_PER_SOAL = 2; // 50 soal × 2 = 100 poin
+    const MIN_LULUS = 80;    // Minimal 80 poin untuk lulus
 
     /* ============================================================
        AMBIL LEVEL DARI URL
-       ------------------------------------------------------------
-       Contoh: level.html?level=1  → levelId = 'level-1'
        ============================================================ */
-    const params  = new URLSearchParams(window.location.search);
+    const params   = new URLSearchParams(window.location.search);
     const levelNum = parseInt(params.get('level')) || 1;
     const levelId  = 'level-' + levelNum;
 
     /* ============================================================
        ELEMEN
        ============================================================ */
-    const loadingView   = document.getElementById('loadingView');
-    const errorView     = document.getElementById('errorView');
-    const errorMsg      = document.getElementById('errorMsg');
-    const quizView      = document.getElementById('quizView');
-    const hasilView     = document.getElementById('hasilView');
+    const loadingView    = document.getElementById('loadingView');
+    const errorView      = document.getElementById('errorView');
+    const errorMsg       = document.getElementById('errorMsg');
+    const quizView       = document.getElementById('quizView');
+    const hasilView      = document.getElementById('hasilView');
 
     const levelIndicator = document.getElementById('levelIndicator');
     const progressText   = document.getElementById('progressText');
@@ -572,6 +612,7 @@
     const opsiList       = document.getElementById('opsiList');
     const explainBox     = document.getElementById('explainBox');
     const explainText    = document.getElementById('explainText');
+    const audioBtn       = document.getElementById('audioBtn');
 
     const hasilIcon      = document.getElementById('hasilIcon');
     const hasilTitle     = document.getElementById('hasilTitle');
@@ -581,10 +622,11 @@
     /* ============================================================
        STATE
        ============================================================ */
-    let soalList     = [];
+    let soalList      = [];
     let indexSekarang = 0;
-    let skor         = 0;
-    let sudahJawab   = false;
+    let skor          = 0;
+    let sudahJawab    = false;
+    let audioTersedia = 'speechSynthesis' in window;
 
     /* ============================================================
        INIT
@@ -606,6 +648,12 @@
       loadingView.style.display = 'none';
       quizView.style.display = 'block';
 
+      // Cek apakah ada soal listening (untuk info)
+      const adaListening = soalList.some(s => s.audio);
+      if (adaListening && !audioTersedia) {
+        console.warn('[Asahi] Browser tidak support Text-to-Speech. Soal listening mungkin tidak berfungsi.');
+      }
+
       tampilkanSoal();
     }
 
@@ -626,6 +674,17 @@
       progressText.textContent = `Soal ${indexSekarang + 1} / ${soalList.length}`;
       skorText.textContent = `Skor: ${skor}`;
       progressFill.style.width = ((indexSekarang) / soalList.length * 100) + '%';
+
+      // 🎧 AUDIO (kalau ada)
+      if (soal.audio && audioTersedia) {
+        audioBtn.style.display = 'inline-flex';
+        audioBtn.classList.remove('playing');
+        audioBtn.innerHTML = '<i class="fas fa-volume-up"></i> <span>Dengarkan</span>';
+        // Auto-play setelah 500ms
+        setTimeout(() => playAudio(), 500);
+      } else {
+        audioBtn.style.display = 'none';
+      }
 
       // Soal text
       soalText.textContent = soal.q;
@@ -650,6 +709,44 @@
     }
 
     /* ============================================================
+       🎧 PLAY AUDIO (Text-to-Speech)
+       ============================================================ */
+    function playAudio() {
+      const soal = soalList[indexSekarang];
+      if (!soal || !soal.audio) return;
+
+      if (!audioTersedia) {
+        alert('Browser kamu tidak mendukung fitur suara. Coba pakai Chrome / Edge / Safari.');
+        return;
+      }
+
+      // Batalkan suara sebelumnya
+      window.speechSynthesis.cancel();
+
+      const utter = new SpeechSynthesisUtterance(soal.audio);
+      utter.lang = 'ja-JP';
+      utter.rate = 0.85;
+      utter.pitch = 1;
+
+      // Animasi tombol
+      audioBtn.classList.add('playing');
+      audioBtn.innerHTML = '<i class="fas fa-volume-up"></i> <span>Memutar...</span>';
+
+      utter.onend = () => {
+        audioBtn.classList.remove('playing');
+        audioBtn.innerHTML = '<i class="fas fa-volume-up"></i> <span>Dengarkan Lagi</span>';
+      };
+
+      utter.onerror = (e) => {
+        console.warn('[Asahi] Audio error:', e);
+        audioBtn.classList.remove('playing');
+        audioBtn.innerHTML = '<i class="fas fa-volume-up"></i> <span>Dengarkan</span>';
+      };
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    /* ============================================================
        JAWAB SOAL
        ============================================================ */
     function jawab(pilihan) {
@@ -658,6 +755,10 @@
 
       const soal    = soalList[indexSekarang];
       const buttons = opsiList.querySelectorAll('.opsi-item');
+
+      // Stop audio kalau masih main
+      if (audioTersedia) window.speechSynthesis.cancel();
+      audioBtn.classList.remove('playing');
 
       // Nonaktifkan semua
       buttons.forEach(b => b.classList.add('disabled'));
@@ -696,7 +797,7 @@
 
       const benar = skor / POIN_PER_SOAL;
       const total = soalList.length;
-      const lulus = skor >= 80;
+      const lulus = skor >= MIN_LULUS;
 
       hasilSkor.textContent = skor;
 
@@ -716,11 +817,10 @@
         hasilTitle.className = 'hasil-title gagal';
         hasilInfo.innerHTML = `
           Kamu menjawab <strong>${benar} dari ${total}</strong> soal dengan benar.<br>
-          Butuh minimal <strong>8 soal benar (80 poin)</strong> untuk lulus. Coba lagi ya!
+          Butuh minimal <strong>${MIN_LULUS / POIN_PER_SOAL} soal benar (${MIN_LULUS} poin)</strong> untuk lulus. Coba lagi ya!
         `;
       }
 
-      // Update progress bar jadi 100%
       progressFill.style.width = '100%';
 
       // Simpan ke Firestore kalau lulus
@@ -740,15 +840,12 @@
       }
 
       try {
-        // Ambil data user sekarang
         const data = await window.AsahiFirebase.getUserData(user.uid);
         if (!data) return;
 
-        // Level yang sudah selesai
         const levelSelesai = data.levelSelesai || [];
         const sudahSelesai = levelSelesai.includes(levelNum);
 
-        // Kalau belum selesai sebelumnya, tambahkan poin
         let totalPoin = data.totalPoin || 0;
         let newLevelSelesai = [...levelSelesai];
 
@@ -757,7 +854,6 @@
           newLevelSelesai.push(levelNum);
         }
 
-        // Simpan ke Firestore
         await window.AsahiFirebase.saveUserData(user.uid, {
           levelSelesai: newLevelSelesai,
           totalPoin: totalPoin,
@@ -773,7 +869,6 @@
     /* ============================================================
        JALANKAN
        ============================================================ */
-    // Tunggu sebentar biar Firebase ready
     setTimeout(init, 300);
 
   </script>
