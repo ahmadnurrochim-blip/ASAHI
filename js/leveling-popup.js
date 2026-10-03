@@ -3,6 +3,8 @@
    ------------------------------------------------------------
    Popup gabungan: info leveling + leaderboard top 3.
    Otomatis inject ke semua halaman yang memanggil script ini.
+   
+   Cooldown: muncul lagi setelah 1 menit dari close.
    ============================================================ */
 
 (function () {
@@ -19,11 +21,20 @@
 
     // Bagian leaderboard
     lbTitle:     'Leaderboard',
-    lbSubtitle:  'Top 3 Player',
+    lbSubtitle:  'Top 3',
     lbIcon:      'fa-crown',
 
     // localStorage key
     storageKey:  'asahi_leveling_popup_closed',
+
+    // Cooldown: muncul lagi setelah 60 detik (1 menit)
+    // Ubah angka ini kalau mau waktu beda:
+    //   30 * 1000           = 30 detik
+    //   60 * 1000           = 1 menit
+    //   5 * 60 * 1000       = 5 menit
+    //   60 * 60 * 1000      = 1 jam
+    //   24 * 60 * 60 * 1000 = 1 hari
+    cooldownMs: 60 * 1000,
 
     // Fallback data kalau Firestore kosong / belum login
     fallback: [
@@ -33,9 +44,12 @@
     ]
   };
 
-  // ---------- JIKA USER SUDAH PERNAH MENUTUP POPUP ----------
+  // ---------- COOLDOWN CHECK ----------
   try {
-    if (localStorage.getItem(CONFIG.storageKey) === '1') return;
+    const lastClosed = parseInt(localStorage.getItem(CONFIG.storageKey) || '0', 10);
+    if (lastClosed && (Date.now() - lastClosed) < CONFIG.cooldownMs) {
+      return; // masih dalam cooldown, jangan tampilkan
+    }
   } catch (e) { /* abaikan */ }
 
   // ---------- ESCAPE HTML ----------
@@ -93,14 +107,13 @@
     popup.setAttribute('role', 'complementary');
     popup.setAttribute('aria-label', 'Akses Leveling & Leaderboard');
 
-    // Baris leaderboard
-    const medals = ['🥇', '🥈', '🥉'];
+    // Baris leaderboard — angka peringkat + nama + poin
     const lbRows = topPlayers.slice(0, 3).map((p, i) => `
       <div class="lb-popup-row">
-        <div class="lb-popup-medal">${medals[i]}</div>
+        <div class="lb-popup-rank">${i + 1}</div>
         <div class="lb-popup-info">
           <div class="lb-popup-name">${escapeHtml(p.nama || 'Anonim')}</div>
-          <div class="lb-popup-poin">${(p.totalPoin || 0).toLocaleString('id-ID')} poin</div>
+          <div class="lb-popup-poin">${(p.totalPoin || 0).toLocaleString('id-ID')}</div>
         </div>
       </div>
     `).join('');
@@ -110,7 +123,7 @@
         <i class="fas fa-times"></i>
       </button>
 
-      <!-- ======== BAGIAN 1: LEVELING ======== -->
+      <!-- HEADER -->
       <div class="leveling-header">
         <div class="leveling-icon">
           <i class="fas ${CONFIG.headerIcon}"></i>
@@ -121,27 +134,30 @@
         </div>
       </div>
 
-      <div class="leveling-description">
-        ${CONFIG.description}
-      </div>
+      <!-- BODY -->
+      <div class="leveling-body">
 
-      <!-- ======== BAGIAN 2: LEADERBOARD ======== -->
-      <div class="lb-popup-section">
-        <div class="lb-popup-header">
-          <i class="fas ${CONFIG.lbIcon}"></i>
-          <span>${CONFIG.lbTitle}</span>
-          <small>${CONFIG.lbSubtitle}</small>
+        <div class="leveling-description">
+          ${CONFIG.description}
         </div>
-        <div class="lb-popup-list">
-          ${lbRows}
-        </div>
-      </div>
 
-      <!-- ======== TOMBOL ======== -->
-      <a href="${CONFIG.buttonHref}" class="leveling-button">
-        <i class="fas ${CONFIG.buttonIcon}"></i>
-        ${CONFIG.buttonText}
-      </a>
+        <div class="lb-popup-section">
+          <div class="lb-popup-header">
+            <i class="fas ${CONFIG.lbIcon}"></i>
+            <span>${CONFIG.lbTitle}</span>
+            <small>${CONFIG.lbSubtitle}</small>
+          </div>
+          <div class="lb-popup-list">
+            ${lbRows}
+          </div>
+        </div>
+
+        <a href="${CONFIG.buttonHref}" class="leveling-button">
+          <i class="fas ${CONFIG.buttonIcon}"></i>
+          ${CONFIG.buttonText}
+        </a>
+
+      </div>
     `;
 
     document.body.appendChild(popup);
@@ -151,7 +167,8 @@
     btnClose.addEventListener('click', () => {
       popup.classList.add('is-closing');
       try {
-        localStorage.setItem(CONFIG.storageKey, '1');
+        // Simpan waktu close (bukan cuma flag "1")
+        localStorage.setItem(CONFIG.storageKey, Date.now().toString());
       } catch (e) { /* abaikan */ }
       setTimeout(() => popup.remove(), 300);
     });
