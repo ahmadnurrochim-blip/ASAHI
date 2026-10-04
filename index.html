@@ -4,7 +4,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Asahi Mandiri - Belajar Bahasa Jepang</title>
+  <title>Asahi Mandiri - Belajar Bahasa Jepang Gratis</title>
+  <meta name="description" content="Belajar bahasa Jepang dari dasar hingga mahir. 1500+ soal latihan JLPT, hiragana, katakana, kanji, dan percakapan. Gratis untuk pelajar Indonesia." />
+  <meta name="keywords" content="belajar bahasa jepang, JLPT, hiragana, katakana, kanji, percakapan jepang, latihan jepang" />
+  <meta name="author" content="Asahi Mandiri" />
+
+  <!-- Open Graph untuk share ke sosial media -->
+  <meta property="og:title" content="Asahi Mandiri - Belajar Bahasa Jepang Gratis" />
+  <meta property="og:description" content="1500+ soal latihan JLPT, hiragana, katakana, kanji, dan percakapan. Gratis!" />
+  <meta property="og:type" content="website" />
+
+  <!-- ============ GOOGLE ADSENSE ============ -->
+  <!-- Ganti ca-pub-XXXXXXXXXXXXXXXX dengan ID publisher Anda setelah disetujui -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+    crossorigin="anonymous"></script>
 
   <!-- ============ FONTS & ICONS ============ -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -14,8 +27,10 @@
 
   <!-- ============ CSS POPUP LEVELING ============ -->
   <link rel="stylesheet" href="css/leveling-popup.css" />
+
+  <!-- ============ FIREBASE ============ -->
   <script type="module" src="js/firebase-config.js"></script>
-<script type="module" src="js/firebase-init.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
 
   <style>
     /* ============================================================
@@ -460,11 +475,11 @@
     }
 
     /* ============================================================
-       FOOTER
+       FOOTER - dengan link legal untuk AdSense
        ============================================================ */
     footer {
       text-align: center;
-      padding: 30px 20px;
+      padding: 40px 20px 30px;
       font-size: 13px;
       color: #9ca3af;
       border-top: 1px solid #eae3d6;
@@ -476,8 +491,29 @@
       color: var(--red);
       letter-spacing: 4px;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 10px;
       font-size: 14px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 16px 0 20px;
+    }
+
+    .footer-links a {
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--red);
+      text-decoration: underline;
     }
 
     /* ============================================================
@@ -508,6 +544,8 @@
       .nav-btn i { font-size: 15px; }
       .brand-text .jp { font-size: 17px; }
       .hero p { font-size: 15px; }
+      .footer-links { gap: 14px; }
+      .footer-links a { font-size: 12px; }
     }
   </style>
 </head>
@@ -565,7 +603,7 @@
 
     <h1>Belajar Bahasa Jepang<br />dengan <span class="accent">Asahi Mandiri</span></h1>
 
-    <div class="jp-sub">あさひ まんぢり</div>
+    <div class="jp-sub">あさひ まんだり</div>
 
     <p>
       Kuasai bahasa Jepang dari dasar hingga mahir. 1500+ soal latihan,
@@ -637,6 +675,14 @@
   <!-- ============ FOOTER ============ -->
   <footer>
     <span class="jp">朝日 自立</span>
+
+    <div class="footer-links">
+      <a href="index.html">Beranda</a>
+      <a href="about.html">Tentang</a>
+      <a href="privacy.html">Kebijakan Privasi</a>
+      <a href="contact.html">Kontak</a>
+    </div>
+
     © 2026 Asahi Mandiri. Semua hak dilindungi.
   </footer>
 
